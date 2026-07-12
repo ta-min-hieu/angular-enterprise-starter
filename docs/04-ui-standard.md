@@ -92,6 +92,12 @@ Avatar
 
 Upload
 
+## Triển khai (đã chốt)
+
+Button, Table, Search Form (Reactive Forms), Dialog, Notification, Toast, Pagination, Breadcrumb, Card, Statistic, Avatar, Upload: dùng thẳng Component tương ứng của Ng-Zorro, không viết wrapper riêng nếu Ng-Zorro chưa cho thấy nhu cầu thực tế phải bọc thêm (tránh Duplicate/Component thừa — xem `14-architecture-principles.md`).
+
+Loading, Empty State, Error State: Starter có wrapper riêng tại `shared/components/` (`loading-indicator`, `empty-state`, `error-state`) vì cần thống nhất hành vi với `16-error-handling.md` (phân loại lỗi, Retry) mà Ng-Zorro không có sẵn.
+
 ---
 
 # UX

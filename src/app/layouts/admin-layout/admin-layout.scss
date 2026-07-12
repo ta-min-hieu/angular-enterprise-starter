@@ -1,0 +1,87 @@
+.app-admin-layout {
+  min-height: 100vh;
+  background-color: var(--color-background);
+
+  &__sider {
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+
+    ::ng-deep .ant-layout-sider-trigger {
+      background-color: var(--color-surface);
+      color: var(--color-text-secondary);
+      border-top: 1px solid var(--color-border);
+    }
+  }
+
+  &__body {
+    background-color: var(--color-background);
+  }
+
+  &__brand {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding-inline: var(--spacing-md);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__brand-icon {
+    font-size: 24px;
+    color: var(--color-primary);
+    flex: none;
+  }
+
+  &__brand-text {
+    font-size: var(--font-size-subtitle);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    padding-inline: var(--spacing-md);
+    z-index: var(--z-header);
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  &__user {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding-inline: var(--spacing-xs);
+    cursor: pointer;
+  }
+
+  &__user-caret {
+    font-size: var(--font-size-label);
+    color: var(--color-text-secondary);
+  }
+
+  &__logout {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  &__content {
+    margin: var(--spacing-md);
+    background-color: var(--color-background);
+  }
+}

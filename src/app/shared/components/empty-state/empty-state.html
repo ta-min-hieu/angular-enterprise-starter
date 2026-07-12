@@ -1,0 +1,7 @@
+<div class="app-empty-state">
+  <nz-empty [nzNotFoundContent]="message()" [nzNotFoundFooter]="actionsTemplate" />
+</div>
+
+<ng-template #actionsTemplate>
+  <ng-content select="[actions]" />
+</ng-template>

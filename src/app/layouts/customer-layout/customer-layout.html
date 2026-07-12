@@ -1,0 +1,34 @@
+<nz-layout class="app-customer-layout">
+  <nz-header class="app-customer-layout__header">
+    <span class="app-customer-layout__brand">Customer Portal</span>
+
+    <div class="app-customer-layout__header-actions">
+      <app-theme-toggle />
+      <nz-avatar nzIcon="user" />
+      @if (authService.currentUser(); as user) {
+        <span>{{ user.username }}</span>
+      }
+    </div>
+  </nz-header>
+
+  <nz-layout>
+    <nz-sider class="app-customer-layout__sider" [nzCollapsible]="false" nzWidth="220">
+      <ul nz-menu nzMode="inline">
+        @for (item of navMenuService.visibleItems(); track item.route) {
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="item.route">
+              @if (item.icon) {
+                <span nz-icon [nzType]="item.icon"></span>
+              }
+              <span>{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </nz-sider>
+
+    <nz-content class="app-customer-layout__content">
+      <router-outlet />
+    </nz-content>
+  </nz-layout>
+</nz-layout>

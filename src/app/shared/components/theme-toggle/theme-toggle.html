@@ -1,0 +1,11 @@
+<button
+  nz-button
+  nzType="text"
+  type="button"
+  [attr.aria-label]="
+    themeService.theme() === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'
+  "
+  (click)="toggle()"
+>
+  <span nz-icon [nzType]="themeService.theme() === 'dark' ? 'sun' : 'moon'"></span>
+</button>

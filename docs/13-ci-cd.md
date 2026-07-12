@@ -146,6 +146,8 @@ build:
 
 ci:
 
+Được enforce tự động ở local qua Husky (`commit-msg` hook) + commitlint (`commitlint.config.js`, extend `@commitlint/config-conventional`). Pre-commit hook chạy `lint-staged` (ESLint --fix + Prettier --write trên file staged).
+
 ---
 
 # Checklist

@@ -1,0 +1,8 @@
+{
+  "production": false,
+  "apiBaseUrl": "/api",
+  "logLevel": "debug",
+  "authRedirectPath": "/auth/login",
+  "forbiddenPath": "/forbidden",
+  "features": {}
+}

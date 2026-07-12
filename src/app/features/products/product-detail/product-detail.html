@@ -1,0 +1,32 @@
+@if (product(); as p) {
+  <nz-descriptions [nzColumn]="2" nzBordered nzSize="small">
+    <nz-descriptions-item nzTitle="Tên sản phẩm" [nzSpan]="2">{{ p.name }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Danh mục">{{ categoryLabel(p.category) }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Trạng thái">
+      <nz-tag [nzColor]="p.status === 'active' ? 'success' : 'default'">
+        {{ p.status === 'active' ? 'Đang bán' : 'Ngừng bán' }}
+      </nz-tag>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Giá">{{ p.price | currency: 'VND' }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Tồn kho">{{ p.stock }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Nổi bật">{{ p.featured ? 'Có' : 'Không' }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Nhãn">
+      @if (p.tags.length) {
+        @for (tag of p.tags; track tag) {
+          <nz-tag>{{ tagLabel(tag) }}</nz-tag>
+        }
+      } @else {
+        <span class="app-product-detail__empty">—</span>
+      }
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Ngày phát hành">
+      {{ p.releaseDate ? (p.releaseDate | date: dateFormat) : '—' }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Thời điểm lên kệ">
+      {{ p.publishedAt ? (p.publishedAt | date: dateTimeFormat) : '—' }}
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Mô tả" [nzSpan]="2">
+      {{ p.description || '—' }}
+    </nz-descriptions-item>
+  </nz-descriptions>
+}

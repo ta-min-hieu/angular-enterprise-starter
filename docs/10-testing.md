@@ -108,6 +108,12 @@ Branch >= 70%
 
 Critical Logic >= 95%
 
+## Triển khai (đã chốt)
+
+Ngưỡng Line/Function/Branch được enforce tự động qua `coverageThresholds` trong `angular.json` (`architect.test.options`), chạy bằng `npm run test:coverage`. CI Pipeline (`13-ci-cd.md`) chạy lệnh này ở bước Test — build dừng nếu không đạt.
+
+"Critical Logic >= 95%" (ví dụ: mapping lỗi, luồng Auth) không có cơ chế đo tự động theo từng file; đây là tiêu chí Review thủ công khi merge PR liên quan, không phải một threshold trong config.
+
 ---
 
 # Test Naming

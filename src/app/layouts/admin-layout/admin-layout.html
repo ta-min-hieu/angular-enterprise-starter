@@ -1,0 +1,82 @@
+<nz-layout class="app-admin-layout">
+  <nz-sider
+    class="app-admin-layout__sider"
+    nzCollapsible
+    nzTheme="light"
+    [nzCollapsed]="collapsed()"
+    (nzCollapsedChange)="collapsed.set($event)"
+  >
+    <div class="app-admin-layout__brand">
+      <span nz-icon nzType="appstore" class="app-admin-layout__brand-icon"></span>
+      @if (!collapsed()) {
+        <span class="app-admin-layout__brand-text">Admin</span>
+      }
+    </div>
+
+    <ul nz-menu nzMode="inline" nzTheme="light" [nzInlineCollapsed]="collapsed()">
+      @for (item of navMenuService.visibleItems(); track item.route) {
+        @if (item.children?.length) {
+          <li nz-submenu [nzTitle]="item.label" [nzIcon]="item.icon ?? null">
+            <ul>
+              @for (child of item.children; track child.route) {
+                <li nz-menu-item nzMatchRouter>
+                  <a [routerLink]="child.route">{{ child.label }}</a>
+                </li>
+              }
+            </ul>
+          </li>
+        } @else {
+          <li nz-menu-item nzMatchRouter>
+            <a [routerLink]="item.route">
+              @if (item.icon) {
+                <span nz-icon [nzType]="item.icon"></span>
+              }
+              <span>{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      }
+    </ul>
+  </nz-sider>
+
+  <nz-layout class="app-admin-layout__body">
+    <nz-header class="app-admin-layout__header">
+      <button
+        nz-button
+        nzType="text"
+        type="button"
+        aria-label="Thu gọn / mở rộng menu"
+        (click)="toggleCollapsed()"
+      >
+        <span nz-icon [nzType]="collapsed() ? 'menu-unfold' : 'menu-fold'"></span>
+      </button>
+
+      <div class="app-admin-layout__header-actions">
+        <app-theme-toggle />
+
+        <span nz-dropdown [nzDropdownMenu]="userMenu" class="app-admin-layout__user" tabindex="0">
+          <nz-avatar nzIcon="user" nzSize="small" />
+          @if (authService.currentUser(); as user) {
+            <span>{{ user.username }}</span>
+          }
+          <span nz-icon nzType="down" class="app-admin-layout__user-caret"></span>
+        </span>
+
+        <nz-dropdown-menu #userMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <button type="button" class="app-admin-layout__logout" (click)="logout()">
+                <span nz-icon nzType="logout"></span>
+                Đăng xuất
+              </button>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </nz-header>
+
+    <nz-content class="app-admin-layout__content">
+      <router-outlet />
+    </nz-content>
+  </nz-layout>
+</nz-layout>

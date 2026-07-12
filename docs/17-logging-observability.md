@@ -98,6 +98,10 @@ Frontend phải gửi Correlation ID.
 
 Mọi Request nên có Trace ID.
 
+## Triển khai (đã chốt)
+
+`core/http/correlation-id.interceptor.ts` tự sinh `crypto.randomUUID()` và gắn header `X-Correlation-Id` cho mọi Request (trừ khi Request đã tự set header này). `error.interceptor.ts` đọc lại header này để đính kèm vào Log khi request lỗi, giúp tra vết một request qua cả Frontend Log lẫn Backend Log (nếu Backend echo lại đúng giá trị).
+
 ---
 
 # Performance Metrics

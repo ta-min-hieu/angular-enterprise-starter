@@ -1,0 +1,58 @@
+import {
+  AppstoreOutline,
+  CalendarOutline,
+  CheckCircleFill,
+  CheckOutline,
+  CloseCircleFill,
+  CloseCircleOutline,
+  CloseOutline,
+  DeleteOutline,
+  DownOutline,
+  EditOutline,
+  ExclamationCircleFill,
+  EyeOutline,
+  HomeOutline,
+  LoadingOutline,
+  LogoutOutline,
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  MoonOutline,
+  PlusOutline,
+  SearchOutline,
+  ShoppingOutline,
+  SunOutline,
+  UserOutline,
+  WarningFill,
+} from '@ant-design/icons-angular/icons';
+
+export const REGISTERED_ICONS = [
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  MoonOutline,
+  SunOutline,
+  UserOutline,
+  LogoutOutline,
+  DownOutline,
+  // Dùng bởi nz-result (Error State / status pages) cho các status success/error/info/warning.
+  CheckCircleFill,
+  CloseCircleFill,
+  ExclamationCircleFill,
+  WarningFill,
+  // Dùng bởi các màn CRUD (vd. Products) cho toolbar và action button.
+  PlusOutline,
+  SearchOutline,
+  EditOutline,
+  DeleteOutline,
+  CheckOutline,
+  EyeOutline,
+  // Dùng bởi Admin Layout (logo) và breadcrumb.
+  AppstoreOutline,
+  HomeOutline,
+  // Dùng bởi menu điều hướng của Feature Products.
+  ShoppingOutline,
+  // Dùng bởi nz-select (multiple) và nz-date-picker trong Product Form.
+  CloseOutline,
+  CloseCircleOutline,
+  LoadingOutline,
+  CalendarOutline,
+];

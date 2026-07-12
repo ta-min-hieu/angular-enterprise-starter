@@ -1,0 +1,9 @@
+@if (fullscreen()) {
+  <div class="app-loading-indicator app-loading-indicator--fullscreen">
+    <nz-spin [nzSize]="size()" [nzTip]="tip()" nzSimple />
+  </div>
+} @else {
+  <div class="app-loading-indicator">
+    <nz-spin [nzSize]="size()" [nzTip]="tip()" nzSimple />
+  </div>
+}

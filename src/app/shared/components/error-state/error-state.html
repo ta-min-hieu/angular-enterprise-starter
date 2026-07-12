@@ -1,0 +1,7 @@
+<nz-result [nzStatus]="status()" [nzTitle]="error().message">
+  @if (error().retryable) {
+    <div nz-result-extra>
+      <button nz-button nzType="primary" (click)="onRetry()">Thử lại</button>
+    </div>
+  }
+</nz-result>

@@ -1,0 +1,25 @@
+.app-product-form-page {
+  &__breadcrumb {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  &__header {
+    margin-bottom: var(--spacing-lg);
+
+    h1 {
+      margin: 0;
+      font-size: var(--font-size-title);
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  &__subtitle {
+    margin: var(--spacing-xs) 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__card {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+}

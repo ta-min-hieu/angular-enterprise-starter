@@ -1,0 +1,12 @@
+:root {
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --transition-base: all var(--duration-base) var(--easing-standard);
+
+  --opacity-disabled: 0.5;
+  --opacity-hover: 0.85;
+}

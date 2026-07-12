@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PORT: 4000
+      API_BASE_URL: /api
+      LOG_LEVEL: info
+      AUTH_REDIRECT_PATH: /auth/login
+      FORBIDDEN_PATH: /forbidden
+    expose:
+      - '4000'
+    networks:
+      - starter-network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - '8080:80'
+    depends_on:
+      - app
+    networks:
+      - starter-network
+    restart: unless-stopped
+
+networks:
+  starter-network:
+    driver: bridge

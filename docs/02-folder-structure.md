@@ -7,6 +7,7 @@ Thiết kế thư mục rõ ràng, dễ mở rộng và dễ bảo trì.
 ---
 
 ```
+public/
 src/
   app/
     core/
@@ -15,10 +16,11 @@ src/
     layouts/
     routes/
   styles/
-  assets/
 ```
 
-`core/`, `shared/`, `features/`, `layouts/`, `routes/` nằm trong `src/app/`. `styles/` và `assets/` nằm trong `src/`.
+`core/`, `shared/`, `features/`, `layouts/`, `routes/` nằm trong `src/app/`. `styles/` nằm trong `src/`.
+
+`public/` nằm ở project root (không phải `src/assets/`) — đây là convention mặc định của Angular CLI 21 cho static asset (`angular.json` → `assets.input: "public"`). Không tự tạo thêm `src/assets/` song song để tránh 2 nguồn asset.
 
 ---
 
@@ -132,7 +134,7 @@ Auth Layout
 
 ---
 
-# Assets
+# Assets (`public/`)
 
 Quản lý:
 

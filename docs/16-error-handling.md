@@ -253,6 +253,10 @@ Retry Button
 
 Maintenance Page
 
+## Ghi chú route `/` (đã chốt với người dùng)
+
+Ở trạng thái hiện tại (chưa có Feature nào đăng ký route gốc), `/` khớp wildcard `**` và trả về 404 — đây là hành vi đúng và có chủ đích (Starter chưa có nội dung, không tự tạo Home Page giả để né 404, tránh vi phạm Non-Goal "Demo Feature không cần thiết"). Khi Feature đầu tiên đăng ký route `''` trong `routes/app.routes.ts` (và tương ứng trong `routes/app.routes.server.ts`), 404 ở `/` sẽ tự biến mất.
+
 Offline Page
 
 ---

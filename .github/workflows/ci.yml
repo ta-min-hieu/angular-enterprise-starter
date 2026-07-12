@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  pipeline:
+    name: Lint, Test, Build, Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test with coverage
+        run: npm run test:coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+      - name: Docker build
+        run: docker build -t angular-enterprise-starter:ci .
+
+      - name: Docker run smoke test
+        run: |
+          docker run -d --name starter-ci -p 4000:4000 angular-enterprise-starter:ci
+          for i in $(seq 1 15); do
+            status=$(docker inspect --format='{{.State.Health.Status}}' starter-ci 2>/dev/null || echo "starting")
+            if [ "$status" = "healthy" ]; then
+              echo "Container is healthy"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Container failed health check"
+          docker logs starter-ci
+          exit 1
+
+      - name: Docker cleanup
+        if: always()
+        run: docker rm -f starter-ci || true

@@ -1,0 +1,30 @@
+@use '../../../../styles/mixins/breakpoints' as *;
+
+.app-product-form {
+  nz-input-number,
+  nz-select,
+  &__date {
+    width: 100%;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0 var(--spacing-md);
+
+    @include respond-to(tablet) {
+      flex-direction: row;
+
+      .app-product-form__col {
+        flex: 1;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+  }
+}

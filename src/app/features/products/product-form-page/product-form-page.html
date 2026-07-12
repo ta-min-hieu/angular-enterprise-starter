@@ -1,0 +1,26 @@
+<div class="app-product-form-page">
+  <nz-breadcrumb class="app-product-form-page__breadcrumb">
+    <nz-breadcrumb-item>
+      <span nz-icon nzType="home"></span>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="/products">Sản phẩm</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{ isEditMode() ? 'Cập nhật' : 'Thêm mới' }}</nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <div class="app-product-form-page__header">
+    <h1>{{ isEditMode() ? 'Cập nhật sản phẩm' : 'Thêm sản phẩm' }}</h1>
+    <p class="app-product-form-page__subtitle">
+      {{
+        isEditMode()
+          ? 'Chỉnh sửa thông tin sản phẩm đã có.'
+          : 'Tạo mới một sản phẩm trong danh mục.'
+      }}
+    </p>
+  </div>
+
+  <nz-card [nzBordered]="false" class="app-product-form-page__card">
+    <app-product-form [product]="product()" (save)="onSave($event)" (cancelled)="onCancel()" />
+  </nz-card>
+</div>

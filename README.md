@@ -1,59 +1,86 @@
-# AngularEnterpriseStarter
+# Angular Enterprise Starter
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
+Angular Enterprise Starter — nền tảng Frontend tái sử dụng cho nhiều loại dự án (CMS, Admin Portal, ERP, CRM, E-commerce, Customer Portal, Landing Page, Blog...). Đây là Frontend Only, không bao gồm Backend.
+
+Đặc tả đầy đủ nằm trong [`docs/`](./docs) — đọc [`CLAUDE.md`](./CLAUDE.md) trước khi đóng góp code.
+
+## Technology Stack
+
+- Angular 21 (LTS), TypeScript Strict, Standalone APIs, Zoneless Change Detection
+- Signals + `@ngrx/signals` (Signal Store cho Feature phức tạp), Reactive Forms
+- Ng-Zorro 21.x (CSS Variable Theming)
+- Vitest (Unit Test), Playwright (E2E — thêm khi có Feature đầu tiên)
+- Docker + Nginx (Reverse Proxy) + Node SSR Server
+- ESLint, Prettier, EditorConfig, Husky, lint-staged, commitlint
+
+## Yêu cầu môi trường
+
+- Node.js ≥ 22.22.0 hoặc ≥ 24.13.1
+- npm
+
+## Cài đặt
+
+```bash
+npm ci
+```
 
 ## Development server
 
-To start a local development server, run:
-
 ```bash
-ng serve
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Mở `http://localhost:4200/`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Build
 
 ```bash
-ng generate component component-name
+npm run build
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Kết quả build nằm trong `dist/angular-enterprise-starter/` (gồm `browser/` và `server/`).
+
+## Test
 
 ```bash
-ng generate --help
+npm test              # chạy một lần
+npm run test:coverage # chạy kèm coverage report, áp ngưỡng doc10 (Line/Function ≥80%, Branch ≥70%)
 ```
 
-## Building
-
-To build the project run:
+## Lint
 
 ```bash
-ng build
+npm run lint
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Docker
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Chạy toàn bộ stack (Node SSR + Nginx Reverse Proxy):
 
 ```bash
-ng test
+docker compose up -d --build
 ```
 
-## Running end-to-end tests
+Ứng dụng phục vụ qua Nginx tại `http://localhost:8080/`.
 
-For end-to-end (e2e) testing, run:
+Trước khi deploy lên domain thật, xem `docs/12-docker.md` § SSRF Host Allowlist — bắt buộc thêm domain vào `angular.json` → `security.allowedHosts`.
 
-```bash
-ng e2e
+## Cấu trúc thư mục
+
+Xem chi tiết tại [`docs/02-folder-structure.md`](./docs/02-folder-structure.md). Tóm tắt:
+
+```
+public/
+src/
+  app/
+    core/       # Singleton: Auth, Config, Logger, Interceptor, Error Handling, Theme
+    shared/     # Component/Directive/Pipe dùng chung, không thuộc riêng Feature nào
+    features/   # Nghiệp vụ — trống ở Starter, thêm khi có dự án cụ thể
+    layouts/    # Public / Admin / Customer / Auth Layout
+    routes/     # Route Table cấp Application
+  styles/       # Design Token (CSS Custom Properties) + Theme
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Tài liệu
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Toàn bộ quy tắc kiến trúc, coding standard, bảo mật, testing, CI/CD... nằm trong [`docs/`](./docs). Khi có mâu thuẫn, thứ tự ưu tiên: `01-project-spec.md` → `14-architecture-principles.md` → `03-coding-standard.md` → các tài liệu còn lại.

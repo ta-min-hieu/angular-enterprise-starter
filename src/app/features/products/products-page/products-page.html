@@ -1,0 +1,147 @@
+<div class="app-products-page">
+  <nz-breadcrumb class="app-products-page__breadcrumb">
+    <nz-breadcrumb-item>
+      <span nz-icon nzType="home"></span>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Sản phẩm</nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <div class="app-products-page__header">
+    <div class="app-products-page__heading">
+      <h1>Sản phẩm</h1>
+      <p class="app-products-page__subtitle">Quản lý danh mục, giá bán và tồn kho sản phẩm.</p>
+    </div>
+
+    <a routerLink="/products/new" nz-button nzType="primary">
+      <span nz-icon nzType="plus"></span>
+      <span>Thêm sản phẩm</span>
+    </a>
+  </div>
+
+  <nz-card [nzBordered]="false" class="app-products-page__filter-card">
+    <nz-input-group class="app-products-page__search" [nzPrefix]="searchPrefix">
+      <input
+        type="text"
+        nz-input
+        placeholder="Tìm kiếm theo tên sản phẩm..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+      />
+    </nz-input-group>
+    <ng-template #searchPrefix>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </nz-card>
+
+  <nz-card
+    [nzBordered]="false"
+    [nzTitle]="'Danh sách sản phẩm'"
+    [nzExtra]="countTemplate"
+    class="app-products-page__table-card"
+  >
+    <ng-template #countTemplate>
+      <span class="app-products-page__count">
+        {{ filteredProducts().length }} / {{ productService.totalCount() }} sản phẩm
+      </span>
+    </ng-template>
+
+    <nz-table
+      ngSkipHydration
+      #productTable
+      class="app-products-page__table"
+      [nzData]="filteredProducts()"
+      [nzPageSize]="10"
+      [nzShowPagination]="filteredProducts().length > 10"
+      [nzNoResult]="emptyTemplate"
+    >
+      <thead>
+        <tr>
+          <th>Tên sản phẩm</th>
+          <th>Danh mục</th>
+          <th nzAlign="right">Giá</th>
+          <th nzAlign="center">Tồn kho</th>
+          <th nzAlign="center">Trạng thái</th>
+          <th nzAlign="right">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of productTable.data; track product.id) {
+          <tr>
+            <td>
+              <span class="app-products-page__name">{{ product.name }}</span>
+            </td>
+            <td>{{ categoryLabel(product.category) }}</td>
+            <td nzAlign="right">{{ product.price | currency: 'VND' }}</td>
+            <td nzAlign="center">
+              <nz-tag [nzColor]="stockColor(product.stock)">
+                {{ product.stock }} · {{ stockLabel(product.stock) }}
+              </nz-tag>
+            </td>
+            <td nzAlign="center">
+              <nz-tag [nzColor]="product.status === 'active' ? 'success' : 'default'">
+                {{ product.status === 'active' ? 'Đang bán' : 'Ngừng bán' }}
+              </nz-tag>
+            </td>
+            <td nzAlign="right">
+              <button
+                nz-button
+                nzType="text"
+                nz-tooltip
+                nzTooltipTitle="Xem chi tiết"
+                (click)="onView(product)"
+              >
+                <span nz-icon nzType="eye"></span>
+              </button>
+              <a
+                [routerLink]="['/products', product.id, 'edit']"
+                nz-button
+                nzType="text"
+                nz-tooltip
+                nzTooltipTitle="Sửa sản phẩm"
+              >
+                <span nz-icon nzType="edit"></span>
+              </a>
+              <button
+                nz-button
+                nzType="text"
+                nzDanger
+                nz-tooltip
+                nzTooltipTitle="Xoá sản phẩm"
+                nz-popconfirm
+                nzPopconfirmTitle="Xoá sản phẩm này?"
+                (nzOnConfirm)="onDelete(product)"
+              >
+                <span nz-icon nzType="delete"></span>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+
+    <ng-template #emptyTemplate>
+      <app-empty-state
+        [message]="searchTerm() ? 'Không tìm thấy sản phẩm phù hợp' : 'Chưa có sản phẩm nào'"
+      >
+        @if (!searchTerm()) {
+          <a actions routerLink="/products/new" nz-button nzType="primary">
+            <span nz-icon nzType="plus"></span>
+            <span>Thêm sản phẩm</span>
+          </a>
+        }
+      </app-empty-state>
+    </ng-template>
+  </nz-card>
+</div>
+
+<nz-modal
+  [nzVisible]="!!viewingProduct()"
+  nzTitle="Chi tiết sản phẩm"
+  [nzFooter]="null"
+  nzWidth="640px"
+  (nzOnCancel)="onCloseDetail()"
+>
+  <ng-container *nzModalContent>
+    <app-product-detail [product]="viewingProduct()" />
+  </ng-container>
+</nz-modal>
