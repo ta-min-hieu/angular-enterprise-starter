@@ -4,6 +4,10 @@
   <p class="app-login-page__subtitle">{{ 'auth.login.subtitle' | transloco }}</p>
 
   <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="onSubmit()">
+    @if (errorMessage(); as message) {
+      <nz-alert nzType="error" [nzMessage]="message" nzShowIcon class="app-login-page__alert" />
+    }
+
     <app-text-field
       name="username"
       [control]="form.controls.username"
@@ -19,7 +23,14 @@
       [placeholder]="'auth.login.password.placeholder' | transloco"
     />
 
-    <button nz-button nzType="primary" nzBlock type="submit" class="app-login-page__submit">
+    <button
+      nz-button
+      nzType="primary"
+      nzBlock
+      type="submit"
+      [nzLoading]="loading()"
+      class="app-login-page__submit"
+    >
       <span nz-icon nzType="login"></span>
       <span>{{ 'auth.login.submit' | transloco }}</span>
     </button>

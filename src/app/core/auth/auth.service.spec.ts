@@ -7,7 +7,17 @@ import { ApiService } from '../http/api.service';
 import { TOKEN_STORAGE, TokenStorage } from '../storage/token-storage';
 import { AppConfigService } from '../config/app-config.service';
 import { LoggerService } from '../logger/logger.service';
-import { AuthSession } from './current-user.model';
+import { AuthTokens } from './current-user.model';
+
+function createFakeJwt(payload: Record<string, unknown>): string {
+  const base64url = (value: string): string =>
+    btoa(value).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+  const header = base64url(JSON.stringify({ alg: 'RS512' }));
+  const body = base64url(JSON.stringify(payload));
+
+  return `${header}.${body}.signature`;
+}
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -15,10 +25,9 @@ describe('AuthService', () => {
   let tokenStorage: TokenStorage;
   let router: { navigateByUrl: ReturnType<typeof vi.fn> };
 
-  const session: AuthSession = {
-    accessToken: 'access-token',
+  const tokens: AuthTokens = {
+    accessToken: createFakeJwt({ sub: 'alice', roles: ['USER'] }),
     refreshToken: 'refresh-token',
-    user: { id: '1', username: 'alice', roles: ['admin'], permissions: ['user.read'] },
   };
 
   beforeEach(() => {
@@ -58,31 +67,53 @@ describe('AuthService', () => {
     expect(service.isAuthenticated()).toBe(false);
   });
 
-  it('should store session and expose currentUser after login', () => {
-    apiService.post.mockReturnValue(of(session));
+  it('should store session and derive currentUser from the access token payload after login', () => {
+    apiService.post.mockReturnValue(of(tokens));
 
     service.login({ username: 'alice', password: 'secret' }).subscribe();
 
     expect(service.isAuthenticated()).toBe(true);
-    expect(service.currentUser()).toEqual(session.user);
-    expect(tokenStorage.getAccessToken()).toBe('access-token');
+    expect(service.currentUser()).toEqual({
+      id: 'alice',
+      username: 'alice',
+      roles: ['USER'],
+      permissions: [],
+    });
+    expect(tokenStorage.getAccessToken()).toBe(tokens.accessToken);
+  });
+
+  it('should call the refresh-token endpoint with the stored refresh token', () => {
+    apiService.post.mockReturnValue(of(tokens));
+
+    service.refreshToken().subscribe();
+
+    expect(apiService.post).toHaveBeenCalledWith(
+      'auth/refresh-token',
+      { refreshToken: null },
+      expect.anything(),
+    );
   });
 
   it('should dedupe concurrent refreshToken() calls into a single HTTP request', () => {
-    const pending = new Subject<AuthSession>();
+    const pending = new Subject<AuthTokens>();
     apiService.post.mockReturnValue(pending.asObservable());
 
-    let firstResult: AuthSession | undefined;
-    let secondResult: AuthSession | undefined;
-    service.refreshToken().subscribe((user) => (firstResult = user as unknown as AuthSession));
-    service.refreshToken().subscribe((user) => (secondResult = user as unknown as AuthSession));
+    let firstResult: unknown;
+    let secondResult: unknown;
+    service.refreshToken().subscribe((user) => (firstResult = user));
+    service.refreshToken().subscribe((user) => (secondResult = user));
 
-    pending.next(session);
+    pending.next(tokens);
     pending.complete();
 
     expect(apiService.post).toHaveBeenCalledTimes(1);
-    expect(firstResult).toEqual(session.user);
-    expect(secondResult).toEqual(session.user);
+    expect(firstResult).toEqual({
+      id: 'alice',
+      username: 'alice',
+      roles: ['USER'],
+      permissions: [],
+    });
+    expect(secondResult).toEqual(firstResult);
   });
 
   it('should logout and redirect to configured authRedirectPath when refresh fails', () => {
@@ -95,12 +126,12 @@ describe('AuthService', () => {
   });
 
   it('should reflect permissions and roles of the current user', () => {
-    apiService.post.mockReturnValue(of(session));
+    apiService.post.mockReturnValue(of(tokens));
 
     service.login({ username: 'alice', password: 'secret' }).subscribe();
 
-    expect(service.hasRole('admin')).toBe(true);
-    expect(service.hasPermission('user.read')).toBe(true);
-    expect(service.hasPermission('user.delete')).toBe(false);
+    expect(service.hasRole('USER')).toBe(true);
+    expect(service.hasRole('ADMIN')).toBe(false);
+    expect(service.hasPermission('user.read')).toBe(false);
   });
 });

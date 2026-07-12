@@ -10,8 +10,11 @@ export interface Credentials {
   readonly password: string;
 }
 
-export interface AuthSession {
+export interface AuthTokens {
   readonly accessToken: string;
   readonly refreshToken: string;
+}
+
+export interface AuthSession extends AuthTokens {
   readonly user: CurrentUser;
 }

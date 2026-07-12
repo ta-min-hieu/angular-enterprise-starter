@@ -23,7 +23,7 @@ describe('ApiService', () => {
 
     const req = httpMock.expectOne('/api/users/1');
     expect(req.request.method).toBe('GET');
-    req.flush({ success: true, data: { id: '1' } });
+    req.flush({ code: '200', message: 'Success', data: { id: '1' } });
 
     expect(result).toEqual({ id: '1' });
   });
@@ -35,7 +35,7 @@ describe('ApiService', () => {
       (r) =>
         r.url === '/api/users' && r.params.get('page') === '1' && r.params.get('active') === 'true',
     );
-    req.flush({ success: true, data: [] });
+    req.flush({ code: '200', message: 'Success', data: [] });
   });
 
   it('should POST a body and unwrap the response', () => {
@@ -45,7 +45,7 @@ describe('ApiService', () => {
     const req = httpMock.expectOne('/api/users');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({ name: 'alice' });
-    req.flush({ success: true, data: { id: '2' } });
+    req.flush({ code: '200', message: 'Success', data: { id: '2' } });
 
     expect(result).toEqual({ id: '2' });
   });
@@ -55,7 +55,8 @@ describe('ApiService', () => {
     httpMock
       .expectOne((r) => r.method === 'PUT' && r.url === '/api/users/1')
       .flush({
-        success: true,
+        code: '200',
+        message: 'Success',
         data: {},
       });
 
@@ -63,7 +64,8 @@ describe('ApiService', () => {
     httpMock
       .expectOne((r) => r.method === 'PATCH' && r.url === '/api/users/1')
       .flush({
-        success: true,
+        code: '200',
+        message: 'Success',
         data: {},
       });
   });
@@ -73,15 +75,15 @@ describe('ApiService', () => {
 
     const req = httpMock.expectOne('/api/users/1');
     expect(req.request.method).toBe('DELETE');
-    req.flush({ success: true, data: null });
+    req.flush({ code: '200', message: 'Success', data: null });
   });
 
-  it('should throw a mapped AppError when the envelope reports success=false', () => {
+  it('should throw a mapped AppError when the envelope code is not 200', () => {
     let error: unknown;
     service.get('users/1').subscribe({ error: (err) => (error = err) });
 
     const req = httpMock.expectOne('/api/users/1');
-    req.flush({ success: false, error: { code: 'NOT_FOUND', message: 'User not found' } });
+    req.flush({ code: 'NOT_FOUND', message: 'User not found', data: null });
 
     expect(error).toMatchObject({ code: 'NOT_FOUND', message: 'User not found' });
   });

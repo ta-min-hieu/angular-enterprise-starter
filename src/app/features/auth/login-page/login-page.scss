@@ -21,6 +21,10 @@
     text-align: left;
   }
 
+  &__alert {
+    margin-bottom: var(--spacing-md);
+  }
+
   &__submit {
     margin-top: var(--spacing-sm);
   }

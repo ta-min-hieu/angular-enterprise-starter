@@ -1,13 +1,12 @@
 import { ErrorCategory } from './error-category';
 import { AppError } from './app-error';
-import { ApiErrorResponse } from '../http/api-response.model';
+import { ApiResponse } from '../http/api-response.model';
 
-export function mapApiErrorToAppError(response: ApiErrorResponse): AppError {
+export function mapApiErrorToAppError(response: ApiResponse<unknown>): AppError {
   return {
     category: ErrorCategory.Business,
-    code: response.error.code,
-    message: response.error.message,
+    code: response.code,
+    message: response.message,
     retryable: false,
-    details: response.error.details,
   };
 }

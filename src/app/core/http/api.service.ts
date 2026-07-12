@@ -59,7 +59,7 @@ export class ApiService {
       })
       .pipe(
         map((response) => {
-          if (!response.success) {
+          if (response.code !== '200') {
             throw mapApiErrorToAppError(response);
           }
 

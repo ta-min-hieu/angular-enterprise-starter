@@ -1,6 +1,6 @@
 {
   "production": false,
-  "apiBaseUrl": "/api",
+  "apiBaseUrl": "http://localhost:8386/base/v1",
   "logLevel": "debug",
   "authRedirectPath": "/auth/login",
   "forbiddenPath": "/forbidden",

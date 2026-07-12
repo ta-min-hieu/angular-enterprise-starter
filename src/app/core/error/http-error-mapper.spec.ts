@@ -72,20 +72,12 @@ describe('mapHttpErrorToAppError', () => {
     expect(result.retryable).toBe(false);
   });
 
-  it('should extract code, message and details from a standardized API error envelope', () => {
+  it('should extract code and message from the API error envelope', () => {
     const result = mapHttpErrorToAppError(
-      createHttpError(400, {
-        success: false,
-        error: {
-          code: 'FIELD_REQUIRED',
-          message: 'Username is required',
-          details: [{ field: 'username', message: 'required' }],
-        },
-      }),
+      createHttpError(400, { code: 'FIELD_REQUIRED', message: 'Username is required', data: null }),
     );
 
     expect(result.code).toBe('FIELD_REQUIRED');
     expect(result.message).toBe('Username is required');
-    expect(result.details).toEqual([{ field: 'username', message: 'required' }]);
   });
 });

@@ -7,7 +7,13 @@ import { SKIP_AUTH } from '../http/http-context-tokens';
 import { TOKEN_STORAGE } from '../storage/token-storage';
 import { AppConfigService } from '../config/app-config.service';
 import { LoggerService } from '../logger/logger.service';
-import { AuthSession, Credentials, CurrentUser } from './current-user.model';
+import { AuthSession, AuthTokens, Credentials, CurrentUser } from './current-user.model';
+import { decodeJwtPayload } from './jwt.util';
+
+interface AccessTokenPayload {
+  readonly sub: string;
+  readonly roles?: readonly string[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -26,20 +32,12 @@ export class AuthService {
 
   login(credentials: Credentials): Observable<CurrentUser> {
     return this.apiService
-      .post<AuthSession>('auth/login', credentials, { context: this.skipAuthContext() })
+      .post<AuthTokens>('auth/login', credentials, { context: this.skipAuthContext() })
       .pipe(
+        map((tokens) => this.toSession(tokens)),
         tap((session) => this.applySession(session)),
         map((session) => session.user),
       );
-  }
-
-  /** Tạm dùng khi chưa có API `auth/login`; chấp nhận mọi tài khoản để mở đường vào UI. */
-  loginWithoutBackend(username: string): void {
-    this.applySession({
-      accessToken: `local-${username}`,
-      refreshToken: `local-${username}`,
-      user: { id: username, username, roles: ['admin'], permissions: [] },
-    });
   }
 
   refreshToken(): Observable<CurrentUser> {
@@ -51,8 +49,9 @@ export class AuthService {
     const refreshToken = this.tokenStorage.getRefreshToken();
 
     this.refreshInFlight$ = this.apiService
-      .post<AuthSession>('auth/refresh', { refreshToken }, { context: this.skipAuthContext() })
+      .post<AuthTokens>('auth/refresh-token', { refreshToken }, { context: this.skipAuthContext() })
       .pipe(
+        map((tokens) => this.toSession(tokens)),
         tap((session) => this.applySession(session)),
         map((session) => session.user),
         shareReplay({ bufferSize: 1, refCount: false }),
@@ -98,5 +97,21 @@ export class AuthService {
 
   private skipAuthContext(): HttpContext {
     return new HttpContext().set(SKIP_AUTH, true);
+  }
+
+  // Backend chỉ trả về accessToken/refreshToken, không có thông tin user riêng —
+  // username và roles được lấy từ payload của access token (JWT).
+  private toSession(tokens: AuthTokens): AuthSession {
+    const payload = decodeJwtPayload<AccessTokenPayload>(tokens.accessToken);
+
+    return {
+      ...tokens,
+      user: {
+        id: payload.sub,
+        username: payload.sub,
+        roles: payload.roles ?? [],
+        permissions: [],
+      },
+    };
   }
 }
