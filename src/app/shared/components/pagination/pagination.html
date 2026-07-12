@@ -1,0 +1,11 @@
+<nz-pagination
+  class="app-pagination"
+  [nzPageIndex]="pageIndex()"
+  [nzTotal]="total()"
+  [nzPageSize]="pageSize()"
+  [nzShowSizeChanger]="showSizeChanger()"
+  [nzShowQuickJumper]="showQuickJumper()"
+  [nzHideOnSinglePage]="true"
+  (nzPageIndexChange)="pageIndexChange.emit($event)"
+  (nzPageSizeChange)="pageSizeChange.emit($event)"
+/>

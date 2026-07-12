@@ -17,6 +17,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ProductDetail } from '../product-detail/product-detail';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { Pagination } from '../../../shared/components/pagination/pagination';
 import { Product } from '../product.model';
 import { ProductQuery, ProductService } from '../product.service';
 import { CATEGORY_OPTIONS } from '../product.constants';
@@ -46,6 +47,7 @@ const SEARCH_DEBOUNCE_MS = 300;
     TranslocoPipe,
     ProductDetail,
     EmptyState,
+    Pagination,
   ],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',

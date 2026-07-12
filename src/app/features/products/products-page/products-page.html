@@ -52,12 +52,7 @@
       [nzData]="productService.products()"
       [nzFrontPagination]="false"
       [nzLoading]="productService.loading()"
-      [nzTotal]="productService.totalCount()"
-      [nzPageIndex]="pageIndex()"
-      (nzPageIndexChange)="onPageIndexChange($event)"
-      [nzPageSize]="pageSize()"
-      (nzPageSizeChange)="onPageSizeChange($event)"
-      [nzShowPagination]="productService.totalCount() > pageSize()"
+      [nzShowPagination]="false"
       [nzNoResult]="emptyTemplate"
     >
       <thead>
@@ -129,6 +124,14 @@
         }
       </tbody>
     </nz-table>
+
+    <app-pagination
+      [pageIndex]="pageIndex()"
+      [total]="productService.totalCount()"
+      [pageSize]="pageSize()"
+      (pageIndexChange)="onPageIndexChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"
+    />
 
     <ng-template #emptyTemplate>
       <app-empty-state
