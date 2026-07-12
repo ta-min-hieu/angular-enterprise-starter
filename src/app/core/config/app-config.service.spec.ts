@@ -43,4 +43,24 @@ describe('AppConfigService', () => {
 
     expect(service.config()).toEqual(DEFAULT_APP_CONFIG);
   });
+
+  it('should resolve apiBaseUrl when no apiName is given', () => {
+    expect(service.resolveApiBaseUrl()).toBe(DEFAULT_APP_CONFIG.apiBaseUrl);
+  });
+
+  it('should resolve a named domain from apiBaseUrls when apiName is given', async () => {
+    const loadPromise = service.load();
+    const req = httpMock.expectOne('config.json');
+    req.flush({
+      ...DEFAULT_APP_CONFIG,
+      apiBaseUrls: { payment: 'https://payment.example.com/v1' },
+    });
+    await loadPromise;
+
+    expect(service.resolveApiBaseUrl('payment')).toBe('https://payment.example.com/v1');
+  });
+
+  it('should throw a clear error when apiName is not configured', () => {
+    expect(() => service.resolveApiBaseUrl('does-not-exist')).toThrow(/does-not-exist/);
+  });
 });

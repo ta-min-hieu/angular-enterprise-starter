@@ -28,6 +28,19 @@ export class AppConfigService {
     return this.configSignal().apiBaseUrl;
   }
 
+  resolveApiBaseUrl(apiName?: string): string {
+    if (!apiName) {
+      return this.apiBaseUrl;
+    }
+
+    const url = this.configSignal().apiBaseUrls?.[apiName];
+    if (!url) {
+      throw new Error(`Unknown API name: "${apiName}". Kiểm tra apiBaseUrls trong config.json.`);
+    }
+
+    return url;
+  }
+
   get production(): boolean {
     return this.configSignal().production;
   }

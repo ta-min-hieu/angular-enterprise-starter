@@ -3,6 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ApiService } from './api.service';
+import { AppConfigService } from '../config/app-config.service';
 
 describe('ApiService', () => {
   let service: ApiService;
@@ -109,5 +110,34 @@ describe('ApiService', () => {
       items: [{ id: '1' }],
       metadata: { page: 0, size: 10, totalElements: 1, totalPages: 1 },
     });
+  });
+
+  it('should call the named apiBaseUrls domain when apiName is provided', async () => {
+    const appConfigService = TestBed.inject(AppConfigService);
+    const loadPromise = appConfigService.load();
+    httpMock.expectOne('config.json').flush({
+      production: false,
+      apiBaseUrl: '/api',
+      apiBaseUrls: { payment: 'https://payment.example.com/v1' },
+      logLevel: 'debug',
+      authRedirectPath: '/auth/login',
+      forbiddenPath: '/forbidden',
+      features: {},
+    });
+    await loadPromise;
+
+    service.get('charges', { apiName: 'payment' }).subscribe();
+
+    const req = httpMock.expectOne('https://payment.example.com/v1/charges');
+    req.flush({ code: '200', message: 'Success', data: [] });
+  });
+
+  it('should emit an error when apiName is not configured in apiBaseUrls', () => {
+    let error: unknown;
+    service
+      .get('charges', { apiName: 'does-not-exist' })
+      .subscribe({ error: (err) => (error = err) });
+
+    expect(error).toMatchObject({ message: expect.stringContaining('does-not-exist') });
   });
 });
