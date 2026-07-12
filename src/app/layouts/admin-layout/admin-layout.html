@@ -16,11 +16,11 @@
     <ul nz-menu nzMode="inline" nzTheme="light" [nzInlineCollapsed]="collapsed()">
       @for (item of navMenuService.visibleItems(); track item.route) {
         @if (item.children?.length) {
-          <li nz-submenu [nzTitle]="item.label" [nzIcon]="item.icon ?? null">
+          <li nz-submenu [nzTitle]="item.label | transloco" [nzIcon]="item.icon ?? null">
             <ul>
               @for (child of item.children; track child.route) {
                 <li nz-menu-item nzMatchRouter>
-                  <a [routerLink]="child.route">{{ child.label }}</a>
+                  <a [routerLink]="child.route">{{ child.label | transloco }}</a>
                 </li>
               }
             </ul>
@@ -31,7 +31,7 @@
               @if (item.icon) {
                 <span nz-icon [nzType]="item.icon"></span>
               }
-              <span>{{ item.label }}</span>
+              <span>{{ item.label | transloco }}</span>
             </a>
           </li>
         }
@@ -45,13 +45,14 @@
         nz-button
         nzType="text"
         type="button"
-        aria-label="Thu gọn / mở rộng menu"
+        [attr.aria-label]="'layout.admin.collapse_toggle' | transloco"
         (click)="toggleCollapsed()"
       >
         <span nz-icon [nzType]="collapsed() ? 'menu-unfold' : 'menu-fold'"></span>
       </button>
 
       <div class="app-admin-layout__header-actions">
+        <app-language-switcher />
         <app-theme-toggle />
 
         <span nz-dropdown [nzDropdownMenu]="userMenu" class="app-admin-layout__user" tabindex="0">
@@ -67,7 +68,7 @@
             <li nz-menu-item>
               <button type="button" class="app-admin-layout__logout" (click)="logout()">
                 <span nz-icon nzType="logout"></span>
-                Đăng xuất
+                {{ 'layout.admin.logout' | transloco }}
               </button>
             </li>
           </ul>

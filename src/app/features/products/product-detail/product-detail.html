@@ -1,16 +1,31 @@
 @if (product(); as p) {
   <nz-descriptions [nzColumn]="2" nzBordered nzSize="small">
-    <nz-descriptions-item nzTitle="Tên sản phẩm" [nzSpan]="2">{{ p.name }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Danh mục">{{ categoryLabel(p.category) }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Trạng thái">
+    <nz-descriptions-item [nzTitle]="'products.form.name.label' | transloco" [nzSpan]="2">
+      {{ p.name }}
+    </nz-descriptions-item>
+    <nz-descriptions-item [nzTitle]="'products.form.category.label' | transloco">
+      {{ categoryLabel(p.category) }}
+    </nz-descriptions-item>
+    <nz-descriptions-item [nzTitle]="'products.form.status.label' | transloco">
       <nz-tag [nzColor]="p.status === 'active' ? 'success' : 'default'">
-        {{ p.status === 'active' ? 'Đang bán' : 'Ngừng bán' }}
+        {{
+          (p.status === 'active' ? 'products.status.active' : 'products.status.inactive')
+            | transloco
+        }}
       </nz-tag>
     </nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Giá">{{ p.price | currency: 'VND' }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Tồn kho">{{ p.stock }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Nổi bật">{{ p.featured ? 'Có' : 'Không' }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Nhãn">
+    <nz-descriptions-item [nzTitle]="'products.form.price.label' | transloco">
+      {{ p.price | currency: 'VND' }}
+    </nz-descriptions-item>
+    <nz-descriptions-item [nzTitle]="'products.form.stock.label' | transloco">
+      {{ p.stock }}
+    </nz-descriptions-item>
+    <nz-descriptions-item [nzTitle]="'products.form.featured.label' | transloco">
+      {{
+        (p.featured ? 'products.detail.featured_yes' : 'products.detail.featured_no') | transloco
+      }}
+    </nz-descriptions-item>
+    <nz-descriptions-item [nzTitle]="'products.form.tags.label' | transloco">
       @if (p.tags.length) {
         @for (tag of p.tags; track tag) {
           <nz-tag>{{ tagLabel(tag) }}</nz-tag>
@@ -19,13 +34,13 @@
         <span class="app-product-detail__empty">—</span>
       }
     </nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Ngày phát hành">
+    <nz-descriptions-item [nzTitle]="'products.form.release_date.label' | transloco">
       {{ p.releaseDate ? (p.releaseDate | date: dateFormat) : '—' }}
     </nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Thời điểm lên kệ">
+    <nz-descriptions-item [nzTitle]="'products.form.published_at.label' | transloco">
       {{ p.publishedAt ? (p.publishedAt | date: dateTimeFormat) : '—' }}
     </nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Mô tả" [nzSpan]="2">
+    <nz-descriptions-item [nzTitle]="'products.form.description.label' | transloco" [nzSpan]="2">
       {{ p.description || '—' }}
     </nz-descriptions-item>
   </nz-descriptions>

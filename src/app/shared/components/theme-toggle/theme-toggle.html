@@ -3,7 +3,7 @@
   nzType="text"
   type="button"
   [attr.aria-label]="
-    themeService.theme() === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'
+    (themeService.theme() === 'dark' ? 'theme.toggle_to_light' : 'theme.toggle_to_dark') | transloco
   "
   (click)="toggle()"
 >

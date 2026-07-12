@@ -4,12 +4,17 @@ import { provideNzIcons } from 'ng-zorro-antd/icon';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ProductsPage } from './products-page';
 import { REGISTERED_ICONS } from '../../../core/icons/icon-registration';
+import { provideTranslocoTesting } from '../../../core/i18n/testing/provide-transloco-testing';
 
 describe('ProductsPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ProductsPage],
-      providers: [provideRouter([]), provideNzIcons(REGISTERED_ICONS)],
+      providers: [
+        provideRouter([]),
+        provideNzIcons(REGISTERED_ICONS),
+        ...provideTranslocoTesting(),
+      ],
     });
   });
 

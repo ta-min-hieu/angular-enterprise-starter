@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { AppError } from '../../../core/error/app-error';
 import { ErrorCategory } from '../../../core/error/error-category';
 
@@ -8,7 +9,7 @@ type ResultStatus = '404' | '500' | '403' | 'error' | 'warning';
 
 @Component({
   selector: 'app-error-state',
-  imports: [NzResultModule, NzButtonModule],
+  imports: [NzResultModule, NzButtonModule, TranslocoPipe],
   templateUrl: './error-state.html',
   styleUrl: './error-state.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

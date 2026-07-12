@@ -1,5 +1,5 @@
-<nz-result nzStatus="404" nzTitle="404" nzSubTitle="Không tìm thấy trang bạn yêu cầu.">
+<nz-result nzStatus="404" nzTitle="404" [nzSubTitle]="'pages.not_found.subtitle' | transloco">
   <div nz-result-extra>
-    <button nz-button nzType="primary" routerLink="/">Về trang chủ</button>
+    <button nz-button nzType="primary" routerLink="/">{{ 'pages.back_home' | transloco }}</button>
   </div>
 </nz-result>

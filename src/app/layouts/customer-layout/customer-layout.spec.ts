@@ -8,6 +8,7 @@ import { CustomerLayout } from './customer-layout';
 import { TOKEN_STORAGE } from '../../core/storage/token-storage';
 import { LocalTokenStorage } from '../../core/storage/local-token-storage';
 import { REGISTERED_ICONS } from '../../core/icons/icon-registration';
+import { provideTranslocoTesting } from '../../core/i18n/testing/provide-transloco-testing';
 
 describe('CustomerLayout', () => {
   it('should create', () => {
@@ -18,6 +19,7 @@ describe('CustomerLayout', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideNzIcons(REGISTERED_ICONS),
+        ...provideTranslocoTesting(),
         { provide: TOKEN_STORAGE, useClass: LocalTokenStorage },
       ],
     });

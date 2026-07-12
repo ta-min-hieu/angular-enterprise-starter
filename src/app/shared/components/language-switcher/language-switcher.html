@@ -1,0 +1,26 @@
+<span
+  nz-dropdown
+  [nzDropdownMenu]="langMenu"
+  class="app-language-switcher"
+  tabindex="0"
+  [attr.aria-label]="i18nService.locale().toUpperCase()"
+>
+  <span nz-icon nzType="global"></span>
+  <span>{{ i18nService.locale().toUpperCase() }}</span>
+</span>
+
+<nz-dropdown-menu #langMenu="nzDropdownMenu">
+  <ul nz-menu>
+    @for (locale of i18nService.availableLocales; track locale.code) {
+      <li nz-menu-item [nzSelected]="locale.code === i18nService.locale()">
+        <button
+          type="button"
+          class="app-language-switcher__option"
+          (click)="selectLocale(locale.code)"
+        >
+          {{ locale.label }}
+        </button>
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>

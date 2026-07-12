@@ -1,0 +1,13 @@
+<nz-form-item>
+  <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
+  <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
+    <nz-date-picker
+      class="app-date-field__picker"
+      [nzId]="resolvedId()"
+      [formControl]="control()"
+      [nzShowTime]="showTime()"
+      [nzFormat]="resolvedFormat()"
+      [nzPlaceHolder]="resolvedPlaceholder()"
+    />
+  </nz-form-control>
+</nz-form-item>

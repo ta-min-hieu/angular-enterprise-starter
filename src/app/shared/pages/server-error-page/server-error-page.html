@@ -1,9 +1,7 @@
-<nz-result
-  nzStatus="500"
-  nzTitle="500"
-  nzSubTitle="Đã có lỗi xảy ra ở máy chủ. Vui lòng thử lại sau."
->
+<nz-result nzStatus="500" nzTitle="500" [nzSubTitle]="'pages.server_error.subtitle' | transloco">
   <div nz-result-extra>
-    <button nz-button nzType="primary" (click)="reload()">Tải lại trang</button>
+    <button nz-button nzType="primary" (click)="reload()">
+      {{ 'pages.server_error.reload' | transloco }}
+    </button>
   </div>
 </nz-result>

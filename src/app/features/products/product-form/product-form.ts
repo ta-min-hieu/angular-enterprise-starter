@@ -1,30 +1,36 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { Product, ProductInput, ProductStatus } from '../product.model';
-import { CATEGORY_OPTIONS, DATE_FORMAT, DATE_TIME_FORMAT, TAG_OPTIONS } from '../product.constants';
+import { CATEGORY_OPTIONS, STATUS_OPTIONS, TAG_OPTIONS } from '../product.constants';
+import { TextField } from '../../../shared/components/text-field/text-field';
+import { NumberField } from '../../../shared/components/number-field/number-field';
+import { SelectField } from '../../../shared/components/select-field/select-field';
+import { MultiSelectField } from '../../../shared/components/multi-select-field/multi-select-field';
+import { RadioGroupField } from '../../../shared/components/radio-group-field/radio-group-field';
+import { CheckboxField } from '../../../shared/components/checkbox-field/checkbox-field';
+import { TextareaField } from '../../../shared/components/textarea-field/textarea-field';
+import { DateField } from '../../../shared/components/date-field/date-field';
 
 @Component({
   selector: 'app-product-form',
   imports: [
     ReactiveFormsModule,
     NzFormModule,
-    NzInputModule,
-    NzInputNumberModule,
     NzButtonModule,
     NzIconModule,
-    NzSelectModule,
-    NzRadioModule,
-    NzCheckboxModule,
-    NzDatePickerModule,
+    TranslocoPipe,
+    TextField,
+    NumberField,
+    SelectField,
+    MultiSelectField,
+    RadioGroupField,
+    CheckboxField,
+    TextareaField,
+    DateField,
   ],
   templateUrl: './product-form.html',
   styleUrl: './product-form.scss',
@@ -39,8 +45,7 @@ export class ProductForm {
 
   readonly categoryOptions = CATEGORY_OPTIONS;
   readonly tagOptions = TAG_OPTIONS;
-  readonly dateFormat = DATE_FORMAT;
-  readonly dateTimeFormat = DATE_TIME_FORMAT;
+  readonly statusOptions = STATUS_OPTIONS;
 
   readonly form = this.fb.group({
     name: this.fb.control('', [Validators.required]),
@@ -95,6 +100,7 @@ export class ProductForm {
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      Object.values(this.form.controls).forEach((control) => control.updateValueAndValidity());
       return;
     }
 

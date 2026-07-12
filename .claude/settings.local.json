@@ -58,7 +58,16 @@
       "Bash(node sliver-check2.js)",
       "Bash(node icon-debug2.js)",
       "Bash(node icon-debug.js)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git config *)",
+      "Bash(git remote *)",
+      "Bash(git ls-remote *)",
+      "Bash(echo \"EXIT_CODE=$?\")",
+      "Bash(git push *)",
+      "Bash(node validation-check.js)",
+      "Bash(npm install *)",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 4200 -ErrorAction SilentlyContinue; if \\($conn\\) { $conn | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; \"stopped\" } else { \"not running\" })",
+      "Bash(git status *)"
     ]
   }
 }

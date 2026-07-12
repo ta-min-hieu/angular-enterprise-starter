@@ -5,11 +5,12 @@ import { ErrorState } from './error-state';
 import { ErrorCategory } from '../../../core/error/error-category';
 import { AppError } from '../../../core/error/app-error';
 import { REGISTERED_ICONS } from '../../../core/icons/icon-registration';
+import { provideTranslocoTesting } from '../../../core/i18n/testing/provide-transloco-testing';
 
 function createFixture(error: AppError) {
   TestBed.configureTestingModule({
     imports: [ErrorState],
-    providers: [provideNzIcons(REGISTERED_ICONS)],
+    providers: [provideNzIcons(REGISTERED_ICONS), ...provideTranslocoTesting()],
   });
   const fixture = TestBed.createComponent(ErrorState);
   fixture.componentRef.setInput('error', error);

@@ -4,18 +4,29 @@
       <span nz-icon nzType="home"></span>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      <a routerLink="/products">Sản phẩm</a>
+      <a routerLink="/products">{{ 'products.title' | transloco }}</a>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{ isEditMode() ? 'Cập nhật' : 'Thêm mới' }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      {{
+        (isEditMode()
+          ? 'products.form_page.breadcrumb_edit'
+          : 'products.form_page.breadcrumb_create'
+        ) | transloco
+      }}
+    </nz-breadcrumb-item>
   </nz-breadcrumb>
 
   <div class="app-product-form-page__header">
-    <h1>{{ isEditMode() ? 'Cập nhật sản phẩm' : 'Thêm sản phẩm' }}</h1>
+    <h1>
+      {{
+        (isEditMode() ? 'products.form_page.edit_title' : 'products.form_page.create_title')
+          | transloco
+      }}
+    </h1>
     <p class="app-product-form-page__subtitle">
       {{
-        isEditMode()
-          ? 'Chỉnh sửa thông tin sản phẩm đã có.'
-          : 'Tạo mới một sản phẩm trong danh mục.'
+        (isEditMode() ? 'products.form_page.edit_subtitle' : 'products.form_page.create_subtitle')
+          | transloco
       }}
     </p>
   </div>

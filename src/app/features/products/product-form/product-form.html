@@ -5,119 +5,95 @@
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
 >
-  <nz-form-item>
-    <nz-form-label nzRequired>Tên sản phẩm</nz-form-label>
-    <nz-form-control nzErrorTip="Vui lòng nhập tên sản phẩm">
-      <input nz-input formControlName="name" placeholder="Ví dụ: Bàn phím cơ" />
-    </nz-form-control>
-  </nz-form-item>
+  <app-text-field
+    name="name"
+    [control]="form.controls.name"
+    [label]="'products.form.name.label' | transloco"
+    [placeholder]="'products.form.name.placeholder' | transloco"
+  />
 
   <div class="app-product-form__row">
-    <nz-form-item class="app-product-form__col">
-      <nz-form-label nzRequired>Giá (VNĐ)</nz-form-label>
-      <nz-form-control nzErrorTip="Giá phải lớn hơn hoặc bằng 0">
-        <nz-input-number
-          formControlName="price"
-          [nzMin]="0"
-          [nzStep]="1000"
-          [nzFormatter]="priceFormatter"
-          [nzParser]="priceParser"
-        />
-      </nz-form-control>
-    </nz-form-item>
+    <app-number-field
+      class="app-product-form__col"
+      name="price"
+      [control]="form.controls.price"
+      [label]="'products.form.price.label' | transloco"
+      [step]="1000"
+      [formatter]="priceFormatter"
+      [parser]="priceParser"
+      [errorMessage]="'products.form.price.error' | transloco"
+    />
 
-    <nz-form-item class="app-product-form__col">
-      <nz-form-label nzRequired>Tồn kho</nz-form-label>
-      <nz-form-control nzErrorTip="Tồn kho phải lớn hơn hoặc bằng 0">
-        <nz-input-number formControlName="stock" [nzMin]="0" [nzStep]="1" />
-      </nz-form-control>
-    </nz-form-item>
+    <app-number-field
+      class="app-product-form__col"
+      name="stock"
+      [control]="form.controls.stock"
+      [label]="'products.form.stock.label' | transloco"
+      [errorMessage]="'products.form.stock.error' | transloco"
+    />
   </div>
 
   <div class="app-product-form__row">
-    <nz-form-item class="app-product-form__col">
-      <nz-form-label nzRequired>Danh mục</nz-form-label>
-      <nz-form-control nzErrorTip="Vui lòng chọn danh mục">
-        <nz-select formControlName="category" nzPlaceHolder="Chọn danh mục">
-          @for (option of categoryOptions; track option.value) {
-            <nz-option [nzLabel]="option.label" [nzValue]="option.value" />
-          }
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
+    <app-select-field
+      class="app-product-form__col"
+      name="category"
+      [control]="form.controls.category"
+      [options]="categoryOptions"
+      [label]="'products.form.category.label' | transloco"
+    />
 
-    <nz-form-item class="app-product-form__col">
-      <nz-form-label>Nhãn</nz-form-label>
-      <nz-form-control>
-        <nz-select formControlName="tags" nzMode="multiple" nzPlaceHolder="Chọn nhãn">
-          @for (option of tagOptions; track option.value) {
-            <nz-option [nzLabel]="option.label" [nzValue]="option.value" />
-          }
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
+    <app-multi-select-field
+      class="app-product-form__col"
+      name="tags"
+      [control]="form.controls.tags"
+      [options]="tagOptions"
+      [label]="'products.form.tags.label' | transloco"
+    />
   </div>
 
-  <nz-form-item>
-    <nz-form-label>Trạng thái</nz-form-label>
-    <nz-form-control>
-      <nz-radio-group formControlName="status">
-        <label nz-radio-button nzValue="active">Đang bán</label>
-        <label nz-radio-button nzValue="inactive">Ngừng bán</label>
-      </nz-radio-group>
-    </nz-form-control>
-  </nz-form-item>
+  <app-radio-group-field
+    name="status"
+    [control]="form.controls.status"
+    [options]="statusOptions"
+    [label]="'products.form.status.label' | transloco"
+  />
 
-  <nz-form-item>
-    <nz-form-control>
-      <label nz-checkbox formControlName="featured">Sản phẩm nổi bật</label>
-    </nz-form-control>
-  </nz-form-item>
+  <app-checkbox-field
+    name="featured"
+    [control]="form.controls.featured"
+    [label]="'products.form.featured.label' | transloco"
+  />
 
-  <nz-form-item>
-    <nz-form-label>Mô tả</nz-form-label>
-    <nz-form-control>
-      <textarea
-        nz-input
-        formControlName="description"
-        rows="3"
-        placeholder="Mô tả ngắn về sản phẩm"
-      ></textarea>
-    </nz-form-control>
-  </nz-form-item>
+  <app-textarea-field
+    name="description"
+    [control]="form.controls.description"
+    [label]="'products.form.description.label' | transloco"
+  />
 
   <div class="app-product-form__row">
-    <nz-form-item class="app-product-form__col">
-      <nz-form-label>Ngày phát hành</nz-form-label>
-      <nz-form-control>
-        <nz-date-picker
-          formControlName="releaseDate"
-          [nzFormat]="dateFormat"
-          nzPlaceHolder="dd/MM/yyyy"
-          class="app-product-form__date"
-        />
-      </nz-form-control>
-    </nz-form-item>
+    <app-date-field
+      class="app-product-form__col"
+      name="releaseDate"
+      [control]="form.controls.releaseDate"
+      [label]="'products.form.release_date.label' | transloco"
+    />
 
-    <nz-form-item class="app-product-form__col">
-      <nz-form-label>Thời điểm lên kệ</nz-form-label>
-      <nz-form-control>
-        <nz-date-picker
-          formControlName="publishedAt"
-          [nzShowTime]="true"
-          [nzFormat]="dateTimeFormat"
-          nzPlaceHolder="dd/MM/yyyy HH:mm:ss"
-          class="app-product-form__date"
-        />
-      </nz-form-control>
-    </nz-form-item>
+    <app-date-field
+      class="app-product-form__col"
+      name="publishedAt"
+      [control]="form.controls.publishedAt"
+      [label]="'products.form.published_at.label' | transloco"
+      [showTime]="true"
+    />
   </div>
 
   <div class="app-product-form__actions">
-    <button nz-button type="button" (click)="onCancel()">Huỷ</button>
+    <button nz-button type="button" (click)="onCancel()">
+      {{ 'common.actions.cancel' | transloco }}
+    </button>
     <button nz-button nzType="primary" type="submit">
       <span nz-icon nzType="check"></span>
-      <span>Lưu</span>
+      <span>{{ 'common.actions.save' | transloco }}</span>
     </button>
   </div>
 </form>

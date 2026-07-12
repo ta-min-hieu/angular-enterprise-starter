@@ -4,6 +4,7 @@ import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { describe, expect, it, vi } from 'vitest';
 import { ProductForm } from './product-form';
 import { REGISTERED_ICONS } from '../../../core/icons/icon-registration';
+import { provideTranslocoTesting } from '../../../core/i18n/testing/provide-transloco-testing';
 
 const EMPTY_FORM_VALUE = {
   name: '',
@@ -22,7 +23,11 @@ describe('ProductForm', () => {
   function setup() {
     TestBed.configureTestingModule({
       imports: [ProductForm],
-      providers: [provideNzIcons(REGISTERED_ICONS), provideNzI18n(en_US)],
+      providers: [
+        provideNzIcons(REGISTERED_ICONS),
+        provideNzI18n(en_US),
+        ...provideTranslocoTesting(),
+      ],
     });
     return TestBed.createComponent(ProductForm);
   }

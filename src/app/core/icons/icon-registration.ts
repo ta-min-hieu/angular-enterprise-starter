@@ -11,6 +11,7 @@ import {
   EditOutline,
   ExclamationCircleFill,
   EyeOutline,
+  GlobalOutline,
   HomeOutline,
   LoadingOutline,
   LogoutOutline,
@@ -48,6 +49,8 @@ export const REGISTERED_ICONS = [
   // Dùng bởi Admin Layout (logo) và breadcrumb.
   AppstoreOutline,
   HomeOutline,
+  // Dùng bởi Language Switcher.
+  GlobalOutline,
   // Dùng bởi menu điều hướng của Feature Products.
   ShoppingOutline,
   // Dùng bởi nz-select (multiple) và nz-date-picker trong Product Form.

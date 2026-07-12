@@ -1,0 +1,13 @@
+<nz-form-item>
+  <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
+  <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
+    <textarea
+      nz-input
+      [id]="resolvedId()"
+      [name]="name()"
+      [formControl]="control()"
+      [placeholder]="resolvedPlaceholder()"
+      [rows]="rows()"
+    ></textarea>
+  </nz-form-control>
+</nz-form-item>

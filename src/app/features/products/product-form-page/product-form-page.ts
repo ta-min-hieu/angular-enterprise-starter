@@ -3,13 +3,14 @@ import { Router, RouterLink } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { ProductService } from '../product.service';
 import { ProductInput } from '../product.model';
 import { ProductForm } from '../product-form/product-form';
 
 @Component({
   selector: 'app-product-form-page',
-  imports: [RouterLink, NzCardModule, NzBreadCrumbModule, NzIconModule, ProductForm],
+  imports: [RouterLink, NzCardModule, NzBreadCrumbModule, NzIconModule, TranslocoPipe, ProductForm],
   templateUrl: './product-form-page.html',
   styleUrl: './product-form-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

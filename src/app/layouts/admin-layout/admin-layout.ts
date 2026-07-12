@@ -6,9 +6,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { AuthService } from '../../core/auth/auth.service';
 import { NavMenuService } from '../../core/navigation/nav-menu.service';
 import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
+import { LanguageSwitcher } from '../../shared/components/language-switcher/language-switcher';
 
 @Component({
   selector: 'app-admin-layout',
@@ -21,7 +23,9 @@ import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
     NzButtonModule,
     NzDropDownModule,
     NzAvatarModule,
+    TranslocoPipe,
     ThemeToggle,
+    LanguageSwitcher,
   ],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.scss',

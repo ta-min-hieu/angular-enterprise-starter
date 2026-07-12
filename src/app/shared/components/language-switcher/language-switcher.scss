@@ -1,0 +1,18 @@
+.app-language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding-inline: var(--spacing-xs);
+  cursor: pointer;
+  color: var(--color-text);
+
+  &__option {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+}

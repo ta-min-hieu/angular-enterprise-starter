@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { I18nService } from '../../../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-empty-state',
@@ -9,5 +10,11 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmptyState {
-  readonly message = input('Không có dữ liệu');
+  private readonly i18nService = inject(I18nService);
+
+  readonly message = input<string>();
+
+  readonly resolvedMessage = computed(
+    () => this.message() ?? this.i18nService.translate('common.empty_state.no_data'),
+  );
 }

@@ -1,12 +1,6 @@
 @use '../../../../styles/mixins/breakpoints' as *;
 
 .app-product-form {
-  nz-input-number,
-  nz-select,
-  &__date {
-    width: 100%;
-  }
-
   &__row {
     display: flex;
     flex-direction: column;

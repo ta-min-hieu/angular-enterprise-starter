@@ -1,11 +1,13 @@
 import {
   ApplicationConfig,
   ErrorHandler,
+  isDevMode,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideTransloco } from '@jsverse/transloco';
 
 import { routes } from './routes/app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -17,6 +19,8 @@ import en from '@angular/common/locales/en';
 import { nzConfig } from './core/theme/nz-config.token';
 import { REGISTERED_ICONS } from './core/icons/icon-registration';
 import { initializeAppConfig } from './core/config/app-config.initializer';
+import { initializeLocale } from './core/i18n/i18n.initializer';
+import { TranslocoHttpLoader } from './core/i18n/transloco-http.loader';
 import { authInterceptor } from './core/http/auth.interceptor';
 import { correlationIdInterceptor } from './core/http/correlation-id.interceptor';
 import { errorInterceptor } from './core/http/error.interceptor';
@@ -41,14 +45,25 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(en_US),
     provideNzConfig(nzConfig),
     provideNzIcons(REGISTERED_ICONS),
+    provideTransloco({
+      config: {
+        availableLangs: ['vi', 'en'],
+        defaultLang: 'vi',
+        fallbackLang: 'vi',
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      },
+      loader: TranslocoHttpLoader,
+    }),
     provideAppInitializer(initializeAppConfig),
+    provideAppInitializer(initializeLocale),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: LOG_SINKS, useClass: ConsoleLogSink, multi: true },
     { provide: TOKEN_STORAGE, useClass: LocalTokenStorage },
     {
       provide: NAV_MENU_ITEMS,
       multi: true,
-      useValue: [{ label: 'Sản phẩm', route: '/products', icon: 'shopping' }],
+      useValue: [{ label: 'nav.products', route: '/products', icon: 'shopping' }],
     },
   ],
 };

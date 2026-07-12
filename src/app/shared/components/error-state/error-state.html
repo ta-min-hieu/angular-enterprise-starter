@@ -1,7 +1,9 @@
 <nz-result [nzStatus]="status()" [nzTitle]="error().message">
   @if (error().retryable) {
     <div nz-result-extra>
-      <button nz-button nzType="primary" (click)="onRetry()">Thử lại</button>
+      <button nz-button nzType="primary" (click)="onRetry()">
+        {{ 'common.error_state.retry' | transloco }}
+      </button>
     </div>
   }
 </nz-result>

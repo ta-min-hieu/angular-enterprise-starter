@@ -1,0 +1,10 @@
+<nz-form-item>
+  <nz-form-label [nzRequired]="required()">{{ label() }}</nz-form-label>
+  <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
+    <nz-radio-group [id]="resolvedId()" [formControl]="control()">
+      @for (option of options(); track option.value) {
+        <label nz-radio-button [nzValue]="option.value">{{ option.label | transloco }}</label>
+      }
+    </nz-radio-group>
+  </nz-form-control>
+</nz-form-item>

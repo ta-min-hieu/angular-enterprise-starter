@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { BrowserService } from '../../../core/browser/browser.service';
 
 @Component({
   selector: 'app-server-error-page',
-  imports: [NzResultModule, NzButtonModule],
+  imports: [NzResultModule, NzButtonModule, TranslocoPipe],
   templateUrl: './server-error-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

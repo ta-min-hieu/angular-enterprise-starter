@@ -1,0 +1,14 @@
+<nz-form-item>
+  <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
+  <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
+    <nz-select
+      [nzId]="resolvedId()"
+      [formControl]="control()"
+      [nzPlaceHolder]="resolvedPlaceholder()"
+    >
+      @for (option of options(); track option.value) {
+        <nz-option [nzLabel]="option.label | transloco" [nzValue]="option.value" />
+      }
+    </nz-select>
+  </nz-form-control>
+</nz-form-item>

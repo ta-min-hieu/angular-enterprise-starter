@@ -148,7 +148,7 @@ Translation
 
 Không để file rải rác.
 
-Thư viện/định dạng i18n cụ thể (ví dụ `@angular/localize` hay giải pháp runtime) chưa được chốt — đây là quyết định mở, sẽ chốt khi Feature đầu tiên thật sự cần đa ngôn ngữ. Không tự ý chọn khi chưa có nhu cầu cụ thể.
+Đã chốt: dùng `@jsverse/transloco` cho đa ngôn ngữ (runtime, không cần rebuild/reload riêng theo locale). File dịch đặt tại `public/i18n/{lang}.json`. Chi tiết quy ước key, cách thêm ngôn ngữ mới: xem `docs/21-i18n.md`.
 
 ---
 

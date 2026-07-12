@@ -1,5 +1,5 @@
-<nz-result nzStatus="403" nzTitle="403" nzSubTitle="Bạn không có quyền truy cập trang này.">
+<nz-result nzStatus="403" nzTitle="403" [nzSubTitle]="'pages.forbidden.subtitle' | transloco">
   <div nz-result-extra>
-    <button nz-button nzType="primary" routerLink="/">Về trang chủ</button>
+    <button nz-button nzType="primary" routerLink="/">{{ 'pages.back_home' | transloco }}</button>
   </div>
 </nz-result>

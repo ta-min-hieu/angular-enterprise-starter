@@ -7,16 +7,18 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { ProductService } from '../product.service';
-import { Product } from '../product.model';
-import { CATEGORY_OPTIONS } from '../product.constants';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { ProductDetail } from '../product-detail/product-detail';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { Product } from '../product.model';
+import { ProductService } from '../product.service';
+import { CATEGORY_OPTIONS } from '../product.constants';
+import { I18nService } from '../../../core/i18n/i18n.service';
 
 type StockLevel = 'out' | 'low' | 'in-stock';
 
@@ -38,6 +40,7 @@ const LOW_STOCK_THRESHOLD = 10;
     NzTooltipModule,
     NzCardModule,
     NzBreadCrumbModule,
+    TranslocoPipe,
     ProductDetail,
     EmptyState,
   ],
@@ -46,6 +49,8 @@ const LOW_STOCK_THRESHOLD = 10;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsPage {
+  private readonly i18nService = inject(I18nService);
+
   readonly productService = inject(ProductService);
 
   readonly searchTerm = signal('');
@@ -75,7 +80,8 @@ export class ProductsPage {
   }
 
   categoryLabel(value: string): string {
-    return CATEGORY_OPTIONS.find((option) => option.value === value)?.label ?? value;
+    const key = CATEGORY_OPTIONS.find((option) => option.value === value)?.label ?? value;
+    return this.i18nService.translate(key);
   }
 
   stockLevel(stock: number): StockLevel {
@@ -93,11 +99,11 @@ export class ProductsPage {
   stockLabel(stock: number): string {
     switch (this.stockLevel(stock)) {
       case 'out':
-        return 'Hết hàng';
+        return this.i18nService.translate('products.stock.out_of_stock');
       case 'low':
-        return 'Sắp hết';
+        return this.i18nService.translate('products.stock.low_stock');
       default:
-        return 'Còn hàng';
+        return this.i18nService.translate('products.stock.in_stock');
     }
   }
 

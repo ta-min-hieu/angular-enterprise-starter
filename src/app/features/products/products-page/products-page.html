@@ -3,18 +3,18 @@
     <nz-breadcrumb-item>
       <span nz-icon nzType="home"></span>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Sản phẩm</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{ 'products.title' | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
 
   <div class="app-products-page__header">
     <div class="app-products-page__heading">
-      <h1>Sản phẩm</h1>
-      <p class="app-products-page__subtitle">Quản lý danh mục, giá bán và tồn kho sản phẩm.</p>
+      <h1>{{ 'products.title' | transloco }}</h1>
+      <p class="app-products-page__subtitle">{{ 'products.subtitle' | transloco }}</p>
     </div>
 
     <a routerLink="/products/new" nz-button nzType="primary">
       <span nz-icon nzType="plus"></span>
-      <span>Thêm sản phẩm</span>
+      <span>{{ 'products.add_button' | transloco }}</span>
     </a>
   </div>
 
@@ -23,7 +23,7 @@
       <input
         type="text"
         nz-input
-        placeholder="Tìm kiếm theo tên sản phẩm..."
+        [placeholder]="'products.search_placeholder' | transloco"
         [ngModel]="searchTerm()"
         (ngModelChange)="searchTerm.set($event)"
       />
@@ -35,13 +35,16 @@
 
   <nz-card
     [nzBordered]="false"
-    [nzTitle]="'Danh sách sản phẩm'"
+    [nzTitle]="'products.list_title' | transloco"
     [nzExtra]="countTemplate"
     class="app-products-page__table-card"
   >
     <ng-template #countTemplate>
       <span class="app-products-page__count">
-        {{ filteredProducts().length }} / {{ productService.totalCount() }} sản phẩm
+        {{
+          'products.count'
+            | transloco: { filtered: filteredProducts().length, total: productService.totalCount() }
+        }}
       </span>
     </ng-template>
 
@@ -56,12 +59,12 @@
     >
       <thead>
         <tr>
-          <th>Tên sản phẩm</th>
-          <th>Danh mục</th>
-          <th nzAlign="right">Giá</th>
-          <th nzAlign="center">Tồn kho</th>
-          <th nzAlign="center">Trạng thái</th>
-          <th nzAlign="right">Hành động</th>
+          <th>{{ 'products.table.name' | transloco }}</th>
+          <th>{{ 'products.table.category' | transloco }}</th>
+          <th nzAlign="right">{{ 'products.table.price' | transloco }}</th>
+          <th nzAlign="center">{{ 'products.table.stock' | transloco }}</th>
+          <th nzAlign="center">{{ 'products.table.status' | transloco }}</th>
+          <th nzAlign="right">{{ 'products.table.actions' | transloco }}</th>
         </tr>
       </thead>
       <tbody>
@@ -79,7 +82,12 @@
             </td>
             <td nzAlign="center">
               <nz-tag [nzColor]="product.status === 'active' ? 'success' : 'default'">
-                {{ product.status === 'active' ? 'Đang bán' : 'Ngừng bán' }}
+                {{
+                  (product.status === 'active'
+                    ? 'products.status.active'
+                    : 'products.status.inactive'
+                  ) | transloco
+                }}
               </nz-tag>
             </td>
             <td nzAlign="right">
@@ -87,7 +95,7 @@
                 nz-button
                 nzType="text"
                 nz-tooltip
-                nzTooltipTitle="Xem chi tiết"
+                [nzTooltipTitle]="'products.actions.view' | transloco"
                 (click)="onView(product)"
               >
                 <span nz-icon nzType="eye"></span>
@@ -97,7 +105,7 @@
                 nz-button
                 nzType="text"
                 nz-tooltip
-                nzTooltipTitle="Sửa sản phẩm"
+                [nzTooltipTitle]="'products.actions.edit' | transloco"
               >
                 <span nz-icon nzType="edit"></span>
               </a>
@@ -106,9 +114,9 @@
                 nzType="text"
                 nzDanger
                 nz-tooltip
-                nzTooltipTitle="Xoá sản phẩm"
+                [nzTooltipTitle]="'products.actions.delete' | transloco"
                 nz-popconfirm
-                nzPopconfirmTitle="Xoá sản phẩm này?"
+                [nzPopconfirmTitle]="'products.actions.delete_confirm' | transloco"
                 (nzOnConfirm)="onDelete(product)"
               >
                 <span nz-icon nzType="delete"></span>
@@ -121,12 +129,14 @@
 
     <ng-template #emptyTemplate>
       <app-empty-state
-        [message]="searchTerm() ? 'Không tìm thấy sản phẩm phù hợp' : 'Chưa có sản phẩm nào'"
+        [message]="
+          (searchTerm() ? 'products.empty.no_match' : 'products.empty.no_data') | transloco
+        "
       >
         @if (!searchTerm()) {
           <a actions routerLink="/products/new" nz-button nzType="primary">
             <span nz-icon nzType="plus"></span>
-            <span>Thêm sản phẩm</span>
+            <span>{{ 'products.add_button' | transloco }}</span>
           </a>
         }
       </app-empty-state>
@@ -136,7 +146,7 @@
 
 <nz-modal
   [nzVisible]="!!viewingProduct()"
-  nzTitle="Chi tiết sản phẩm"
+  [nzTitle]="'products.detail.modal_title' | transloco"
   [nzFooter]="null"
   nzWidth="640px"
   (nzOnCancel)="onCloseDetail()"

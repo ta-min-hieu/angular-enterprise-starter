@@ -7,6 +7,7 @@ import { ProductFormPage } from './product-form-page';
 import { ProductService } from '../product.service';
 import { ProductInput } from '../product.model';
 import { REGISTERED_ICONS } from '../../../core/icons/icon-registration';
+import { provideTranslocoTesting } from '../../../core/i18n/testing/provide-transloco-testing';
 
 const BASE_INPUT: ProductInput = {
   name: 'Loa',
@@ -25,7 +26,12 @@ describe('ProductFormPage', () => {
   function setup() {
     TestBed.configureTestingModule({
       imports: [ProductFormPage],
-      providers: [provideRouter([]), provideNzIcons(REGISTERED_ICONS), provideNzI18n(en_US)],
+      providers: [
+        provideRouter([]),
+        provideNzIcons(REGISTERED_ICONS),
+        provideNzI18n(en_US),
+        ...provideTranslocoTesting(),
+      ],
     });
 
     const fixture = TestBed.createComponent(ProductFormPage);
