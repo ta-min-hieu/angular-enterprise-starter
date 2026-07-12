@@ -3,6 +3,7 @@
   <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
     <input
       nz-input
+      [type]="type()"
       [id]="resolvedId()"
       [name]="name()"
       [formControl]="control()"

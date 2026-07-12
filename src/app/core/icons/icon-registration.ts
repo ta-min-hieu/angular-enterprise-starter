@@ -14,6 +14,7 @@ import {
   GlobalOutline,
   HomeOutline,
   LoadingOutline,
+  LoginOutline,
   LogoutOutline,
   MenuFoldOutline,
   MenuUnfoldOutline,
@@ -32,6 +33,7 @@ export const REGISTERED_ICONS = [
   MoonOutline,
   SunOutline,
   UserOutline,
+  LoginOutline,
   LogoutOutline,
   DownOutline,
   // Dùng bởi nz-result (Error State / status pages) cho các status success/error/info/warning.

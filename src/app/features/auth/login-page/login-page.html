@@ -1,0 +1,27 @@
+<div class="app-login-page">
+  <span nz-icon nzType="appstore" class="app-login-page__logo"></span>
+  <h1 class="app-login-page__title">{{ 'auth.login.title' | transloco }}</h1>
+  <p class="app-login-page__subtitle">{{ 'auth.login.subtitle' | transloco }}</p>
+
+  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <app-text-field
+      name="username"
+      [control]="form.controls.username"
+      [label]="'auth.login.username.label' | transloco"
+      [placeholder]="'auth.login.username.placeholder' | transloco"
+    />
+
+    <app-text-field
+      name="password"
+      type="password"
+      [control]="form.controls.password"
+      [label]="'auth.login.password.label' | transloco"
+      [placeholder]="'auth.login.password.placeholder' | transloco"
+    />
+
+    <button nz-button nzType="primary" nzBlock type="submit" class="app-login-page__submit">
+      <span nz-icon nzType="login"></span>
+      <span>{{ 'auth.login.submit' | transloco }}</span>
+    </button>
+  </form>
+</div>

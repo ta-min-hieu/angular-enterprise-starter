@@ -13,6 +13,14 @@
 
   "nav.products": "Products",
 
+  "auth.login.title": "Sign in",
+  "auth.login.subtitle": "Welcome back to Angular Enterprise Starter",
+  "auth.login.username.label": "Username",
+  "auth.login.username.placeholder": "Enter your username",
+  "auth.login.password.label": "Password",
+  "auth.login.password.placeholder": "Enter your password",
+  "auth.login.submit": "Sign in",
+
   "layout.admin.collapse_toggle": "Collapse / expand menu",
   "layout.admin.logout": "Log out",
 

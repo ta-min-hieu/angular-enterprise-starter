@@ -1,10 +1,17 @@
 .app-auth-layout {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--color-background);
   padding: var(--spacing-lg);
+
+  &__toolbar {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+  }
 
   &__card {
     width: 100%;

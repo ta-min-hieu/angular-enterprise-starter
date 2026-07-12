@@ -9,6 +9,11 @@ import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
+// Angular CLI fingerprint filename có content hash (vd. main-DL3O6C2H.js) nên có thể
+// cache dài hạn an toàn. File tĩnh khác (i18n/*.json, config.json, favicon.ico...) giữ
+// nguyên tên qua mỗi lần deploy nên phải luôn revalidate, tránh trình duyệt dùng bản cũ.
+const HASHED_ASSET_PATTERN = /-[a-z0-9]{8,}\.(js|css|woff2?|ttf|eot)$/i;
+
 const app = express();
 const angularApp = new AngularNodeAppEngine({
   // Nginx (docker/nginx.conf) là reverse proxy tin cậy đứng trước Node — cho phép
@@ -36,6 +41,11 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
+    setHeaders: (res, path) => {
+      if (!HASHED_ASSET_PATTERN.test(path)) {
+        res.setHeader('Cache-Control', 'no-cache');
+      }
+    },
   }),
 );
 

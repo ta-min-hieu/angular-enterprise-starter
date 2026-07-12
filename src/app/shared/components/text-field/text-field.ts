@@ -19,6 +19,7 @@ export class TextField {
   readonly control = input.required<FormControl<string>>();
 
   readonly id = input<string>();
+  readonly type = input<'text' | 'password' | 'email'>('text');
   readonly placeholder = input<string>();
   readonly errorMessage = input<string>();
   readonly required = input(true);

@@ -33,6 +33,15 @@ export class AuthService {
       );
   }
 
+  /** Tạm dùng khi chưa có API `auth/login`; chấp nhận mọi tài khoản để mở đường vào UI. */
+  loginWithoutBackend(username: string): void {
+    this.applySession({
+      accessToken: `local-${username}`,
+      refreshToken: `local-${username}`,
+      user: { id: username, username, roles: ['admin'], permissions: [] },
+    });
+  }
+
   refreshToken(): Observable<CurrentUser> {
     // Dedupe refresh khi nhiều request song song cùng nhận 401 cùng lúc.
     if (this.refreshInFlight$) {

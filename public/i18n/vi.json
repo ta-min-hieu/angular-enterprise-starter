@@ -13,6 +13,14 @@
 
   "nav.products": "Sản phẩm",
 
+  "auth.login.title": "Đăng nhập",
+  "auth.login.subtitle": "Chào mừng quay lại Angular Enterprise Starter",
+  "auth.login.username.label": "Tài khoản",
+  "auth.login.username.placeholder": "Nhập tài khoản",
+  "auth.login.password.label": "Mật khẩu",
+  "auth.login.password.placeholder": "Nhập mật khẩu",
+  "auth.login.submit": "Đăng nhập",
+
   "layout.admin.collapse_toggle": "Thu gọn / mở rộng menu",
   "layout.admin.logout": "Đăng xuất",
 
