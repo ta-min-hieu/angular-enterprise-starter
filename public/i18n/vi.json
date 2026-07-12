@@ -34,7 +34,7 @@
   "products.subtitle": "Quản lý danh mục, giá bán và tồn kho sản phẩm.",
   "products.search_placeholder": "Tìm kiếm theo tên sản phẩm...",
   "products.list_title": "Danh sách sản phẩm",
-  "products.count": "{{filtered}} / {{total}} sản phẩm",
+  "products.count": "{{count}} sản phẩm",
   "products.add_button": "Thêm sản phẩm",
   "products.table.name": "Tên sản phẩm",
   "products.table.category": "Danh mục",

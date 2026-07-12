@@ -34,7 +34,7 @@
   "products.subtitle": "Manage catalog, pricing and stock for products.",
   "products.search_placeholder": "Search by product name...",
   "products.list_title": "Product list",
-  "products.count": "{{filtered}} / {{total}} products",
+  "products.count": "{{count}} products",
   "products.add_button": "Add product",
   "products.table.name": "Product name",
   "products.table.category": "Category",

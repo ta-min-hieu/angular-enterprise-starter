@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
+import { catchError, of, switchMap } from 'rxjs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -22,33 +24,42 @@ export class ProductFormPage {
   readonly id = input<string>();
 
   readonly isEditMode = computed(() => !!this.id());
+  readonly saving = signal(false);
 
-  readonly product = computed(() => {
-    const id = this.id();
-    return id ? (this.productService.getById(id) ?? null) : null;
-  });
-
-  constructor() {
-    effect(() => {
-      if (this.isEditMode() && !this.product()) {
-        this.router.navigate(['/products']);
+  private readonly product$ = toObservable(this.id).pipe(
+    switchMap((id) => {
+      if (!id) {
+        return of(null);
       }
-    });
-  }
+
+      return this.productService.getById(id).pipe(
+        catchError(() => {
+          void this.router.navigate(['/products']);
+          return of(null);
+        }),
+      );
+    }),
+  );
+
+  readonly product = toSignal(this.product$, { initialValue: null });
 
   onSave(value: ProductInput): void {
     const editing = this.product();
+    const request$ = editing
+      ? this.productService.update(editing.id, value)
+      : this.productService.add(value);
 
-    if (editing) {
-      this.productService.update(editing.id, value);
-    } else {
-      this.productService.add(value);
-    }
-
-    this.router.navigate(['/products']);
+    this.saving.set(true);
+    request$.subscribe({
+      next: () => {
+        this.saving.set(false);
+        void this.router.navigate(['/products']);
+      },
+      error: () => this.saving.set(false),
+    });
   }
 
   onCancel(): void {
-    this.router.navigate(['/products']);
+    void this.router.navigate(['/products']);
   }
 }

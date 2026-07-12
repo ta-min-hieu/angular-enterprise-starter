@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -13,16 +14,18 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ProductDetail } from '../product-detail/product-detail';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { Product } from '../product.model';
-import { ProductService } from '../product.service';
+import { ProductQuery, ProductService } from '../product.service';
 import { CATEGORY_OPTIONS } from '../product.constants';
 import { I18nService } from '../../../core/i18n/i18n.service';
 
 type StockLevel = 'out' | 'low' | 'in-stock';
 
 const LOW_STOCK_THRESHOLD = 10;
+const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
   selector: 'app-products-page',
@@ -54,18 +57,38 @@ export class ProductsPage {
   readonly productService = inject(ProductService);
 
   readonly searchTerm = signal('');
+  readonly pageIndex = signal(1);
+  readonly pageSize = signal(10);
   readonly viewingProduct = signal<Product | null>(null);
 
-  readonly filteredProducts = computed(() => {
-    const term = this.searchTerm().trim().toLowerCase();
-    const products = this.productService.products();
+  private readonly searchTermChanged$ = new Subject<string>();
 
-    if (!term) {
-      return products;
-    }
+  constructor() {
+    this.searchTermChanged$
+      .pipe(debounceTime(SEARCH_DEBOUNCE_MS), distinctUntilChanged(), takeUntilDestroyed())
+      .subscribe(() => {
+        this.pageIndex.set(1);
+        this.refresh();
+      });
 
-    return products.filter((product) => product.name.toLowerCase().includes(term));
-  });
+    this.refresh();
+  }
+
+  onSearchTermChange(value: string): void {
+    this.searchTerm.set(value);
+    this.searchTermChanged$.next(value);
+  }
+
+  onPageIndexChange(pageIndex: number): void {
+    this.pageIndex.set(pageIndex);
+    this.refresh();
+  }
+
+  onPageSizeChange(pageSize: number): void {
+    this.pageSize.set(pageSize);
+    this.pageIndex.set(1);
+    this.refresh();
+  }
 
   onView(product: Product): void {
     this.viewingProduct.set(product);
@@ -76,7 +99,7 @@ export class ProductsPage {
   }
 
   onDelete(product: Product): void {
-    this.productService.remove(product.id);
+    this.productService.remove(product.id).subscribe(() => this.refresh());
   }
 
   categoryLabel(value: string): string {
@@ -116,5 +139,21 @@ export class ProductsPage {
       default:
         return 'success';
     }
+  }
+
+  private currentQuery(): ProductQuery {
+    const name = this.searchTerm().trim();
+    return {
+      page: this.pageIndex() - 1,
+      size: this.pageSize(),
+      name: name || undefined,
+    };
+  }
+
+  private refresh(): void {
+    // Trong SSR, server không gọi được backend qua localhost của chính container/host
+    // (khác network namespace với trình duyệt) — bắt lỗi ở đây để tránh crash log phía
+    // server; client sẽ tự gọi lại và hiển thị đúng dữ liệu ngay sau khi hydrate xong.
+    this.productService.load(this.currentQuery()).subscribe({ error: () => undefined });
   }
 }

@@ -1,72 +1,64 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, finalize, map } from 'rxjs';
+import { ApiService } from '../../core/http/api.service';
 import { Product, ProductInput } from './product.model';
+import { ProductDto } from './product-api.model';
+import { toProduct, toProductPayload } from './product.mapper';
 
-const SEED_PRODUCTS: readonly Product[] = [
-  {
-    id: crypto.randomUUID(),
-    name: 'Bàn phím cơ',
-    price: 1290000,
-    stock: 24,
-    category: 'accessories',
-    tags: ['new', 'best-seller'],
-    description: 'Bàn phím cơ switch đỏ, keycap PBT, kết nối có dây.',
-    status: 'active',
-    featured: true,
-    releaseDate: new Date(2025, 0, 15),
-    publishedAt: new Date(2025, 0, 15, 9, 0, 0),
-  },
-  {
-    id: crypto.randomUUID(),
-    name: 'Chuột không dây',
-    price: 450000,
-    stock: 58,
-    category: 'accessories',
-    tags: ['best-seller'],
-    description: 'Chuột không dây, pin sử dụng lên đến 12 tháng.',
-    status: 'active',
-    featured: false,
-    releaseDate: new Date(2024, 5, 1),
-    publishedAt: new Date(2024, 5, 1, 8, 30, 0),
-  },
-  {
-    id: crypto.randomUUID(),
-    name: 'Màn hình 27 inch',
-    price: 5200000,
-    stock: 7,
-    category: 'monitors',
-    tags: ['discount'],
-    description: 'Màn hình 27 inch, độ phân giải 2K, tần số quét 165Hz.',
-    status: 'inactive',
-    featured: false,
-    releaseDate: new Date(2023, 10, 20),
-    publishedAt: null,
-  },
-];
+export interface ProductQuery {
+  readonly page: number;
+  readonly size: number;
+  readonly name?: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private readonly productsSignal = signal<readonly Product[]>(SEED_PRODUCTS);
+  private readonly apiService = inject(ApiService);
+
+  private readonly productsSignal = signal<readonly Product[]>([]);
+  private readonly totalElementsSignal = signal(0);
+  private readonly loadingSignal = signal(false);
 
   readonly products = this.productsSignal.asReadonly();
-  readonly totalCount = computed(() => this.productsSignal().length);
+  readonly totalCount = this.totalElementsSignal.asReadonly();
+  readonly loading = this.loadingSignal.asReadonly();
 
-  getById(id: string): Product | undefined {
-    return this.productsSignal().find((product) => product.id === id);
-  }
+  load(query: ProductQuery): Observable<readonly Product[]> {
+    const params: Record<string, string | number> = { page: query.page, size: query.size };
+    if (query.name) {
+      params['name'] = query.name;
+    }
 
-  add(input: ProductInput): Product {
-    const product: Product = { id: crypto.randomUUID(), ...input };
-    this.productsSignal.update((products) => [...products, product]);
-    return product;
-  }
+    this.loadingSignal.set(true);
 
-  update(id: string, input: ProductInput): void {
-    this.productsSignal.update((products) =>
-      products.map((product) => (product.id === id ? { id, ...input } : product)),
+    return this.apiService.getPage<ProductDto[]>('products', { params }).pipe(
+      map(({ items, metadata }) => {
+        const products = items.map(toProduct);
+        this.productsSignal.set(products);
+        this.totalElementsSignal.set(metadata.totalElements);
+        return products;
+      }),
+      finalize(() => this.loadingSignal.set(false)),
     );
   }
 
-  remove(id: string): void {
-    this.productsSignal.update((products) => products.filter((product) => product.id !== id));
+  getById(id: string): Observable<Product> {
+    return this.apiService.get<ProductDto>(`products/${id}`).pipe(map(toProduct));
+  }
+
+  add(input: ProductInput): Observable<Product> {
+    return this.apiService
+      .post<ProductDto>('products', toProductPayload(input))
+      .pipe(map(toProduct));
+  }
+
+  update(id: string, input: ProductInput): Observable<Product> {
+    return this.apiService
+      .put<ProductDto>(`products/${id}`, toProductPayload(input))
+      .pipe(map(toProduct));
+  }
+
+  remove(id: string): Observable<void> {
+    return this.apiService.delete<void>(`products/${id}`);
   }
 }

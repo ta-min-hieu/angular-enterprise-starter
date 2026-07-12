@@ -40,6 +40,7 @@ export class ProductForm {
   private readonly fb = inject(NonNullableFormBuilder);
 
   readonly product = input<Product | null>(null);
+  readonly saving = input(false);
   readonly save = output<ProductInput>();
   readonly cancelled = output<void>();
 

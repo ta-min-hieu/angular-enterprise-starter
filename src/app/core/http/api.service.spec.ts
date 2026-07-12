@@ -87,4 +87,27 @@ describe('ApiService', () => {
 
     expect(error).toMatchObject({ code: 'NOT_FOUND', message: 'User not found' });
   });
+
+  it('should GET a page and expose both items and pagination metadata', () => {
+    let result: { items: unknown; metadata: unknown } | undefined;
+    service
+      .getPage('users', { params: { page: 0, size: 10 } })
+      .subscribe((page) => (result = page));
+
+    const req = httpMock.expectOne(
+      (r) =>
+        r.url === '/api/users' && r.params.get('page') === '0' && r.params.get('size') === '10',
+    );
+    req.flush({
+      code: '200',
+      message: 'Success',
+      data: [{ id: '1' }],
+      metadata: { page: 0, size: 10, totalElements: 1, totalPages: 1 },
+    });
+
+    expect(result).toEqual({
+      items: [{ id: '1' }],
+      metadata: { page: 0, size: 10, totalElements: 1, totalPages: 1 },
+    });
+  });
 });

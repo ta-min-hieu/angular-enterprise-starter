@@ -93,10 +93,10 @@
   </div>
 
   <div class="app-product-form__actions">
-    <button nz-button type="button" (click)="onCancel()">
+    <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
       {{ 'common.actions.cancel' | transloco }}
     </button>
-    <button nz-button nzType="primary" type="submit">
+    <button nz-button nzType="primary" type="submit" [nzLoading]="saving()">
       <span nz-icon nzType="check"></span>
       <span>{{ 'common.actions.save' | transloco }}</span>
     </button>

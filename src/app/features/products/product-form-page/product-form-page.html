@@ -32,6 +32,11 @@
   </div>
 
   <nz-card [nzBordered]="false" class="app-product-form-page__card">
-    <app-product-form [product]="product()" (save)="onSave($event)" (cancelled)="onCancel()" />
+    <app-product-form
+      [product]="product()"
+      [saving]="saving()"
+      (save)="onSave($event)"
+      (cancelled)="onCancel()"
+    />
   </nz-card>
 </div>

@@ -25,7 +25,7 @@
         nz-input
         [placeholder]="'products.search_placeholder' | transloco"
         [ngModel]="searchTerm()"
-        (ngModelChange)="searchTerm.set($event)"
+        (ngModelChange)="onSearchTermChange($event)"
       />
     </nz-input-group>
     <ng-template #searchPrefix>
@@ -41,10 +41,7 @@
   >
     <ng-template #countTemplate>
       <span class="app-products-page__count">
-        {{
-          'products.count'
-            | transloco: { filtered: filteredProducts().length, total: productService.totalCount() }
-        }}
+        {{ 'products.count' | transloco: { count: productService.totalCount() } }}
       </span>
     </ng-template>
 
@@ -52,9 +49,15 @@
       ngSkipHydration
       #productTable
       class="app-products-page__table"
-      [nzData]="filteredProducts()"
-      [nzPageSize]="10"
-      [nzShowPagination]="filteredProducts().length > 10"
+      [nzData]="productService.products()"
+      [nzFrontPagination]="false"
+      [nzLoading]="productService.loading()"
+      [nzTotal]="productService.totalCount()"
+      [nzPageIndex]="pageIndex()"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      [nzPageSize]="pageSize()"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+      [nzShowPagination]="productService.totalCount() > pageSize()"
       [nzNoResult]="emptyTemplate"
     >
       <thead>
