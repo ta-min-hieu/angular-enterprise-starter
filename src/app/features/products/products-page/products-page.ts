@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ProductDetail } from '../product-detail/product-detail';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { CompactPagination } from '../../../shared/components/compact-pagination/compact-pagination';
 import { Product } from '../product.model';
 import { ProductQuery, ProductService } from '../product.service';
 import { CATEGORY_OPTIONS } from '../product.constants';
@@ -46,6 +47,7 @@ const SEARCH_DEBOUNCE_MS = 300;
     TranslocoPipe,
     ProductDetail,
     EmptyState,
+    CompactPagination,
   ],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
@@ -60,6 +62,10 @@ export class ProductsPage {
   readonly pageIndex = signal(1);
   readonly pageSize = signal(10);
   readonly viewingProduct = signal<Product | null>(null);
+
+  readonly totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.productService.totalCount() / this.pageSize())),
+  );
 
   private readonly searchTermChanged$ = new Subject<string>();
 
@@ -81,12 +87,6 @@ export class ProductsPage {
 
   onPageIndexChange(pageIndex: number): void {
     this.pageIndex.set(pageIndex);
-    this.refresh();
-  }
-
-  onPageSizeChange(pageSize: number): void {
-    this.pageSize.set(pageSize);
-    this.pageIndex.set(1);
     this.refresh();
   }
 

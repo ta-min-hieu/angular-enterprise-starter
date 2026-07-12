@@ -1,0 +1,39 @@
+@if (totalPages() > 1) {
+  <nav class="app-compact-pagination">
+    <button
+      nz-button
+      nzSize="small"
+      type="button"
+      [disabled]="pageIndex() === 1"
+      (click)="goTo(pageIndex() - 1)"
+    >
+      ‹
+    </button>
+
+    @for (item of pageItems(); track $index) {
+      @if (item === 'ellipsis') {
+        <span class="app-compact-pagination__ellipsis">…</span>
+      } @else {
+        <button
+          nz-button
+          nzSize="small"
+          type="button"
+          [nzType]="item === pageIndex() ? 'primary' : 'default'"
+          (click)="goTo(item)"
+        >
+          {{ item }}
+        </button>
+      }
+    }
+
+    <button
+      nz-button
+      nzSize="small"
+      type="button"
+      [disabled]="pageIndex() === totalPages()"
+      (click)="goTo(pageIndex() + 1)"
+    >
+      ›
+    </button>
+  </nav>
+}

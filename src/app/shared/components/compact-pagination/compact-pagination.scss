@@ -1,0 +1,12 @@
+.app-compact-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+
+  &__ellipsis {
+    padding: 0 var(--spacing-xs);
+    color: var(--color-text-secondary);
+  }
+}
