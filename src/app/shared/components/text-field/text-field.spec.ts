@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { describe, expect, it } from 'vitest';
 import { TextField } from './text-field';
 import { provideTranslocoTesting } from '../../../core/i18n/testing/provide-transloco-testing';
@@ -13,20 +13,18 @@ describe('TextField', () => {
     return fixture;
   }
 
-  it('should mark the field as required when the control has a required validator', () => {
+  it('should default to required when the required input is not provided', () => {
     const fixture = setup();
-    fixture.componentRef.setInput(
-      'control',
-      new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    );
+    fixture.componentRef.setInput('control', new FormControl('', { nonNullable: true }));
     fixture.detectChanges();
 
     expect(fixture.componentInstance.required()).toBe(true);
   });
 
-  it('should not mark the field as required when the control has no required validator', () => {
+  it('should not mark the field as required when required is explicitly set to false', () => {
     const fixture = setup();
     fixture.componentRef.setInput('control', new FormControl('', { nonNullable: true }));
+    fixture.componentRef.setInput('required', false);
     fixture.detectChanges();
 
     expect(fixture.componentInstance.required()).toBe(false);

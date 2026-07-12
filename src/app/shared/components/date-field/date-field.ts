@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { I18nService } from '../../../core/i18n/i18n.service';
@@ -26,13 +26,13 @@ export class DateField {
   readonly showTime = input(false);
   readonly format = input<string>();
   readonly errorMessage = input<string>();
+  readonly required = input(true);
 
   readonly resolvedId = computed(() => this.id() ?? this.name());
   readonly resolvedFormat = computed(
     () => this.format() ?? (this.showTime() ? DATE_TIME_FORMAT : DATE_FORMAT),
   );
   readonly resolvedPlaceholder = computed(() => this.placeholder() ?? this.resolvedFormat());
-  readonly required = computed(() => this.control().hasValidator(Validators.required));
   readonly resolvedErrorMessage = computed(
     () =>
       this.errorMessage() ??

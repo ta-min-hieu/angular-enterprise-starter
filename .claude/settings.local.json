@@ -67,7 +67,8 @@
       "Bash(node validation-check.js)",
       "Bash(npm install *)",
       "PowerShell($conn = Get-NetTCPConnection -LocalPort 4200 -ErrorAction SilentlyContinue; if \\($conn\\) { $conn | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; \"stopped\" } else { \"not running\" })",
-      "Bash(git status *)"
+      "Bash(git status *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

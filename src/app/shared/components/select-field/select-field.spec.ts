@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { provideNzIcons } from 'ng-zorro-antd/icon';
 import { describe, expect, it } from 'vitest';
 import { SelectField } from './select-field';
@@ -34,15 +34,22 @@ describe('SelectField', () => {
     expect(fixture.componentInstance.control().value).toBe('accessories');
   });
 
-  it('should mark the field as required when the control has a required validator', () => {
+  it('should default to required when the required input is not provided', () => {
     const fixture = setup();
-    fixture.componentRef.setInput(
-      'control',
-      new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    );
+    fixture.componentRef.setInput('control', new FormControl('', { nonNullable: true }));
     fixture.componentRef.setInput('options', OPTIONS);
     fixture.detectChanges();
 
     expect(fixture.componentInstance.required()).toBe(true);
+  });
+
+  it('should not mark the field as required when required is explicitly set to false', () => {
+    const fixture = setup();
+    fixture.componentRef.setInput('control', new FormControl('', { nonNullable: true }));
+    fixture.componentRef.setInput('options', OPTIONS);
+    fixture.componentRef.setInput('required', false);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.required()).toBe(false);
   });
 });

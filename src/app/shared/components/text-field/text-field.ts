@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { I18nService } from '../../../core/i18n/i18n.service';
@@ -21,9 +21,9 @@ export class TextField {
   readonly id = input<string>();
   readonly placeholder = input<string>();
   readonly errorMessage = input<string>();
+  readonly required = input(true);
 
   readonly resolvedId = computed(() => this.id() ?? this.name());
-  readonly required = computed(() => this.control().hasValidator(Validators.required));
   readonly resolvedPlaceholder = computed(
     () =>
       this.placeholder() ??

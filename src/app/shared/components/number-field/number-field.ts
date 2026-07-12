@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { I18nService } from '../../../core/i18n/i18n.service';
@@ -25,9 +25,9 @@ export class NumberField {
   readonly formatter = input<((value: number) => string) | null>(null);
   readonly parser = input<((value: string) => number) | null>(null);
   readonly errorMessage = input<string>();
+  readonly required = input(true);
 
   readonly resolvedId = computed(() => this.id() ?? this.name());
-  readonly required = computed(() => this.control().hasValidator(Validators.required));
   readonly resolvedErrorMessage = computed(
     () =>
       this.errorMessage() ??

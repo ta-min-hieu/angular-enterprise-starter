@@ -48,6 +48,7 @@
       [control]="form.controls.tags"
       [options]="tagOptions"
       [label]="'products.form.tags.label' | transloco"
+      [required]="false"
     />
   </div>
 
@@ -56,6 +57,7 @@
     [control]="form.controls.status"
     [options]="statusOptions"
     [label]="'products.form.status.label' | transloco"
+    [required]="false"
   />
 
   <app-checkbox-field
@@ -68,6 +70,7 @@
     name="description"
     [control]="form.controls.description"
     [label]="'products.form.description.label' | transloco"
+    [required]="false"
   />
 
   <div class="app-product-form__row">
@@ -76,6 +79,7 @@
       name="releaseDate"
       [control]="form.controls.releaseDate"
       [label]="'products.form.release_date.label' | transloco"
+      [required]="false"
     />
 
     <app-date-field
@@ -84,6 +88,7 @@
       [control]="form.controls.publishedAt"
       [label]="'products.form.published_at.label' | transloco"
       [showTime]="true"
+      [required]="false"
     />
   </div>
 

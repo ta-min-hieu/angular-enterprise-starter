@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -23,9 +23,9 @@ export class RadioGroupField<T = string> {
 
   readonly id = input<string>();
   readonly errorMessage = input<string>();
+  readonly required = input(true);
 
   readonly resolvedId = computed(() => this.id() ?? this.name());
-  readonly required = computed(() => this.control().hasValidator(Validators.required));
   readonly resolvedErrorMessage = computed(
     () =>
       this.errorMessage() ??

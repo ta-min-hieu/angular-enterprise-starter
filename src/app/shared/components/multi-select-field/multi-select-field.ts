@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -24,9 +24,9 @@ export class MultiSelectField<T = string> {
   readonly id = input<string>();
   readonly placeholder = input<string>();
   readonly errorMessage = input<string>();
+  readonly required = input(true);
 
   readonly resolvedId = computed(() => this.id() ?? this.name());
-  readonly required = computed(() => this.control().hasValidator(Validators.required));
   readonly resolvedPlaceholder = computed(
     () =>
       this.placeholder() ??
