@@ -136,3 +136,14 @@ SSG
 Hybrid
 
 mà không cần refactor Feature.
+
+---
+
+# Route hiện tại (routes/app.routes.server.ts)
+
+- `/auth/login`: **SSG** (`RenderMode.Prerender`) — nội dung tĩnh, giống nhau cho mọi người dùng.
+- Mọi route còn lại (`/products/**`, `/forbidden`, `/server-error`, `**`, kể cả `/` — redirect sang
+  `/products`): **CSR** (`RenderMode.Client`) — Admin CRUD, yêu cầu đăng nhập, dữ liệu đổi liên tục,
+  không cần SEO, đúng khuyến nghị ở mục CSR phía trên.
+- Hiện chưa route nào dùng SSR (`RenderMode.Server`). Khi có Feature cần SEO/dynamic content (Product
+  Detail public, News Detail...), thêm route đó vào `serverRoutes` với `RenderMode.Server`.

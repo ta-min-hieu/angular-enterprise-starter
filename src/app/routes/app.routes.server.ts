@@ -1,12 +1,9 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
+// Chỉ /auth/login dùng SSG (nội dung tĩnh, giống nhau cho mọi người dùng, không phụ thuộc trạng
+// thái đăng nhập) — prerender lúc build cho tải nhanh nhất. Mọi route còn lại (Admin/CRUD, yêu cầu
+// đăng nhập, dữ liệu đổi liên tục) dùng CSR theo đúng docs/06-rendering-strategy.md § CSR.
 export const serverRoutes: ServerRoute[] = [
-  { path: '', renderMode: RenderMode.Server },
-  { path: 'auth/login', renderMode: RenderMode.Server },
-  { path: 'products', renderMode: RenderMode.Server },
-  { path: 'products/new', renderMode: RenderMode.Server },
-  { path: 'products/:id/edit', renderMode: RenderMode.Server },
-  { path: 'forbidden', renderMode: RenderMode.Server, status: 403 },
-  { path: 'server-error', renderMode: RenderMode.Server, status: 500 },
-  { path: '**', renderMode: RenderMode.Server, status: 404 },
+  { path: 'auth/login', renderMode: RenderMode.Prerender },
+  { path: '**', renderMode: RenderMode.Client },
 ];
