@@ -6,21 +6,26 @@ import { provideNzIcons } from 'ng-zorro-antd/icon';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { describe, expect, it, vi } from 'vitest';
 import { ProductFormPage } from './product-form-page';
-import { ProductInput } from '../product.model';
+import { ProductFormSaveEvent } from '../product-form/product-form';
+import { MediaAsset } from '../../../shared/models/media-asset.model';
 import { REGISTERED_ICONS } from '../../../core/icons/icon-registration';
 import { provideTranslocoTesting } from '../../../core/i18n/testing/provide-transloco-testing';
 
-const BASE_INPUT: ProductInput = {
-  name: 'Loa',
-  price: 300000,
-  stock: 4,
-  category: 'accessories',
-  tags: [],
-  description: '',
-  status: 'active',
-  featured: false,
-  releaseDate: null,
-  publishedAt: null,
+const BASE_SAVE_EVENT: ProductFormSaveEvent = {
+  input: {
+    name: 'Loa',
+    price: 300000,
+    stock: 4,
+    category: 'accessories',
+    tags: [],
+    description: '',
+    status: 'active',
+    featured: false,
+    releaseDate: null,
+    publishedAt: null,
+  },
+  files: [],
+  fileIds: [],
 };
 
 const PRODUCT_DTO = {
@@ -35,6 +40,7 @@ const PRODUCT_DTO = {
   featured: false,
   releaseDate: null,
   publishedAt: null,
+  files: [],
 };
 
 describe('ProductFormPage', () => {
@@ -96,15 +102,20 @@ describe('ProductFormPage', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/products']);
   });
 
-  it('should create a new product and navigate back when saving in create mode', () => {
+  it('should create a new product as multipart and navigate back when saving in create mode', () => {
     const { fixture, router } = setup();
     fixture.detectChanges();
 
-    fixture.componentInstance.onSave(BASE_INPUT);
+    fixture.componentInstance.onSave(BASE_SAVE_EVENT);
 
     const req = httpMock.expectOne('/api/products');
     expect(req.request.method).toBe('POST');
-    req.flush({ code: '200', message: 'Success', data: { ...PRODUCT_DTO, name: BASE_INPUT.name } });
+    expect(req.request.body instanceof FormData).toBe(true);
+    req.flush({
+      code: '200',
+      message: 'Success',
+      data: { ...PRODUCT_DTO, name: BASE_SAVE_EVENT.input.name },
+    });
 
     expect(router.navigate).toHaveBeenCalledWith(['/products']);
     expect(fixture.componentInstance.saving()).toBe(false);
@@ -119,7 +130,10 @@ describe('ProductFormPage', () => {
       .flush({ code: '200', message: 'Success', data: PRODUCT_DTO });
     fixture.detectChanges();
 
-    fixture.componentInstance.onSave({ ...BASE_INPUT, name: 'Đã cập nhật' });
+    fixture.componentInstance.onSave({
+      ...BASE_SAVE_EVENT,
+      input: { ...BASE_SAVE_EVENT.input, name: 'Đã cập nhật' },
+    });
 
     const req = httpMock.expectOne('/api/products/1');
     expect(req.request.method).toBe('PUT');
@@ -135,5 +149,46 @@ describe('ProductFormPage', () => {
     fixture.componentInstance.onCancel();
 
     expect(router.navigate).toHaveBeenCalledWith(['/products']);
+  });
+
+  it('should immediately remove an existing file from the currently loaded product', () => {
+    const { fixture } = setup();
+    fixture.componentRef.setInput('id', '1');
+    fixture.detectChanges();
+    httpMock
+      .expectOne('/api/products/1')
+      .flush({ code: '200', message: 'Success', data: PRODUCT_DTO });
+    fixture.detectChanges();
+
+    const asset: MediaAsset = {
+      id: 7,
+      type: 'image',
+      name: 'a.jpg',
+      size: 1,
+      mimeType: 'image/jpeg',
+      url: '/v1/files/7',
+    };
+    fixture.componentInstance.onExistingFileRemoved(asset);
+
+    const req = httpMock.expectOne('/api/products/1/files/7');
+    expect(req.request.method).toBe('DELETE');
+    req.flush({ code: '200', message: 'Success' });
+  });
+
+  it('should do nothing when removing a file before any product is loaded', () => {
+    const { fixture } = setup();
+    fixture.detectChanges();
+
+    const asset: MediaAsset = {
+      id: 7,
+      type: 'image',
+      name: 'a.jpg',
+      size: 1,
+      mimeType: 'image/jpeg',
+      url: '/v1/files/7',
+    };
+    fixture.componentInstance.onExistingFileRemoved(asset);
+
+    httpMock.verify();
   });
 });

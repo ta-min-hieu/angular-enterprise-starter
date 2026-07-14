@@ -80,4 +80,27 @@ describe('mapHttpErrorToAppError', () => {
     expect(result.code).toBe('FIELD_REQUIRED');
     expect(result.message).toBe('Username is required');
   });
+
+  it('should flatten the backend { field: string[] } validation shape into details', () => {
+    const result = mapHttpErrorToAppError(
+      createHttpError(400, {
+        code: '400',
+        message: 'Bad request',
+        data: { name: ['must not be blank'], price: ['must be greater than or equal to 0'] },
+      }),
+    );
+
+    expect(result.details).toEqual([
+      { field: 'name', message: 'must not be blank' },
+      { field: 'price', message: 'must be greater than or equal to 0' },
+    ]);
+  });
+
+  it('should leave details undefined when the error has no field-level data', () => {
+    const result = mapHttpErrorToAppError(
+      createHttpError(404, { code: '404', message: 'Not found' }),
+    );
+
+    expect(result.details).toBeUndefined();
+  });
 });

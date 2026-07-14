@@ -20,6 +20,7 @@ const PRODUCT_DTO = {
   featured: false,
   releaseDate: null,
   publishedAt: null,
+  files: [],
 };
 
 describe('ProductsPage', () => {
@@ -138,6 +139,7 @@ describe('ProductsPage', () => {
       featured: false,
       releaseDate: null,
       publishedAt: null,
+      files: [],
     });
 
     const deleteReq = httpMock.expectOne('/api/products/1');

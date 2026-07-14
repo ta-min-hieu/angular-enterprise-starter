@@ -22,6 +22,7 @@ import { Product } from '../product.model';
 import { ProductQuery, ProductService } from '../product.service';
 import { CATEGORY_OPTIONS } from '../product.constants';
 import { I18nService } from '../../../core/i18n/i18n.service';
+import { MediaSrcDirective } from '../../../shared/directives/media-src.directive';
 
 type StockLevel = 'out' | 'low' | 'in-stock';
 
@@ -48,6 +49,7 @@ const SEARCH_DEBOUNCE_MS = 300;
     ProductDetail,
     EmptyState,
     Pagination,
+    MediaSrcDirective,
   ],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
@@ -107,6 +109,13 @@ export class ProductsPage {
   categoryLabel(value: string): string {
     const key = CATEGORY_OPTIONS.find((option) => option.value === value)?.label ?? value;
     return this.i18nService.translate(key);
+  }
+
+  thumbnailUrl(product: Product): string | null {
+    const first = product.files[0];
+    // Chỉ ảnh mới hiển thị được qua thẻ <img> — video cần <video>, bảng danh sách không có chỗ
+    // cho việc đó nên bỏ qua, coi như không có thumbnail.
+    return first?.type === 'image' ? first.url : null;
   }
 
   stockLevel(stock: number): StockLevel {

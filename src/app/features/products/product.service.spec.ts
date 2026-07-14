@@ -31,6 +31,7 @@ const DTO: ProductDto = {
   featured: false,
   releaseDate: null,
   publishedAt: null,
+  files: [],
 };
 
 describe('ProductService', () => {
@@ -91,22 +92,39 @@ describe('ProductService', () => {
     expect(result?.id).toBe('1');
   });
 
-  it('should create a product', () => {
+  it('should create a product as multipart with a JSON product part', () => {
     let result: { id: string } | undefined;
     service.add(BASE_INPUT).subscribe((product) => (result = product));
 
     const req = httpMock.expectOne('/api/products');
     expect(req.request.method).toBe('POST');
+    expect(req.request.body instanceof FormData).toBe(true);
+    const productPart = (req.request.body as FormData).get('product') as Blob;
+    expect(productPart.type).toBe('application/json');
     req.flush({ code: '200', message: 'Success', data: DTO });
 
     expect(result?.id).toBe('1');
   });
 
-  it('should update a product', () => {
+  it('should append raw pending files and fileIds when creating a product', () => {
+    const file = new File(['x'], 'photo.png', { type: 'image/png' });
+    service.add(BASE_INPUT, [file], [42]).subscribe();
+
+    const req = httpMock.expectOne('/api/products');
+    const formData = req.request.body as FormData;
+    const uploadedFile = formData.get('files') as File;
+    expect(uploadedFile).toBeInstanceOf(File);
+    expect(uploadedFile.name).toBe(file.name);
+    expect(formData.get('fileIds')).toBe('42');
+    req.flush({ code: '200', message: 'Success', data: DTO });
+  });
+
+  it('should update a product via multipart PUT', () => {
     service.update('1', { ...BASE_INPUT, name: 'Tai nghe Pro' }).subscribe();
 
     const req = httpMock.expectOne('/api/products/1');
     expect(req.request.method).toBe('PUT');
+    expect(req.request.body instanceof FormData).toBe(true);
     req.flush({ code: '200', message: 'Success', data: { ...DTO, name: 'Tai nghe Pro' } });
   });
 
@@ -114,6 +132,14 @@ describe('ProductService', () => {
     service.remove('1').subscribe();
 
     const req = httpMock.expectOne('/api/products/1');
+    expect(req.request.method).toBe('DELETE');
+    req.flush({ code: '200', message: 'Success' });
+  });
+
+  it('should remove a single attached file from a product', () => {
+    service.removeFile('1', 7).subscribe();
+
+    const req = httpMock.expectOne('/api/products/1/files/7');
     expect(req.request.method).toBe('DELETE');
     req.flush({ code: '200', message: 'Success' });
   });

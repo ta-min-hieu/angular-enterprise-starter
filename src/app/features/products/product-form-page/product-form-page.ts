@@ -7,8 +7,8 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ProductService } from '../product.service';
-import { ProductInput } from '../product.model';
-import { ProductForm } from '../product-form/product-form';
+import { ProductForm, ProductFormSaveEvent } from '../product-form/product-form';
+import { MediaAsset } from '../../../shared/models/media-asset.model';
 
 @Component({
   selector: 'app-product-form-page',
@@ -43,11 +43,11 @@ export class ProductFormPage {
 
   readonly product = toSignal(this.product$, { initialValue: null });
 
-  onSave(value: ProductInput): void {
+  onSave(event: ProductFormSaveEvent): void {
     const editing = this.product();
     const request$ = editing
-      ? this.productService.update(editing.id, value)
-      : this.productService.add(value);
+      ? this.productService.update(editing.id, event.input, event.files, event.fileIds)
+      : this.productService.add(event.input, event.files, event.fileIds);
 
     this.saving.set(true);
     request$.subscribe({
@@ -61,5 +61,14 @@ export class ProductFormPage {
 
   onCancel(): void {
     void this.router.navigate(['/products']);
+  }
+
+  onExistingFileRemoved(asset: MediaAsset): void {
+    const editing = this.product();
+    if (!editing) {
+      return;
+    }
+
+    this.productService.removeFile(editing.id, asset.id).subscribe({ error: () => undefined });
   }
 }

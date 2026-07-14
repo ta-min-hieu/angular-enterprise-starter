@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AppError } from './app-error';
+import { AppError, ValidationErrorDetail } from './app-error';
 import { ErrorCategory } from './error-category';
 import { ApiResponse } from '../http/api-response.model';
 
@@ -12,10 +12,34 @@ function isApiErrorResponse(body: unknown): body is ApiResponse<unknown> {
   );
 }
 
+// Backend (GlobalExceptionHandler) trả lỗi validate dưới dạng `data: { [field]: string[] }` (mỗi field
+// có thể vi phạm nhiều ràng buộc) thay vì mảng {field, message} phẳng — làm phẳng lại ở đây để UI
+// (vd Product Form) hiển thị được lỗi theo từng field.
+function extractValidationDetails(data: unknown): readonly ValidationErrorDetail[] | undefined {
+  if (typeof data !== 'object' || data === null) {
+    return undefined;
+  }
+
+  const details: ValidationErrorDetail[] = [];
+  for (const [field, messages] of Object.entries(data as Record<string, unknown>)) {
+    if (!Array.isArray(messages)) {
+      continue;
+    }
+    for (const message of messages) {
+      if (typeof message === 'string') {
+        details.push({ field, message });
+      }
+    }
+  }
+
+  return details.length > 0 ? details : undefined;
+}
+
 export function mapHttpErrorToAppError(error: HttpErrorResponse): AppError {
   const apiError = isApiErrorResponse(error.error) ? error.error : undefined;
   const message = apiError?.message ?? error.message;
   const code = apiError?.code;
+  const details = extractValidationDetails(apiError?.data);
 
   if (error.status === 0) {
     return {
@@ -36,6 +60,7 @@ export function mapHttpErrorToAppError(error: HttpErrorResponse): AppError {
         message,
         retryable: false,
         status: error.status,
+        details,
         cause: error,
       };
     case 401:
@@ -81,6 +106,7 @@ export function mapHttpErrorToAppError(error: HttpErrorResponse): AppError {
         message,
         retryable: false,
         status: error.status,
+        details,
         cause: error,
       };
     case 429:

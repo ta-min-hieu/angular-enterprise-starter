@@ -5,7 +5,14 @@ services:
       dockerfile: Dockerfile
     environment:
       PORT: 4000
-      API_BASE_URL: /api
+      # apiBaseUrl/mediaBaseUrl được TRÌNH DUYỆT gọi trực tiếp (XHR/fetch phía client), nên phải
+      # là địa chỉ trình duyệt trên máy host truy cập được (vd "localhost:8386" nếu backend expose
+      # cổng đó ra host) — KHÔNG dùng host.docker.internal (chỉ container-tới-host mới resolve được,
+      # trình duyệt trên host thì không). Lượt gọi phía SSR (server-side, cùng lúc load trang) sẽ
+      # không tới được backend qua "localhost" từ TRONG container — đã được xử lý là lỗi chấp nhận
+      # được ở ProductsPage.refresh(), client tự gọi lại ngay sau khi hydrate xong.
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:8386/base/v1}
+      MEDIA_BASE_URL: ${MEDIA_BASE_URL:-http://localhost:8386/base}
       LOG_LEVEL: info
       AUTH_REDIRECT_PATH: /auth/login
       FORBIDDEN_PATH: /forbidden
@@ -20,7 +27,7 @@ services:
     volumes:
       - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
-      - '8080:80'
+      - '${NGINX_PORT:-8080}:80'
     depends_on:
       - app
     networks:

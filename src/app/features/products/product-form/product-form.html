@@ -73,6 +73,14 @@
     [required]="false"
   />
 
+  <app-file-upload-field
+    name="files"
+    [control]="form.controls.files"
+    [label]="'products.form.media.label' | transloco"
+    [required]="false"
+    (existingRemoved)="onExistingFileRemoved($event)"
+  />
+
   <div class="app-product-form__row">
     <app-date-field
       class="app-product-form__col"

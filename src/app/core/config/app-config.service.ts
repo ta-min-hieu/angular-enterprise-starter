@@ -28,6 +28,10 @@ export class AppConfigService {
     return this.configSignal().apiBaseUrl;
   }
 
+  get mediaBaseUrl(): string {
+    return this.configSignal().mediaBaseUrl;
+  }
+
   resolveApiBaseUrl(apiName?: string): string {
     if (!apiName) {
       return this.apiBaseUrl;

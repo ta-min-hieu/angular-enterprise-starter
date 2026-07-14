@@ -1,6 +1,7 @@
 {
   "production": false,
   "apiBaseUrl": "http://localhost:8386/base/v1",
+  "mediaBaseUrl": "http://localhost:8386/base",
   "apiBaseUrls": {},
   "logLevel": "debug",
   "authRedirectPath": "/auth/login",

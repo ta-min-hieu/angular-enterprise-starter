@@ -1,5 +1,6 @@
 import { Product, ProductInput } from './product.model';
 import { ProductDto, ProductPayloadDto } from './product-api.model';
+import { toMediaAsset } from '../../core/http/media-asset.mapper';
 
 function parseDateOnly(value: string): Date {
   const [year, month, day] = value.split('-').map(Number);
@@ -27,12 +28,13 @@ export function toProduct(dto: ProductDto): Product {
     price: dto.price,
     stock: dto.stock,
     category: dto.category,
-    tags: dto.tags,
-    description: dto.description,
+    tags: dto.tags ?? [],
+    description: dto.description ?? '',
     status: dto.status,
     featured: dto.featured,
     releaseDate: dto.releaseDate ? parseDateOnly(dto.releaseDate) : null,
     publishedAt: dto.publishedAt ? new Date(dto.publishedAt) : null,
+    files: (dto.files ?? []).map(toMediaAsset),
   };
 }
 

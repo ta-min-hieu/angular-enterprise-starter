@@ -1,0 +1,143 @@
+<nz-form-item>
+  <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
+  <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
+    <div class="app-file-upload-field">
+      <!-- Input ẩn, không tương tác được (tabindex=-1, aria-hidden) — chỉ để nz-form-control
+           dò ra NgControl và theo dõi validity/dirty/touched, vì bản thân widget không có
+           input HTML thật nào để gắn formControl như các field khác (text-field, number-field...). -->
+      <input
+        type="text"
+        [id]="resolvedId()"
+        class="app-file-upload-field__control"
+        [formControl]="control()"
+        tabindex="-1"
+        aria-hidden="true"
+      />
+      <div class="app-file-upload-field__grid">
+        @for (item of control().value; track item.kind === 'pending' ? item.uid : item.asset.id) {
+          <div class="app-file-upload-field__item">
+            @if (item.kind === 'pending') {
+              <img
+                class="app-file-upload-field__thumb"
+                [src]="item.previewUrl"
+                [alt]="item.file.name"
+              />
+              <button
+                type="button"
+                nz-button
+                nzType="text"
+                nzShape="circle"
+                nzSize="small"
+                class="app-file-upload-field__remove"
+                [nzTooltipTitle]="'common.actions.remove' | transloco"
+                [attr.aria-label]="'common.actions.remove' | transloco"
+                nz-tooltip
+                (click)="onRemovePending(item)"
+              >
+                <span nz-icon nzType="close"></span>
+              </button>
+              <span class="app-file-upload-field__name" [title]="item.file.name">{{
+                item.file.name
+              }}</span>
+            } @else {
+              @if (item.asset.type === 'image') {
+                <img
+                  class="app-file-upload-field__thumb"
+                  [appMediaSrc]="item.asset.url"
+                  [alt]="item.asset.name"
+                />
+              } @else {
+                <video
+                  class="app-file-upload-field__thumb"
+                  [appMediaSrc]="item.asset.url"
+                  preload="metadata"
+                  muted
+                ></video>
+                <span nz-icon nzType="play-circle" class="app-file-upload-field__play"></span>
+              }
+              <button
+                type="button"
+                nz-button
+                nzType="text"
+                nzShape="circle"
+                nzSize="small"
+                class="app-file-upload-field__remove"
+                [nzTooltipTitle]="'common.actions.remove' | transloco"
+                [attr.aria-label]="'common.actions.remove' | transloco"
+                nz-tooltip
+                (click)="
+                  item.kind === 'existing'
+                    ? onRemoveExisting(item.asset)
+                    : onRemoveUploaded(item.asset)
+                "
+              >
+                <span nz-icon nzType="close"></span>
+              </button>
+              <span class="app-file-upload-field__name" [title]="item.asset.name">{{
+                item.asset.name
+              }}</span>
+            }
+          </div>
+        }
+
+        @for (item of chunkUploads(); track item.uid) {
+          <div
+            class="app-file-upload-field__item app-file-upload-field__item--pending"
+            [class.app-file-upload-field__item--error]="item.status === 'error'"
+          >
+            @if (item.previewUrl) {
+              <img class="app-file-upload-field__thumb" [src]="item.previewUrl" [alt]="item.name" />
+            }
+            @if (item.status === 'uploading') {
+              <nz-progress
+                class="app-file-upload-field__progress"
+                [nzPercent]="item.progress"
+                nzType="circle"
+                [nzWidth]="36"
+              />
+            } @else {
+              <span
+                nz-icon
+                nzType="warning"
+                nzTheme="fill"
+                class="app-file-upload-field__error-icon"
+              ></span>
+              <span class="app-file-upload-field__error-text">{{ item.errorMessage }}</span>
+            }
+            <button
+              type="button"
+              nz-button
+              nzType="text"
+              nzShape="circle"
+              nzSize="small"
+              class="app-file-upload-field__remove"
+              [nzTooltipTitle]="'common.actions.remove' | transloco"
+              [attr.aria-label]="'common.actions.remove' | transloco"
+              nz-tooltip
+              (click)="onCancelChunkUpload(item)"
+            >
+              <span nz-icon nzType="close"></span>
+            </button>
+            <span class="app-file-upload-field__name" [title]="item.name">{{ item.name }}</span>
+          </div>
+        }
+
+        @if (canAddMore()) {
+          <nz-upload
+            class="app-file-upload-field__trigger"
+            [nzMultiple]="multiple()"
+            [nzAccept]="accept()"
+            [nzShowUploadList]="false"
+            [nzBeforeUpload]="beforeUpload"
+          >
+            <div class="app-file-upload-field__add">
+              <span nz-icon nzType="plus"></span>
+              <span>{{ 'common.actions.upload' | transloco }}</span>
+            </div>
+          </nz-upload>
+        }
+      </div>
+      <p class="app-file-upload-field__hint">{{ hint() }}</p>
+    </div>
+  </nz-form-control>
+</nz-form-item>

@@ -6,10 +6,18 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { Product } from '../product.model';
 import { CATEGORY_OPTIONS, DATE_FORMAT, DATE_TIME_FORMAT, TAG_OPTIONS } from '../product.constants';
 import { I18nService } from '../../../core/i18n/i18n.service';
+import { MediaSrcDirective } from '../../../shared/directives/media-src.directive';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [CurrencyPipe, DatePipe, NzDescriptionsModule, NzTagModule, TranslocoPipe],
+  imports: [
+    CurrencyPipe,
+    DatePipe,
+    NzDescriptionsModule,
+    NzTagModule,
+    TranslocoPipe,
+    MediaSrcDirective,
+  ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

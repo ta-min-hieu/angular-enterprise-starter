@@ -19,6 +19,7 @@ import {
   MenuFoldOutline,
   MenuUnfoldOutline,
   MoonOutline,
+  PlayCircleOutline,
   PlusOutline,
   SearchOutline,
   ShoppingOutline,
@@ -60,4 +61,6 @@ export const REGISTERED_ICONS = [
   CloseCircleOutline,
   LoadingOutline,
   CalendarOutline,
+  // Dùng bởi File Upload Field (preview media, trạng thái upload) và Product Form.
+  PlayCircleOutline,
 ];

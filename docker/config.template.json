@@ -1,6 +1,7 @@
 {
   "production": true,
   "apiBaseUrl": "${API_BASE_URL}",
+  "mediaBaseUrl": "${MEDIA_BASE_URL}",
   "apiBaseUrls": {},
   "logLevel": "${LOG_LEVEL}",
   "authRedirectPath": "${AUTH_REDIRECT_PATH}",

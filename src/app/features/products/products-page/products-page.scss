@@ -51,4 +51,17 @@
   &__name {
     font-weight: var(--font-weight-medium);
   }
+
+  &__thumbnail {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    display: block;
+
+    &--empty {
+      background: var(--color-background);
+      border: 1px dashed var(--color-border);
+    }
+  }
 }

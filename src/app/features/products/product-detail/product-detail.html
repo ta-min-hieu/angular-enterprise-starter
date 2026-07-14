@@ -1,4 +1,23 @@
 @if (product(); as p) {
+  <h4 class="app-product-detail__media-title">{{ 'products.form.media.label' | transloco }}</h4>
+  <div class="app-product-detail__media">
+    @if (p.files.length) {
+      @for (asset of p.files; track asset.id) {
+        @if (asset.type === 'image') {
+          <img
+            class="app-product-detail__media-item"
+            [appMediaSrc]="asset.url"
+            [alt]="asset.name"
+          />
+        } @else {
+          <video class="app-product-detail__media-item" [appMediaSrc]="asset.url" controls></video>
+        }
+      }
+    } @else {
+      <span class="app-product-detail__empty">—</span>
+    }
+  </div>
+
   <nz-descriptions [nzColumn]="2" nzBordered nzSize="small">
     <nz-descriptions-item [nzTitle]="'products.form.name.label' | transloco" [nzSpan]="2">
       {{ p.name }}

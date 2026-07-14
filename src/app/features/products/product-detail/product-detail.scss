@@ -1,3 +1,25 @@
 .app-product-detail__empty {
   color: var(--color-text-secondary);
 }
+
+.app-product-detail__media-title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-medium);
+}
+
+.app-product-detail__media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.app-product-detail__media-item {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: block;
+  object-fit: cover;
+}

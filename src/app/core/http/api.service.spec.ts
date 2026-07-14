@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpEventType, provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ApiService } from './api.service';
@@ -119,6 +119,7 @@ describe('ApiService', () => {
       production: false,
       apiBaseUrl: '/api',
       apiBaseUrls: { payment: 'https://payment.example.com/v1' },
+      mediaBaseUrl: '',
       logLevel: 'debug',
       authRedirectPath: '/auth/login',
       forbiddenPath: '/forbidden',
@@ -139,5 +140,35 @@ describe('ApiService', () => {
       .subscribe({ error: (err) => (error = err) });
 
     expect(error).toMatchObject({ message: expect.stringContaining('does-not-exist') });
+  });
+
+  it('should upload a file and emit progress events before the final result', () => {
+    const events: unknown[] = [];
+    const formData = new FormData();
+    formData.append('file', new Blob(['x']), 'x.png');
+
+    service.upload<{ id: string }>('uploads', formData).subscribe((event) => events.push(event));
+
+    const req = httpMock.expectOne('/api/uploads');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toBe(formData);
+
+    req.event({ type: HttpEventType.UploadProgress, loaded: 50, total: 100 });
+    req.flush({ code: '200', message: 'Success', data: { id: 'm1' } });
+
+    expect(events).toEqual([
+      { type: 'progress', percent: 50 },
+      { type: 'done', data: { id: 'm1' } },
+    ]);
+  });
+
+  it('should throw a mapped AppError when the upload response code is not 200', () => {
+    let error: unknown;
+    service.upload('uploads', new FormData()).subscribe({ error: (err) => (error = err) });
+
+    const req = httpMock.expectOne('/api/uploads');
+    req.flush({ code: 'UPLOAD_FAILED', message: 'Upload failed', data: null });
+
+    expect(error).toMatchObject({ code: 'UPLOAD_FAILED', message: 'Upload failed' });
   });
 });

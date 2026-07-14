@@ -15,6 +15,16 @@ const DTO: ProductDto = {
   featured: true,
   releaseDate: '2025-01-15',
   publishedAt: '2025-01-15T09:00:00',
+  files: [
+    {
+      id: 7,
+      originalFileName: 'photo.jpg',
+      fileCategory: 'image',
+      contentType: 'image/jpeg',
+      fileSize: 1024,
+      url: '/v1/files/7',
+    },
+  ],
 };
 
 describe('product.mapper', () => {
@@ -24,6 +34,16 @@ describe('product.mapper', () => {
     expect(product.id).toBe('3');
     expect(product.releaseDate).toEqual(new Date(2025, 0, 15));
     expect(product.publishedAt).toEqual(new Date(2025, 0, 15, 9, 0, 0));
+    expect(product.files).toEqual([
+      {
+        id: 7,
+        type: 'image',
+        name: 'photo.jpg',
+        size: 1024,
+        mimeType: 'image/jpeg',
+        url: '/v1/files/7',
+      },
+    ]);
   });
 
   it('maps null date fields to null', () => {
@@ -33,7 +53,15 @@ describe('product.mapper', () => {
     expect(product.publishedAt).toBeNull();
   });
 
-  it('maps a ProductInput back to the backend payload shape', () => {
+  it('maps nullable fields returned by the live API (description/tags/files) to safe defaults', () => {
+    const product = toProduct({ ...DTO, description: null, tags: null, files: null });
+
+    expect(product.description).toBe('');
+    expect(product.tags).toEqual([]);
+    expect(product.files).toEqual([]);
+  });
+
+  it('maps a ProductInput back to the backend ProductRequest payload shape', () => {
     const input: ProductInput = {
       name: 'Ban phim co',
       price: 1290000,
@@ -51,6 +79,7 @@ describe('product.mapper', () => {
 
     expect(payload.releaseDate).toBe('2025-01-15');
     expect(payload.publishedAt).toBe('2025-01-15T09:00:00');
+    expect(payload).not.toHaveProperty('files');
   });
 
   it('maps null dates on ProductInput to null in the payload', () => {

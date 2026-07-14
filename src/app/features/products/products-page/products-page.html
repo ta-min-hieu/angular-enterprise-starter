@@ -57,6 +57,7 @@
     >
       <thead>
         <tr>
+          <th>{{ 'products.table.media' | transloco }}</th>
           <th>{{ 'products.table.name' | transloco }}</th>
           <th>{{ 'products.table.category' | transloco }}</th>
           <th nzAlign="right">{{ 'products.table.price' | transloco }}</th>
@@ -68,6 +69,19 @@
       <tbody>
         @for (product of productTable.data; track product.id) {
           <tr>
+            <td>
+              @if (thumbnailUrl(product); as src) {
+                <img
+                  class="app-products-page__thumbnail"
+                  [appMediaSrc]="src"
+                  [alt]="product.name"
+                />
+              } @else {
+                <span
+                  class="app-products-page__thumbnail app-products-page__thumbnail--empty"
+                ></span>
+              }
+            </td>
             <td>
               <span class="app-products-page__name">{{ product.name }}</span>
             </td>

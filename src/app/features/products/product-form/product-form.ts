@@ -14,6 +14,19 @@ import { RadioGroupField } from '../../../shared/components/radio-group-field/ra
 import { CheckboxField } from '../../../shared/components/checkbox-field/checkbox-field';
 import { TextareaField } from '../../../shared/components/textarea-field/textarea-field';
 import { DateField } from '../../../shared/components/date-field/date-field';
+import {
+  FileUploadField,
+  MediaFieldItem,
+} from '../../../shared/components/file-upload-field/file-upload-field';
+import { MediaAsset } from '../../../shared/models/media-asset.model';
+
+export interface ProductFormSaveEvent {
+  readonly input: ProductInput;
+  // File nhỏ giữ trong form (chưa upload) — gửi kèm trực tiếp lúc submit.
+  readonly files: readonly File[];
+  // Id file lớn đã upload xong (chunked) trong phiên form này — chỉ cần tham chiếu lại.
+  readonly fileIds: readonly number[];
+}
 
 @Component({
   selector: 'app-product-form',
@@ -31,6 +44,7 @@ import { DateField } from '../../../shared/components/date-field/date-field';
     CheckboxField,
     TextareaField,
     DateField,
+    FileUploadField,
   ],
   templateUrl: './product-form.html',
   styleUrl: './product-form.scss',
@@ -41,8 +55,11 @@ export class ProductForm {
 
   readonly product = input<Product | null>(null);
   readonly saving = input(false);
-  readonly save = output<ProductInput>();
+  readonly save = output<ProductFormSaveEvent>();
   readonly cancelled = output<void>();
+  // Gỡ ngay 1 file đã gắn sẵn (không đợi submit form) — consumer (ProductFormPage) quyết định
+  // gọi ProductService.removeFile ở chế độ sửa.
+  readonly existingFileRemoved = output<MediaAsset>();
 
   readonly categoryOptions = CATEGORY_OPTIONS;
   readonly tagOptions = TAG_OPTIONS;
@@ -59,6 +76,7 @@ export class ProductForm {
     featured: this.fb.control(false),
     releaseDate: this.fb.control<Date | null>(null),
     publishedAt: this.fb.control<Date | null>(null),
+    files: this.fb.control<MediaFieldItem[]>([]),
   });
 
   readonly priceFormatter = (value: number): string => `${value.toLocaleString('vi-VN')} ₫`;
@@ -81,6 +99,7 @@ export class ProductForm {
               featured: current.featured,
               releaseDate: current.releaseDate,
               publishedAt: current.publishedAt,
+              files: current.files.map((asset): MediaFieldItem => ({ kind: 'existing', asset })),
             }
           : {
               name: '',
@@ -93,6 +112,7 @@ export class ProductForm {
               featured: false,
               releaseDate: null,
               publishedAt: null,
+              files: [],
             },
       );
     });
@@ -105,10 +125,20 @@ export class ProductForm {
       return;
     }
 
-    this.save.emit(this.form.getRawValue());
+    const { files: fieldItems, ...rest } = this.form.getRawValue();
+    const files = fieldItems.filter((item) => item.kind === 'pending').map((item) => item.file);
+    const fileIds = fieldItems
+      .filter((item) => item.kind === 'uploaded')
+      .map((item) => item.asset.id);
+
+    this.save.emit({ input: rest, files, fileIds });
   }
 
   onCancel(): void {
     this.cancelled.emit();
+  }
+
+  onExistingFileRemoved(asset: MediaAsset): void {
+    this.existingFileRemoved.emit(asset);
   }
 }
