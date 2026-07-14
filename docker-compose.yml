@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: angular-app
     environment:
       PORT: 4000
       # apiBaseUrl/mediaBaseUrl được TRÌNH DUYỆT gọi trực tiếp (XHR/fetch phía client), nên phải
@@ -20,20 +21,15 @@ services:
       - '4000'
     networks:
       - starter-network
+      - shared-edge
     restart: unless-stopped
 
-  nginx:
-    image: nginx:alpine
-    volumes:
-      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
-    ports:
-      - '${NGINX_PORT:-8080}:80'
-    depends_on:
-      - app
-    networks:
-      - starter-network
-    restart: unless-stopped
+# nginx riêng của project này đã bị bỏ — dùng nginx CHUNG với spring-base-api ở
+# E:/study/shared-nginx (network "shared-edge"), route "/" -> service "app" ở đây qua tên container
+# "angular-app". Xem E:/study/shared-nginx/nginx/default.conf.template.
 
 networks:
   starter-network:
     driver: bridge
+  shared-edge:
+    external: true
