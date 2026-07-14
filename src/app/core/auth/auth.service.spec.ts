@@ -134,4 +134,14 @@ describe('AuthService', () => {
     expect(service.hasRole('ADMIN')).toBe(false);
     expect(service.hasPermission('user.read')).toBe(false);
   });
+
+  it('should match hasAnyRole when the user has at least one of the given roles', () => {
+    apiService.post.mockReturnValue(of(tokens));
+
+    service.login({ username: 'alice', password: 'secret' }).subscribe();
+
+    expect(service.hasAnyRole(['ADMIN', 'USER'])).toBe(true);
+    expect(service.hasAnyRole(['ADMIN', 'MANAGER'])).toBe(false);
+    expect(service.hasAnyRole([])).toBe(false);
+  });
 });

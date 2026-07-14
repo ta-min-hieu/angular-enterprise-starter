@@ -63,7 +63,9 @@ export const appConfig: ApplicationConfig = {
     {
       provide: NAV_MENU_ITEMS,
       multi: true,
-      useValue: [{ label: 'nav.products', route: '/products', icon: 'shopping' }],
+      // roles khớp đúng route data ở routes/app.routes.ts (roleGuard) — cùng 1 nguồn để tránh
+      // menu hiện mà route chặn (hoặc ngược lại).
+      useValue: [{ label: 'nav.products', route: '/products', icon: 'shopping', roles: ['USER'] }],
     },
   ],
 };

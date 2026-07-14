@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../core/auth/guards/auth.guard';
+import { roleGuard } from '../core/auth/guards/role.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'products' },
@@ -15,7 +16,11 @@ export const routes: Routes = [
   },
   {
     path: 'products',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    // Role thật duy nhất backend đang cấp qua JWT là "USER" (xem AppUser/app_user_role) — khai báo
+    // tường minh ở đây để roleGuard + menu item (app.config.ts) cùng khớp 1 nguồn, sẵn sàng đổi/
+    // thêm role khi backend có nhiều role hơn.
+    data: { roles: ['USER'] },
     loadComponent: () => import('../layouts/admin-layout/admin-layout').then((m) => m.AdminLayout),
     children: [
       {

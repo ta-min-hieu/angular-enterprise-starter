@@ -84,6 +84,10 @@ export class AuthService {
     return this.currentUserSignal()?.roles.includes(role) ?? false;
   }
 
+  hasAnyRole(roles: readonly string[]): boolean {
+    return roles.some((role) => this.hasRole(role));
+  }
+
   hasPermission(permission: string): boolean {
     return this.currentUserSignal()?.permissions.includes(permission) ?? false;
   }

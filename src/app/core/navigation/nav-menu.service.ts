@@ -14,6 +14,8 @@ export class NavMenuService {
   });
 
   private isVisible(item: NavMenuItem): boolean {
-    return !item.permission || this.authService.hasPermission(item.permission);
+    const rolesSatisfied = !item.roles?.length || this.authService.hasAnyRole(item.roles);
+    const permissionSatisfied = !item.permission || this.authService.hasPermission(item.permission);
+    return rolesSatisfied && permissionSatisfied;
   }
 }
