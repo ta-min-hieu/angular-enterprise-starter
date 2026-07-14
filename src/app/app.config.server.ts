@@ -1,11 +1,13 @@
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { TRANSLOCO_LOADER } from '@jsverse/transloco';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { appConfig } from './app.config';
 import { serverRoutes } from './routes/app.routes.server';
 import { APP_CONFIG_OVERRIDE } from './core/config/app-config-override.token';
 import { AppConfig, DEFAULT_APP_CONFIG } from './core/config/app-config.model';
+import { TranslocoServerLoader } from './core/i18n/transloco-server.loader';
 
 function readRuntimeConfig(): AppConfig {
   try {
@@ -20,6 +22,9 @@ const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(withRoutes(serverRoutes)),
     { provide: APP_CONFIG_OVERRIDE, useValue: readRuntimeConfig() },
+    // TranslocoHttpLoader (đăng ký trong appConfig) gọi URL tương đối qua HttpClient — không
+    // resolve được lúc SSR. Ghi đè bằng loader đọc thẳng file JSON từ đĩa chỉ cho server.
+    { provide: TRANSLOCO_LOADER, useClass: TranslocoServerLoader },
   ],
 };
 
