@@ -65,7 +65,21 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       // roles khớp đúng route data ở routes/app.routes.ts (roleGuard) — cùng 1 nguồn để tránh
       // menu hiện mà route chặn (hoặc ngược lại).
-      useValue: [{ label: 'nav.products', route: '/products', icon: 'shopping', roles: ['USER'] }],
+      useValue: [
+        { label: 'nav.products', route: '/products', icon: 'shopping', roles: ['USER'] },
+        {
+          label: 'nav.system',
+          route: '/system/users',
+          icon: 'setting',
+          roles: ['ADMIN'],
+          children: [
+            { label: 'nav.system_users', route: '/system/users' },
+            { label: 'nav.system_roles', route: '/system/roles' },
+            { label: 'nav.system_menus', route: '/system/menus' },
+            { label: 'nav.system_permissions', route: '/system/permissions' },
+          ],
+        },
+      ],
     },
   ],
 };

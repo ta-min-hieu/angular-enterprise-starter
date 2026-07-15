@@ -1,0 +1,117 @@
+<div class="app-permissions-page">
+  <app-page-header
+    [breadcrumbItems]="breadcrumbItems"
+    title="permissions.title"
+    subtitle="permissions.subtitle"
+    addLink="/system/permissions/new"
+    addLabel="permissions.add_button"
+  />
+
+  <nz-card [nzBordered]="false" class="app-permissions-page__filter-card">
+    <nz-input-group class="app-permissions-page__search" [nzPrefix]="searchPrefix">
+      <input
+        type="text"
+        nz-input
+        [placeholder]="'permissions.search_placeholder' | transloco"
+        [ngModel]="list.keyword()"
+        (ngModelChange)="list.onKeywordChange($event)"
+      />
+    </nz-input-group>
+    <ng-template #searchPrefix>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </nz-card>
+
+  <nz-card [nzBordered]="false" class="app-permissions-page__table-card">
+    @if (list.error(); as currentError) {
+      <app-error-state [error]="currentError" (retry)="list.refresh()" />
+    } @else {
+      <nz-table
+        ngSkipHydration
+        #permissionTable
+        class="app-permissions-page__table"
+        [nzData]="list.filteredItems()"
+        [nzLoading]="permissionService.loading()"
+        [nzNoResult]="emptyTemplate"
+      >
+        <thead>
+          <tr>
+            <th>{{ 'permissions.table.code' | transloco }}</th>
+            <th>{{ 'permissions.table.name' | transloco }}</th>
+            <th nzAlign="center">{{ 'permissions.table.method' | transloco }}</th>
+            <th>{{ 'permissions.table.url_pattern' | transloco }}</th>
+            <th nzAlign="center">{{ 'permissions.table.status' | transloco }}</th>
+            <th nzAlign="right">{{ 'permissions.table.actions' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (permission of permissionTable.data; track permission.id) {
+            <tr>
+              <td>
+                <code>{{ permission.code }}</code>
+              </td>
+              <td>{{ permission.name }}</td>
+              <td nzAlign="center">
+                <nz-tag [nzColor]="methodColor(permission.httpMethod)">
+                  {{ permission.httpMethod }}
+                </nz-tag>
+              </td>
+              <td>
+                <code>{{ permission.urlPattern }}</code>
+              </td>
+              <td nzAlign="center">
+                <nz-tag [nzColor]="permission.status === 'ACTIVE' ? 'success' : 'default'">
+                  {{
+                    (permission.status === 'ACTIVE'
+                      ? 'system.common_status.active'
+                      : 'system.common_status.disabled'
+                    ) | transloco
+                  }}
+                </nz-tag>
+              </td>
+              <td nzAlign="right">
+                <a
+                  [routerLink]="['/system/permissions', permission.id, 'edit']"
+                  nz-button
+                  nzType="text"
+                  nz-tooltip
+                  [nzTooltipTitle]="'common.actions.edit' | transloco"
+                >
+                  <span nz-icon nzType="edit"></span>
+                </a>
+                <button
+                  nz-button
+                  nzType="text"
+                  nzDanger
+                  nz-tooltip
+                  [nzTooltipTitle]="'common.actions.delete' | transloco"
+                  nz-popconfirm
+                  [nzPopconfirmTitle]="'permissions.actions.delete_confirm' | transloco"
+                  (nzOnConfirm)="list.onDelete(permission.id)"
+                >
+                  <span nz-icon nzType="delete"></span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+
+      <ng-template #emptyTemplate>
+        <app-empty-state
+          [message]="
+            (list.keyword() ? 'permissions.empty.no_match' : 'permissions.empty.no_data')
+              | transloco
+          "
+        >
+          @if (!list.keyword()) {
+            <a actions routerLink="/system/permissions/new" nz-button nzType="primary">
+              <span nz-icon nzType="plus"></span>
+              <span>{{ 'permissions.add_button' | transloco }}</span>
+            </a>
+          }
+        </app-empty-state>
+      </ng-template>
+    }
+  </nz-card>
+</div>

@@ -1,0 +1,13 @@
+<div class="app-user-form-page">
+  <app-page-header [breadcrumbItems]="breadcrumbItems()" [title]="headerTitle()" />
+
+  <nz-card [nzBordered]="false" class="app-user-form-page__card">
+    <app-user-form
+      [user]="user()"
+      [roles]="allRoles()"
+      [saving]="saving()"
+      (save)="onSave($event)"
+      (cancelled)="onCancel()"
+    />
+  </nz-card>
+</div>

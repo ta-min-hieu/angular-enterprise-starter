@@ -1,0 +1,12 @@
+.app-permissions-page {
+  &__filter-card,
+  &__table-card {
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__search {
+    max-width: 320px;
+  }
+}

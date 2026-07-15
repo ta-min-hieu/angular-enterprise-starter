@@ -31,6 +31,20 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'system',
+    canActivate: [authGuard, roleGuard],
+    // "ADMIN" chưa tồn tại trong JWT thật hiện nay (chỉ có "USER") — placeholder hướng tới tương
+    // lai, không ai truy cập được cho tới khi backend cấp role này, giống ghi chú ở block 'products'.
+    data: { roles: ['ADMIN'] },
+    loadComponent: () => import('../layouts/admin-layout/admin-layout').then((m) => m.AdminLayout),
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../features/system/system.routes').then((m) => m.systemRoutes),
+      },
+    ],
+  },
+  {
     path: 'forbidden',
     loadComponent: () =>
       import('../shared/pages/forbidden-page/forbidden-page').then((m) => m.ForbiddenPage),

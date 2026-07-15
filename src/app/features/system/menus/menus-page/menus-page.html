@@ -1,0 +1,78 @@
+<div class="app-menus-page">
+  <app-page-header
+    [breadcrumbItems]="breadcrumbItems"
+    title="menus.title"
+    subtitle="menus.subtitle"
+    addLink="/system/menus/new"
+    addLabel="menus.add_button"
+  />
+
+  <nz-card [nzBordered]="false" class="app-menus-page__tree-card">
+    @if (error(); as currentError) {
+      <app-error-state [error]="currentError" (retry)="onRetry()" />
+    } @else if (treeNodes().length === 0) {
+      <app-empty-state [message]="'menus.empty.no_data' | transloco">
+        <a actions routerLink="/system/menus/new" nz-button nzType="primary">
+          <span nz-icon nzType="plus"></span>
+          <span>{{ 'menus.add_button' | transloco }}</span>
+        </a>
+      </app-empty-state>
+    } @else {
+      <nz-tree
+        ngSkipHydration
+        [nzData]="treeNodes()"
+        [nzExpandAll]="true"
+        [nzShowIcon]="true"
+        [nzTreeTemplate]="treeTemplate"
+      />
+
+      <ng-template #treeTemplate let-node>
+        <span class="app-menus-page__node">
+          <span nz-icon [nzType]="node.icon || 'file'"></span>
+          <span class="app-menus-page__node-title">{{ node.title }}</span>
+          <nz-tag [nzColor]="menuStatus(node.key) === 'ACTIVE' ? 'success' : 'default'">
+            {{
+              (menuStatus(node.key) === 'ACTIVE'
+                ? 'system.common_status.active'
+                : 'system.common_status.disabled'
+              ) | transloco
+            }}
+          </nz-tag>
+          <span class="app-menus-page__node-actions">
+            <a
+              [routerLink]="'/system/menus/new'"
+              [queryParams]="{ parentId: node.key }"
+              nz-button
+              nzType="text"
+              nzSize="small"
+              [title]="'menus.actions.add_child' | transloco"
+            >
+              <span nz-icon nzType="plus"></span>
+            </a>
+            <a
+              [routerLink]="['/system/menus', node.key, 'edit']"
+              nz-button
+              nzType="text"
+              nzSize="small"
+              [title]="'common.actions.edit' | transloco"
+            >
+              <span nz-icon nzType="edit"></span>
+            </a>
+            <button
+              nz-button
+              nzType="text"
+              nzSize="small"
+              nzDanger
+              [title]="'common.actions.delete' | transloco"
+              nz-popconfirm
+              [nzPopconfirmTitle]="'menus.actions.delete_confirm' | transloco"
+              (nzOnConfirm)="onDelete(node.key)"
+            >
+              <span nz-icon nzType="delete"></span>
+            </button>
+          </span>
+        </span>
+      </ng-template>
+    }
+  </nz-card>
+</div>

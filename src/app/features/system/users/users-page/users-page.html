@@ -1,0 +1,104 @@
+<div class="app-users-page">
+  <app-page-header
+    [breadcrumbItems]="breadcrumbItems"
+    title="users.title"
+    subtitle="users.subtitle"
+    addLink="/system/users/new"
+    addLabel="users.add_button"
+  />
+
+  <nz-card [nzBordered]="false" class="app-users-page__filter-card">
+    <nz-input-group class="app-users-page__search" [nzPrefix]="searchPrefix">
+      <input
+        type="text"
+        nz-input
+        [placeholder]="'users.search_placeholder' | transloco"
+        [ngModel]="list.keyword()"
+        (ngModelChange)="list.onKeywordChange($event)"
+      />
+    </nz-input-group>
+    <ng-template #searchPrefix>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </nz-card>
+
+  <nz-card [nzBordered]="false" class="app-users-page__table-card">
+    @if (list.error(); as currentError) {
+      <app-error-state [error]="currentError" (retry)="list.refresh()" />
+    } @else {
+      <nz-table
+        ngSkipHydration
+        #userTable
+        class="app-users-page__table"
+        [nzData]="list.filteredItems()"
+        [nzLoading]="userService.loading()"
+        [nzNoResult]="emptyTemplate"
+      >
+        <thead>
+          <tr>
+            <th>{{ 'users.table.username' | transloco }}</th>
+            <th>{{ 'users.table.roles' | transloco }}</th>
+            <th nzAlign="center">{{ 'users.table.status' | transloco }}</th>
+            <th nzAlign="right">{{ 'users.table.actions' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of userTable.data; track user.id) {
+            <tr>
+              <td>{{ user.username }}</td>
+              <td>
+                @for (role of user.roles; track role.id) {
+                  <nz-tag>{{ role.roleName }}</nz-tag>
+                }
+              </td>
+              <td nzAlign="center">
+                <nz-tag [nzColor]="user.enabled ? 'success' : 'default'">
+                  {{
+                    (user.enabled ? 'system.common_status.active' : 'system.common_status.disabled')
+                      | transloco
+                  }}
+                </nz-tag>
+              </td>
+              <td nzAlign="right">
+                <a
+                  [routerLink]="['/system/users', user.id, 'edit']"
+                  nz-button
+                  nzType="text"
+                  nz-tooltip
+                  [nzTooltipTitle]="'common.actions.edit' | transloco"
+                >
+                  <span nz-icon nzType="edit"></span>
+                </a>
+                <button
+                  nz-button
+                  nzType="text"
+                  nzDanger
+                  nz-tooltip
+                  [nzTooltipTitle]="'common.actions.delete' | transloco"
+                  nz-popconfirm
+                  [nzPopconfirmTitle]="'users.actions.delete_confirm' | transloco"
+                  (nzOnConfirm)="list.onDelete(user.id)"
+                >
+                  <span nz-icon nzType="delete"></span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+
+      <ng-template #emptyTemplate>
+        <app-empty-state
+          [message]="(list.keyword() ? 'users.empty.no_match' : 'users.empty.no_data') | transloco"
+        >
+          @if (!list.keyword()) {
+            <a actions routerLink="/system/users/new" nz-button nzType="primary">
+              <span nz-icon nzType="plus"></span>
+              <span>{{ 'users.add_button' | transloco }}</span>
+            </a>
+          }
+        </app-empty-state>
+      </ng-template>
+    }
+  </nz-card>
+</div>

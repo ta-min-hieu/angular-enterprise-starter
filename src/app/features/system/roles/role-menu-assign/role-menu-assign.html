@@ -1,0 +1,17 @@
+<div class="app-role-menu-assign">
+  <nz-tree
+    ngSkipHydration
+    [nzData]="treeNodes()"
+    [nzCheckable]="true"
+    [nzExpandAll]="true"
+    [nzCheckedKeys]="checkedKeys()"
+    (nzCheckedKeysChange)="onCheckedKeysChange($event)"
+  />
+
+  <div class="app-role-menu-assign__actions">
+    <button nz-button nzType="primary" type="button" [nzLoading]="saving()" (click)="onSubmit()">
+      <span nz-icon nzType="check"></span>
+      <span>{{ 'common.actions.save' | transloco }}</span>
+    </button>
+  </div>
+</div>

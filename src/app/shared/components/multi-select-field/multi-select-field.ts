@@ -25,6 +25,9 @@ export class MultiSelectField<T = string> {
   readonly placeholder = input<string>();
   readonly errorMessage = input<string>();
   readonly required = input(true);
+  // false khi option.label là dữ liệu thực (vd tên Role) chứ không phải i18n key — trường hợp
+  // đầu tiên dùng: RBAC User form chọn Role theo tên thật, không qua `| transloco`.
+  readonly translateLabels = input(true);
 
   readonly resolvedId = computed(() => this.id() ?? this.name());
   readonly resolvedPlaceholder = computed(

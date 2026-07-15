@@ -96,34 +96,23 @@ Thiết kế Adapter nếu Backend có định dạng khác.
 
 ## Response Envelope chuẩn của Starter
 
-Đây là hình dạng (shape) mà Business Layer luôn nhận được, bất kể Backend trả về định dạng gì (nếu Backend khác, viết Adapter để convert về đúng shape này, không sửa Business Layer):
+Đây là hình dạng (shape) mà Business Layer luôn nhận được, bất kể Backend trả về định dạng gì (nếu Backend khác, viết Adapter để convert về đúng shape này, không sửa Business Layer). Đây là contract thực tế đang được implement (`core/http/api-response.model.ts`, `core/http/api.service.ts`):
 
 ```ts
-interface ApiSuccessResponse<T> {
-  success: true;
-  data: T;
-  meta?: {
-    page?: number;
-    pageSize?: number;
-    totalItems?: number;
-    totalPages?: number;
-  };
-}
-
-interface ApiErrorResponse {
-  success: false;
-  error: {
-    code: string;
-    message: string;
-    details?: ApiValidationErrorDetail[];
-  };
-}
-
-interface ApiValidationErrorDetail {
-  field: string;
+interface ApiResponse<T> {
+  code: string; // '200' = thành công; khác '200' -> lỗi
   message: string;
+  data: T;
+  metadata?: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
 }
 ```
+
+Không có field `success: boolean` riêng — `code === '200'` là dấu hiệu thành công duy nhất. Khi `code !== '200'`, `data` mang payload lỗi (backend trả validate error dưới dạng `data: { [field]: string[] }`, được làm phẳng thành `ValidationErrorDetail[]` trong `core/error/http-error-mapper.ts`).
 
 `code` là mã lỗi nghiệp vụ do Backend định nghĩa (không phải HTTP status), dùng để Business Layer xử lý theo từng trường hợp cụ thể mà không cần parse `message`.
 

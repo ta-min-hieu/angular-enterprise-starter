@@ -2,7 +2,7 @@
   "production": false,
   "apiBaseUrl": "http://localhost:8386/base/v1",
   "mediaBaseUrl": "http://localhost:8386/base",
-  "apiBaseUrls": {},
+  "apiBaseUrls": { "base": "http://localhost:8386/base" },
   "logLevel": "debug",
   "authRedirectPath": "/auth/login",
   "forbiddenPath": "/forbidden",

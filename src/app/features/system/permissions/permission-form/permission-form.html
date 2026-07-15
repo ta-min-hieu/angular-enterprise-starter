@@ -1,0 +1,63 @@
+<form
+  nz-form
+  nzLayout="vertical"
+  class="app-permission-form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <app-text-field
+    name="code"
+    [control]="form.controls.code"
+    [label]="'permissions.form.code.label' | transloco"
+    [placeholder]="'permissions.form.code.placeholder' | transloco"
+  />
+
+  <app-text-field
+    name="name"
+    [control]="form.controls.name"
+    [label]="'permissions.form.name.label' | transloco"
+  />
+
+  <div class="app-permission-form__row">
+    <app-select-field
+      class="app-permission-form__col"
+      name="httpMethod"
+      [control]="form.controls.httpMethod"
+      [options]="httpMethodOptions"
+      [label]="'permissions.form.http_method.label' | transloco"
+    />
+
+    <app-text-field
+      class="app-permission-form__col"
+      name="urlPattern"
+      [control]="form.controls.urlPattern"
+      [label]="'permissions.form.url_pattern.label' | transloco"
+      [placeholder]="'permissions.form.url_pattern.placeholder' | transloco"
+    />
+  </div>
+
+  <app-textarea-field
+    name="description"
+    [control]="form.controls.description"
+    [label]="'permissions.form.description.label' | transloco"
+    [required]="false"
+  />
+
+  <app-radio-group-field
+    name="status"
+    [control]="form.controls.status"
+    [options]="statusOptions"
+    [label]="'permissions.form.status.label' | transloco"
+    [required]="false"
+  />
+
+  <div class="app-permission-form__actions">
+    <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
+      {{ 'common.actions.cancel' | transloco }}
+    </button>
+    <button nz-button nzType="primary" type="submit" [nzLoading]="saving()">
+      <span nz-icon nzType="check"></span>
+      <span>{{ 'common.actions.save' | transloco }}</span>
+    </button>
+  </div>
+</form>

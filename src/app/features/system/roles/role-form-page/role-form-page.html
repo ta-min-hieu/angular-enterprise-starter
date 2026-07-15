@@ -1,0 +1,34 @@
+<div class="app-role-form-page">
+  <app-page-header [breadcrumbItems]="breadcrumbItems()" [title]="headerTitle()" />
+
+  <nz-card [nzBordered]="false" class="app-role-form-page__card">
+    <nz-tabs>
+      <nz-tab [nzTitle]="'roles.tabs.info' | transloco">
+        <app-role-form
+          [role]="role()"
+          [saving]="saving()"
+          (save)="onSave($event)"
+          (cancelled)="onCancel()"
+        />
+      </nz-tab>
+
+      <nz-tab [nzTitle]="'roles.tabs.permissions' | transloco" [nzDisabled]="!isEditMode()">
+        <app-role-permission-assign
+          [assignedIds]="assignedPermissionIds()"
+          [permissions]="allPermissions()"
+          [saving]="savingPermissions()"
+          (save)="onSavePermissions($event)"
+        />
+      </nz-tab>
+
+      <nz-tab [nzTitle]="'roles.tabs.menus' | transloco" [nzDisabled]="!isEditMode()">
+        <app-role-menu-assign
+          [assignedIds]="assignedMenuIds()"
+          [menus]="allMenus()"
+          [saving]="savingMenus()"
+          (save)="onSaveMenus($event)"
+        />
+      </nz-tab>
+    </nz-tabs>
+  </nz-card>
+</div>

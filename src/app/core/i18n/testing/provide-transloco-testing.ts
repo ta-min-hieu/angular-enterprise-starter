@@ -24,6 +24,10 @@ const TEST_TRANSLATIONS = {
     'products.detail.featured_yes': 'Có',
     'products.detail.featured_no': 'Không',
     'products.form.media.label': 'Hình ảnh / Video',
+    'common.notification.save_success': 'Lưu thành công',
+    'common.notification.save_error': 'Lưu thất bại',
+    'common.notification.delete_success': 'Xoá thành công',
+    'common.notification.delete_error': 'Xoá thất bại',
   },
   en: {
     'common.placeholder.enter': 'Enter {{field}}',
@@ -47,6 +51,10 @@ const TEST_TRANSLATIONS = {
     'products.detail.featured_yes': 'Yes',
     'products.detail.featured_no': 'No',
     'products.form.media.label': 'Images / Videos',
+    'common.notification.save_success': 'Saved successfully',
+    'common.notification.save_error': 'Save failed',
+    'common.notification.delete_success': 'Deleted successfully',
+    'common.notification.delete_error': 'Delete failed',
   },
 };
 

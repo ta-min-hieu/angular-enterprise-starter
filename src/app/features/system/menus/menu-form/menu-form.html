@@ -1,0 +1,91 @@
+<form nz-form nzLayout="vertical" class="app-menu-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <app-text-field
+    name="name"
+    [control]="form.controls.name"
+    [label]="'menus.form.name.label' | transloco"
+  />
+
+  <div class="app-menu-form__row">
+    <app-text-field
+      class="app-menu-form__col"
+      name="path"
+      [control]="form.controls.path"
+      [label]="'menus.form.path.label' | transloco"
+      [placeholder]="'menus.form.path.placeholder' | transloco"
+    />
+
+    <app-text-field
+      class="app-menu-form__col"
+      name="icon"
+      [control]="form.controls.icon"
+      [label]="'menus.form.icon.label' | transloco"
+      [required]="false"
+    />
+  </div>
+
+  <div class="app-menu-form__row">
+    <app-select-field
+      class="app-menu-form__col"
+      name="menuType"
+      [control]="form.controls.menuType"
+      [options]="menuTypeOptions"
+      [label]="'menus.form.menu_type.label' | transloco"
+    />
+
+    <app-text-field
+      class="app-menu-form__col"
+      name="component"
+      [control]="form.controls.component"
+      [label]="'menus.form.component.label' | transloco"
+      [placeholder]="'menus.form.component.placeholder' | transloco"
+      [required]="false"
+    />
+  </div>
+
+  <nz-form-item>
+    <nz-form-label>{{ 'menus.form.parent.label' | transloco }}</nz-form-label>
+    <nz-form-control>
+      <nz-tree-select
+        [nzNodes]="parentTreeNodes()"
+        [formControl]="form.controls.parentId"
+        [nzAllowClear]="true"
+        nzShowSearch
+        [nzPlaceHolder]="'menus.form.parent.placeholder' | transloco"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class="app-menu-form__row">
+    <app-number-field
+      class="app-menu-form__col"
+      name="sortOrder"
+      [control]="form.controls.sortOrder"
+      [label]="'menus.form.sort_order.label' | transloco"
+    />
+
+    <app-radio-group-field
+      class="app-menu-form__col"
+      name="status"
+      [control]="form.controls.status"
+      [options]="statusOptions"
+      [label]="'menus.form.status.label' | transloco"
+      [required]="false"
+    />
+  </div>
+
+  <app-checkbox-field
+    name="visible"
+    [control]="form.controls.visible"
+    [label]="'menus.form.visible.label' | transloco"
+  />
+
+  <div class="app-menu-form__actions">
+    <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
+      {{ 'common.actions.cancel' | transloco }}
+    </button>
+    <button nz-button nzType="primary" type="submit" [nzLoading]="saving()">
+      <span nz-icon nzType="check"></span>
+      <span>{{ 'common.actions.save' | transloco }}</span>
+    </button>
+  </div>
+</form>

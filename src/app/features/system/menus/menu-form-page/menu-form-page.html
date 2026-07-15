@@ -1,0 +1,14 @@
+<div class="app-menu-form-page">
+  <app-page-header [breadcrumbItems]="breadcrumbItems()" [title]="headerTitle()" />
+
+  <nz-card [nzBordered]="false" class="app-menu-form-page__card">
+    <app-menu-form
+      [menu]="menu()"
+      [allMenus]="allMenus()"
+      [defaultParentId]="parentId() ?? null"
+      [saving]="saving()"
+      (save)="onSave($event)"
+      (cancelled)="onCancel()"
+    />
+  </nz-card>
+</div>

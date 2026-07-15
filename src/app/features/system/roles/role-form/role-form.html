@@ -1,0 +1,51 @@
+<form nz-form nzLayout="vertical" class="app-role-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <app-text-field
+    name="roleKey"
+    [control]="form.controls.roleKey"
+    [label]="'roles.form.code.label' | transloco"
+    [placeholder]="'roles.form.code.placeholder' | transloco"
+    [errorMessage]="'roles.form.code.error' | transloco"
+  />
+
+  <app-text-field
+    name="roleName"
+    [control]="form.controls.roleName"
+    [label]="'roles.form.name.label' | transloco"
+  />
+
+  <app-textarea-field
+    name="description"
+    [control]="form.controls.description"
+    [label]="'roles.form.description.label' | transloco"
+    [required]="false"
+  />
+
+  <div class="app-role-form__row">
+    <app-select-field
+      class="app-role-form__col"
+      name="dataScope"
+      [control]="form.controls.dataScope"
+      [options]="dataScopeOptions"
+      [label]="'roles.form.data_scope.label' | transloco"
+    />
+
+    <app-radio-group-field
+      class="app-role-form__col"
+      name="status"
+      [control]="form.controls.status"
+      [options]="statusOptions"
+      [label]="'roles.form.status.label' | transloco"
+      [required]="false"
+    />
+  </div>
+
+  <div class="app-role-form__actions">
+    <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
+      {{ 'common.actions.cancel' | transloco }}
+    </button>
+    <button nz-button nzType="primary" type="submit" [nzLoading]="saving()">
+      <span nz-icon nzType="check"></span>
+      <span>{{ 'common.actions.save' | transloco }}</span>
+    </button>
+  </div>
+</form>

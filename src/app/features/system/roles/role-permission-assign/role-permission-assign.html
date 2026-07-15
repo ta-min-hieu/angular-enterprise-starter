@@ -1,0 +1,22 @@
+<div class="app-role-permission-assign">
+  <div class="app-role-permission-assign__items">
+    @for (permission of permissions(); track permission.id) {
+      <label
+        nz-checkbox
+        [nzChecked]="isChecked(permission.id)"
+        (nzCheckedChange)="onToggle(permission.id, $event)"
+      >
+        <nz-tag [nzColor]="methodColor(permission.httpMethod)">{{ permission.httpMethod }}</nz-tag>
+        <code class="app-role-permission-assign__code">{{ permission.code }}</code>
+        {{ permission.name }}
+      </label>
+    }
+  </div>
+
+  <div class="app-role-permission-assign__actions">
+    <button nz-button nzType="primary" type="button" [nzLoading]="saving()" (click)="onSubmit()">
+      <span nz-icon nzType="check"></span>
+      <span>{{ 'common.actions.save' | transloco }}</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<form nz-form nzLayout="vertical" class="app-user-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="app-user-form__row">
+    <app-text-field
+      class="app-user-form__col"
+      name="username"
+      [control]="form.controls.username"
+      [label]="'users.form.username.label' | transloco"
+    />
+
+    <app-text-field
+      class="app-user-form__col"
+      name="password"
+      type="password"
+      [control]="form.controls.password"
+      [label]="'users.form.password.label' | transloco"
+      [placeholder]="
+        (isEditMode()
+          ? 'users.form.password.placeholder_edit'
+          : 'users.form.password.placeholder_create'
+        ) | transloco
+      "
+      [required]="!isEditMode()"
+    />
+  </div>
+
+  <app-checkbox-field
+    name="enabled"
+    [control]="form.controls.enabled"
+    [label]="'users.form.enabled.label' | transloco"
+  />
+
+  <app-multi-select-field
+    name="roleIds"
+    [control]="form.controls.roleIds"
+    [options]="roleOptions()"
+    [translateLabels]="false"
+    [label]="'users.form.roles.label' | transloco"
+    [required]="false"
+  />
+
+  <div class="app-user-form__actions">
+    <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
+      {{ 'common.actions.cancel' | transloco }}
+    </button>
+    <button nz-button nzType="primary" type="submit" [nzLoading]="saving()">
+      <span nz-icon nzType="check"></span>
+      <span>{{ 'common.actions.save' | transloco }}</span>
+    </button>
+  </div>
+</form>

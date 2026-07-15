@@ -1,0 +1,7 @@
+.app-role-menu-assign {
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--spacing-md);
+  }
+}

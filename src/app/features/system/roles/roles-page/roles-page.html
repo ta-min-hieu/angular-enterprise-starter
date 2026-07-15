@@ -1,0 +1,110 @@
+<div class="app-roles-page">
+  <app-page-header
+    [breadcrumbItems]="breadcrumbItems"
+    title="roles.title"
+    subtitle="roles.subtitle"
+    addLink="/system/roles/new"
+    addLabel="roles.add_button"
+  />
+
+  <nz-card [nzBordered]="false" class="app-roles-page__filter-card">
+    <nz-input-group class="app-roles-page__search" [nzPrefix]="searchPrefix">
+      <input
+        type="text"
+        nz-input
+        [placeholder]="'roles.search_placeholder' | transloco"
+        [ngModel]="list.keyword()"
+        (ngModelChange)="list.onKeywordChange($event)"
+      />
+    </nz-input-group>
+    <ng-template #searchPrefix>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </nz-card>
+
+  <nz-card [nzBordered]="false" class="app-roles-page__table-card">
+    @if (list.error(); as currentError) {
+      <app-error-state [error]="currentError" (retry)="list.refresh()" />
+    } @else {
+      <nz-table
+        ngSkipHydration
+        #roleTable
+        class="app-roles-page__table"
+        [nzData]="list.filteredItems()"
+        [nzLoading]="roleService.loading()"
+        [nzNoResult]="emptyTemplate"
+      >
+        <thead>
+          <tr>
+            <th>{{ 'roles.table.code' | transloco }}</th>
+            <th>{{ 'roles.table.name' | transloco }}</th>
+            <th>{{ 'roles.table.description' | transloco }}</th>
+            <th nzAlign="center">{{ 'roles.table.data_scope' | transloco }}</th>
+            <th nzAlign="center">{{ 'roles.table.status' | transloco }}</th>
+            <th nzAlign="right">{{ 'roles.table.actions' | transloco }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (role of roleTable.data; track role.id) {
+            <tr>
+              <td>
+                <code>{{ role.roleKey }}</code>
+              </td>
+              <td>{{ role.roleName }}</td>
+              <td>{{ role.description }}</td>
+              <td nzAlign="center">
+                {{ 'roles.data_scope.' + role.dataScope.toLowerCase() | transloco }}
+              </td>
+              <td nzAlign="center">
+                <nz-tag [nzColor]="role.status === 'ACTIVE' ? 'success' : 'default'">
+                  {{
+                    (role.status === 'ACTIVE'
+                      ? 'system.common_status.active'
+                      : 'system.common_status.disabled'
+                    ) | transloco
+                  }}
+                </nz-tag>
+              </td>
+              <td nzAlign="right">
+                <a
+                  [routerLink]="['/system/roles', role.id, 'edit']"
+                  nz-button
+                  nzType="text"
+                  nz-tooltip
+                  [nzTooltipTitle]="'common.actions.edit' | transloco"
+                >
+                  <span nz-icon nzType="edit"></span>
+                </a>
+                <button
+                  nz-button
+                  nzType="text"
+                  nzDanger
+                  nz-tooltip
+                  [nzTooltipTitle]="'common.actions.delete' | transloco"
+                  nz-popconfirm
+                  [nzPopconfirmTitle]="'roles.actions.delete_confirm' | transloco"
+                  (nzOnConfirm)="list.onDelete(role.id)"
+                >
+                  <span nz-icon nzType="delete"></span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+
+      <ng-template #emptyTemplate>
+        <app-empty-state
+          [message]="(list.keyword() ? 'roles.empty.no_match' : 'roles.empty.no_data') | transloco"
+        >
+          @if (!list.keyword()) {
+            <a actions routerLink="/system/roles/new" nz-button nzType="primary">
+              <span nz-icon nzType="plus"></span>
+              <span>{{ 'roles.add_button' | transloco }}</span>
+            </a>
+          }
+        </app-empty-state>
+      </ng-template>
+    }
+  </nz-card>
+</div>

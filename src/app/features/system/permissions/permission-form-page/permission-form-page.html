@@ -1,0 +1,12 @@
+<div class="app-permission-form-page">
+  <app-page-header [breadcrumbItems]="breadcrumbItems()" [title]="headerTitle()" />
+
+  <nz-card [nzBordered]="false" class="app-permission-form-page__card">
+    <app-permission-form
+      [permission]="permission()"
+      [saving]="saving()"
+      (save)="onSave($event)"
+      (cancelled)="onCancel()"
+    />
+  </nz-card>
+</div>

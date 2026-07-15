@@ -1,0 +1,21 @@
+.app-menus-page {
+  &__tree-card {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__node {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  &__node-title {
+    font-weight: var(--font-weight-medium);
+  }
+
+  &__node-actions {
+    display: inline-flex;
+    align-items: center;
+  }
+}

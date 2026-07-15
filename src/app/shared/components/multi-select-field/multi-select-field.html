@@ -8,7 +8,10 @@
       [nzPlaceHolder]="resolvedPlaceholder()"
     >
       @for (option of options(); track option.value) {
-        <nz-option [nzLabel]="option.label | transloco" [nzValue]="option.value" />
+        <nz-option
+          [nzLabel]="translateLabels() ? (option.label | transloco) : option.label"
+          [nzValue]="option.value"
+        />
       }
     </nz-select>
   </nz-form-control>
