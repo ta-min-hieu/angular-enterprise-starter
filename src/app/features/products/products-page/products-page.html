@@ -1,22 +1,11 @@
 <div class="app-products-page">
-  <nz-breadcrumb class="app-products-page__breadcrumb">
-    <nz-breadcrumb-item>
-      <span nz-icon nzType="home"></span>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{ 'products.title' | transloco }}</nz-breadcrumb-item>
-  </nz-breadcrumb>
-
-  <div class="app-products-page__header">
-    <div class="app-products-page__heading">
-      <h1>{{ 'products.title' | transloco }}</h1>
-      <p class="app-products-page__subtitle">{{ 'products.subtitle' | transloco }}</p>
-    </div>
-
-    <a routerLink="/products/new" nz-button nzType="primary">
-      <span nz-icon nzType="plus"></span>
-      <span>{{ 'products.add_button' | transloco }}</span>
-    </a>
-  </div>
+  <app-page-header
+    [breadcrumbItems]="breadcrumbItems"
+    title="products.title"
+    subtitle="products.subtitle"
+    addLink="/products/new"
+    addLabel="products.add_button"
+  />
 
   <nz-card [nzBordered]="false" class="app-products-page__filter-card">
     <nz-input-group class="app-products-page__search" [nzPrefix]="searchPrefix">

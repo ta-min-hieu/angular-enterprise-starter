@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Router, RouterLink } from '@angular/router';
-import { catchError, of, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { ProductService } from '../product.service';
 import { ProductForm, ProductFormSaveEvent } from '../product-form/product-form';
 import { MediaAsset } from '../../../shared/models/media-asset.model';
+import { PageBreadcrumbItem, PageHeader } from '../../../shared/components/page-header/page-header';
+import { createEntityByIdLoader } from '../../../shared/crud/entity-by-id-loader.util';
 
 @Component({
   selector: 'app-product-form-page',
-  imports: [RouterLink, NzCardModule, NzBreadCrumbModule, NzIconModule, TranslocoPipe, ProductForm],
+  imports: [NzCardModule, ProductForm, PageHeader],
   templateUrl: './product-form-page.html',
   styleUrl: './product-form-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,22 +23,26 @@ export class ProductFormPage {
   readonly isEditMode = computed(() => !!this.id());
   readonly saving = signal(false);
 
-  private readonly product$ = toObservable(this.id).pipe(
-    switchMap((id) => {
-      if (!id) {
-        return of(null);
-      }
-
-      return this.productService.getById(id).pipe(
-        catchError(() => {
-          void this.router.navigate(['/products']);
-          return of(null);
-        }),
-      );
-    }),
+  readonly breadcrumbItems = computed<readonly PageBreadcrumbItem[]>(() => [
+    { label: 'products.title', link: '/products' },
+    {
+      label: this.isEditMode()
+        ? 'products.form_page.breadcrumb_edit'
+        : 'products.form_page.breadcrumb_create',
+    },
+  ]);
+  readonly headerTitle = computed(() =>
+    this.isEditMode() ? 'products.form_page.edit_title' : 'products.form_page.create_title',
+  );
+  readonly headerSubtitle = computed(() =>
+    this.isEditMode() ? 'products.form_page.edit_subtitle' : 'products.form_page.create_subtitle',
   );
 
-  readonly product = toSignal(this.product$, { initialValue: null });
+  readonly product = createEntityByIdLoader({
+    id: this.id,
+    getById: (id) => this.productService.getById(id),
+    onNotFound: () => void this.router.navigate(['/products']),
+  });
 
   onSave(event: ProductFormSaveEvent): void {
     const editing = this.product();

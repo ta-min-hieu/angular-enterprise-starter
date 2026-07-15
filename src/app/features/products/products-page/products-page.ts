@@ -8,7 +8,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
@@ -23,6 +22,7 @@ import { ProductQuery, ProductService } from '../product.service';
 import { CATEGORY_OPTIONS } from '../product.constants';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { MediaSrcDirective } from '../../../shared/directives/media-src.directive';
+import { PageBreadcrumbItem, PageHeader } from '../../../shared/components/page-header/page-header';
 
 type StockLevel = 'out' | 'low' | 'in-stock';
 
@@ -44,12 +44,12 @@ const SEARCH_DEBOUNCE_MS = 300;
     NzTagModule,
     NzTooltipModule,
     NzCardModule,
-    NzBreadCrumbModule,
     TranslocoPipe,
     ProductDetail,
     EmptyState,
     Pagination,
     MediaSrcDirective,
+    PageHeader,
   ],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss',
@@ -59,6 +59,8 @@ export class ProductsPage {
   private readonly i18nService = inject(I18nService);
 
   readonly productService = inject(ProductService);
+
+  readonly breadcrumbItems: readonly PageBreadcrumbItem[] = [{ label: 'products.title' }];
 
   readonly searchTerm = signal('');
   readonly pageIndex = signal(1);

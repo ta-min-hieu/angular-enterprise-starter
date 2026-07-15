@@ -109,7 +109,7 @@ describe('ProductsPage', () => {
     fixture.detectChanges();
 
     const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('a[routerLink="/products/new"]')).not.toBeNull();
+    expect(el.querySelector('a[href="/products/new"]')).not.toBeNull();
   });
 
   it('should link each row edit action to its product edit route', () => {

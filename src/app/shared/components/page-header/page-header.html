@@ -1,0 +1,32 @@
+<div class="app-page-header">
+  <nz-breadcrumb class="app-page-header__breadcrumb">
+    <nz-breadcrumb-item>
+      <span nz-icon nzType="home"></span>
+    </nz-breadcrumb-item>
+    @for (item of breadcrumbItems(); track item.label) {
+      <nz-breadcrumb-item>
+        @if (item.link) {
+          <a [routerLink]="item.link">{{ item.label | transloco }}</a>
+        } @else {
+          {{ item.label | transloco }}
+        }
+      </nz-breadcrumb-item>
+    }
+  </nz-breadcrumb>
+
+  <div class="app-page-header__header">
+    <div class="app-page-header__heading">
+      <h1>{{ title() | transloco }}</h1>
+      @if (subtitle()) {
+        <p class="app-page-header__subtitle">{{ subtitle() | transloco }}</p>
+      }
+    </div>
+
+    @if (addLink()) {
+      <a [routerLink]="addLink()" nz-button nzType="primary">
+        <span nz-icon nzType="plus"></span>
+        <span>{{ addLabel() | transloco }}</span>
+      </a>
+    }
+  </div>
+</div>
