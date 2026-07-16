@@ -9,6 +9,9 @@
   --color-surface: #ffffff;
   --color-background: #f5f5f5;
   --color-border: #d9d9d9;
+  // Nền phủ lên hàng chẵn trong bảng (zebra-stripe) — dùng overlay bán trong suốt thay vì hex cứng
+  // để tự thích nghi với bất kỳ màu nền nào bên dưới (--color-surface đổi theo theme).
+  --color-row-alt: rgba(0, 0, 0, 0.02);
 
   --color-text: rgba(0, 0, 0, 0.88);
   --color-text-secondary: rgba(0, 0, 0, 0.65);

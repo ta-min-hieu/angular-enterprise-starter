@@ -7,7 +7,10 @@ import { REGISTERED_ICONS } from '../../core/icons/icon-registration';
 import { provideTranslocoTesting } from '../../core/i18n/testing/provide-transloco-testing';
 
 describe('AuthLayout', () => {
-  it('should create', () => {
+  // AuthLayout dùng @defer (on immediate) cho NetworkBackground — Angular biên dịch nội dung
+  // deferred thành import() động, nên TestBed cần compileComponents() (async) trước khi tạo
+  // component, khác với các component "should create" thông thường khác trong repo.
+  it('should create', async () => {
     TestBed.configureTestingModule({
       imports: [AuthLayout],
       providers: [
@@ -16,6 +19,7 @@ describe('AuthLayout', () => {
         ...provideTranslocoTesting(),
       ],
     });
+    await TestBed.compileComponents();
 
     const fixture = TestBed.createComponent(AuthLayout);
     fixture.detectChanges();

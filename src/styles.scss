@@ -20,3 +20,11 @@ h5,
 h6 {
   color: inherit;
 }
+
+// Zebra-stripe cho MỌI nz-table trong app — đặt ở stylesheet toàn cục (không phải per-component)
+// vì đây là quy ước hiển thị chung cho toàn bộ bảng dữ liệu, tránh lặp lại CSS ở từng trang list.
+// :not(:hover) để nhường chỗ cho background hover mặc định của ng-zorro, tránh việc 2 rule cùng
+// specificity "đánh nhau" theo thứ tự nạp CSS.
+.ant-table-tbody > tr.ant-table-row:nth-child(even):not(:hover) > td {
+  background-color: var(--color-row-alt);
+}

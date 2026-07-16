@@ -1,4 +1,10 @@
 <div class="app-auth-layout">
+  @defer (on immediate) {
+    <app-network-background class="app-auth-layout__background" />
+  } @placeholder {
+    <div class="app-auth-layout__background app-auth-layout__background--placeholder"></div>
+  }
+
   <div class="app-auth-layout__toolbar">
     <app-language-switcher />
   </div>

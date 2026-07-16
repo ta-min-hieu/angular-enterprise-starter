@@ -1,19 +1,39 @@
+// Màu nền hero riêng cho auth-layout (không phải token theme sáng/tối chung của app) — khớp
+// background-color của NetworkBackground (xem network-background.config.ts DEFAULT) để không bị
+// "chớp" sáng trước khi canvas @defer tải xong.
+$auth-hero-background: #050816;
+
 .app-auth-layout {
   position: relative;
   min-height: 100vh;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-background);
+  background-color: $auth-hero-background;
   padding: var(--spacing-lg);
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    &--placeholder {
+      background-color: $auth-hero-background;
+    }
+  }
 
   &__toolbar {
     position: absolute;
+    z-index: 1;
     top: var(--spacing-lg);
     right: var(--spacing-lg);
+    color: rgba(255, 255, 255, 0.85);
   }
 
   &__card {
+    position: relative;
+    z-index: 1;
     width: 100%;
     max-width: 420px;
   }
