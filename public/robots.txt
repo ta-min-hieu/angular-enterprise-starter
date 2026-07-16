@@ -1,0 +1,6 @@
+# Toàn bộ app hiện tại là Admin/RBAC portal sau đăng nhập (Products, Reports, System) — không có
+# trang public nào cần index (xem docs/06-rendering-strategy.md § CSR: "không cần SEO"). Khi thêm
+# feature public thật (landing page, blog, product detail public...), mở Allow cho đúng path đó
+# và cập nhật sitemap.xml, thay vì để Disallow: / như dưới đây.
+User-agent: *
+Disallow: /

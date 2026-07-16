@@ -5,7 +5,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { TitleStrategy, provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideTransloco } from '@jsverse/transloco';
 
@@ -30,6 +30,7 @@ import { ConsoleLogSink } from './core/logger/console-log-sink';
 import { TOKEN_STORAGE } from './core/storage/token-storage';
 import { LocalTokenStorage } from './core/storage/local-token-storage';
 import { NAV_MENU_ITEMS } from './core/navigation/nav-menu-items.token';
+import { AppTitleStrategy } from './core/seo/app-title-strategy';
 
 registerLocaleData(en);
 
@@ -58,6 +59,7 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(initializeAppConfig),
     provideAppInitializer(initializeLocale),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: TitleStrategy, useClass: AppTitleStrategy },
     { provide: LOG_SINKS, useClass: ConsoleLogSink, multi: true },
     { provide: TOKEN_STORAGE, useClass: LocalTokenStorage },
     {

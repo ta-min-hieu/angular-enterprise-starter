@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Placeholder — app hiện tại không có trang public nào cần index (xem robots.txt: Disallow: /).
+  Khi có route public thật dùng SSR/SSG (xem docs/06-rendering-strategy.md), thêm <url> tương ứng
+  ở đây với domain thật của deployment, ví dụ:
+
+  <url>
+    <loc>https://example.com/</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>

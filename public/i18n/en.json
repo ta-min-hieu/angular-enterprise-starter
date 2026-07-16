@@ -52,8 +52,11 @@
   "layout.admin.menu_search_no_result": "No matching menu found",
   "layout.admin.logout": "Log out",
 
+  "pages.not_found.title": "Page not found",
   "pages.not_found.subtitle": "The page you requested was not found.",
+  "pages.forbidden.title": "Access denied",
   "pages.forbidden.subtitle": "You do not have permission to access this page.",
+  "pages.server_error.title": "Server error",
   "pages.server_error.subtitle": "A server error occurred. Please try again later.",
   "pages.server_error.reload": "Reload page",
   "pages.back_home": "Back to home",

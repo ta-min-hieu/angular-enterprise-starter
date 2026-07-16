@@ -61,16 +61,19 @@ export const routes: Routes = [
   },
   {
     path: 'forbidden',
+    data: { seo: { title: 'pages.forbidden.title' } },
     loadComponent: () =>
       import('../shared/pages/forbidden-page/forbidden-page').then((m) => m.ForbiddenPage),
   },
   {
     path: 'server-error',
+    data: { seo: { title: 'pages.server_error.title' } },
     loadComponent: () =>
       import('../shared/pages/server-error-page/server-error-page').then((m) => m.ServerErrorPage),
   },
   {
     path: '**',
+    data: { seo: { title: 'pages.not_found.title' } },
     loadComponent: () =>
       import('../shared/pages/not-found-page/not-found-page').then((m) => m.NotFoundPage),
   },

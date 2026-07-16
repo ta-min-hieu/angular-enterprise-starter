@@ -52,8 +52,11 @@
   "layout.admin.menu_search_no_result": "Không tìm thấy menu phù hợp",
   "layout.admin.logout": "Đăng xuất",
 
+  "pages.not_found.title": "Không tìm thấy trang",
   "pages.not_found.subtitle": "Không tìm thấy trang bạn yêu cầu.",
+  "pages.forbidden.title": "Không có quyền truy cập",
   "pages.forbidden.subtitle": "Bạn không có quyền truy cập trang này.",
+  "pages.server_error.title": "Lỗi máy chủ",
   "pages.server_error.subtitle": "Đã có lỗi xảy ra ở máy chủ. Vui lòng thử lại sau.",
   "pages.server_error.reload": "Tải lại trang",
   "pages.back_home": "Về trang chủ",

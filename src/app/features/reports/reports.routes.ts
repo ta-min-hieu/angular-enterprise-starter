@@ -8,6 +8,7 @@ export const reportsRoutes: Routes = [
     // lazy chunk của Reports, không kéo vào initial bundle — đúng nguyên tắc "Dynamic Import/Lazy
     // Load" ở docs/18-dependency-management.md, tránh vượt budget bundle size chỉ vì 1 route dùng.
     providers: [provideCharts(withDefaultRegisterables())],
+    data: { seo: { title: 'reports.title' } },
     loadComponent: () => import('./reports-page/reports-page').then((m) => m.ReportsPage),
   },
 ];
