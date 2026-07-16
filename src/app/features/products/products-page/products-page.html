@@ -8,18 +8,29 @@
   />
 
   <nz-card [nzBordered]="false" class="app-products-page__filter-card">
-    <nz-input-group class="app-products-page__search" [nzPrefix]="searchPrefix">
-      <input
-        type="text"
-        nz-input
+    <app-filter-bar [hasActiveFilters]="hasActiveFilters()" (clear)="onClearFilters()">
+      <app-text-field
+        name="name"
+        [label]="'products.table.name' | transloco"
+        [control]="filterForm.controls.name"
         [placeholder]="'products.search_placeholder' | transloco"
-        [ngModel]="searchTerm()"
-        (ngModelChange)="onSearchTermChange($event)"
+        [required]="false"
       />
-    </nz-input-group>
-    <ng-template #searchPrefix>
-      <span nz-icon nzType="search"></span>
-    </ng-template>
+      <app-select-field
+        name="category"
+        [label]="'products.table.category' | transloco"
+        [control]="filterForm.controls.category"
+        [options]="categoryFilterOptions"
+        [required]="false"
+      />
+      <app-select-field
+        name="status"
+        [label]="'products.table.status' | transloco"
+        [control]="filterForm.controls.status"
+        [options]="statusFilterOptions"
+        [required]="false"
+      />
+    </app-filter-bar>
   </nz-card>
 
   <nz-card
@@ -46,6 +57,7 @@
     >
       <thead>
         <tr>
+          <th nzAlign="center" nzWidth="64px">{{ 'common.table.index' | transloco }}</th>
           <th>{{ 'products.table.media' | transloco }}</th>
           <th>{{ 'products.table.name' | transloco }}</th>
           <th>{{ 'products.table.category' | transloco }}</th>
@@ -56,8 +68,11 @@
         </tr>
       </thead>
       <tbody>
-        @for (product of productTable.data; track product.id) {
+        @for (product of productTable.data; track product.id; let i = $index) {
           <tr>
+            <td nzAlign="center">
+              {{ (pageIndex() - 1) * pageSize() + i + 1 }}
+            </td>
             <td>
               @if (thumbnailUrl(product); as src) {
                 <img
@@ -78,7 +93,7 @@
             <td nzAlign="right">{{ product.price | currency: 'VND' }}</td>
             <td nzAlign="center">
               <nz-tag [nzColor]="stockColor(product.stock)">
-                {{ product.stock }} · {{ stockLabel(product.stock) }}
+                {{ product.stock | number }} · {{ stockLabel(product.stock) }}
               </nz-tag>
             </td>
             <td nzAlign="center">
@@ -139,10 +154,10 @@
     <ng-template #emptyTemplate>
       <app-empty-state
         [message]="
-          (searchTerm() ? 'products.empty.no_match' : 'products.empty.no_data') | transloco
+          (hasActiveFilters() ? 'products.empty.no_match' : 'products.empty.no_data') | transloco
         "
       >
-        @if (!searchTerm()) {
+        @if (!hasActiveFilters()) {
           <a actions routerLink="/products/new" nz-button nzType="primary">
             <span nz-icon nzType="plus"></span>
             <span>{{ 'products.add_button' | transloco }}</span>

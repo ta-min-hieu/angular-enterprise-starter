@@ -36,6 +36,7 @@
       >
         <thead>
           <tr>
+            <th nzAlign="center" nzWidth="64px">{{ 'common.table.index' | transloco }}</th>
             <th>{{ 'users.table.username' | transloco }}</th>
             <th>{{ 'users.table.roles' | transloco }}</th>
             <th nzAlign="center">{{ 'users.table.status' | transloco }}</th>
@@ -43,8 +44,11 @@
           </tr>
         </thead>
         <tbody>
-          @for (user of userTable.data; track user.id) {
+          @for (user of userTable.data; track user.id; let i = $index) {
             <tr>
+              <td nzAlign="center">
+                {{ (userTable.nzPageIndex - 1) * userTable.nzPageSize + i + 1 }}
+              </td>
               <td>{{ user.username }}</td>
               <td>
                 @for (role of user.roles; track role.id) {

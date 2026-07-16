@@ -1,25 +1,28 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CurrencyPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { ProductDetail } from '../product-detail/product-detail';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { FilterBar } from '../../../shared/components/filter-bar/filter-bar';
+import { SelectField } from '../../../shared/components/select-field/select-field';
+import { TextField } from '../../../shared/components/text-field/text-field';
 import { Pagination } from '../../../shared/components/pagination/pagination';
-import { Product } from '../product.model';
+import { SelectOption } from '../../../shared/models/select-option.model';
+import { Product, ProductStatus } from '../product.model';
 import { ProductQuery, ProductService } from '../product.service';
-import { CATEGORY_OPTIONS } from '../product.constants';
+import { CATEGORY_OPTIONS, STATUS_OPTIONS } from '../product.constants';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { MediaSrcDirective } from '../../../shared/directives/media-src.directive';
 import { PageBreadcrumbItem, PageHeader } from '../../../shared/components/page-header/page-header';
@@ -27,19 +30,29 @@ import { PageBreadcrumbItem, PageHeader } from '../../../shared/components/page-
 type StockLevel = 'out' | 'low' | 'in-stock';
 
 const LOW_STOCK_THRESHOLD = 10;
-const SEARCH_DEBOUNCE_MS = 300;
+const FILTER_DEBOUNCE_MS = 300;
+
+// value rỗng = "tất cả" (bỏ qua tiêu chí đó trong query) — thêm sẵn vào đầu options thay vì coi đây
+// là 1 lựa chọn nghiệp vụ thật, nên không đưa vào CATEGORY_OPTIONS/STATUS_OPTIONS dùng chung với form.
+const ALL_CATEGORIES_OPTION: SelectOption<string> = {
+  label: 'products.filters.all_categories',
+  value: '',
+};
+const ALL_STATUSES_OPTION: SelectOption<string> = {
+  label: 'products.filters.all_statuses',
+  value: '',
+};
 
 @Component({
   selector: 'app-products-page',
   imports: [
     CurrencyPipe,
-    FormsModule,
+    DecimalPipe,
     RouterLink,
     NzTableModule,
     NzButtonModule,
     NzModalModule,
     NzPopconfirmModule,
-    NzInputModule,
     NzIconModule,
     NzTagModule,
     NzTooltipModule,
@@ -47,6 +60,9 @@ const SEARCH_DEBOUNCE_MS = 300;
     TranslocoPipe,
     ProductDetail,
     EmptyState,
+    FilterBar,
+    SelectField,
+    TextField,
     Pagination,
     MediaSrcDirective,
     PageHeader,
@@ -56,22 +72,45 @@ const SEARCH_DEBOUNCE_MS = 300;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsPage {
+  private readonly fb = inject(NonNullableFormBuilder);
   private readonly i18nService = inject(I18nService);
 
   readonly productService = inject(ProductService);
 
   readonly breadcrumbItems: readonly PageBreadcrumbItem[] = [{ label: 'products.title' }];
 
-  readonly searchTerm = signal('');
   readonly pageIndex = signal(1);
   readonly pageSize = signal(10);
   readonly viewingProduct = signal<Product | null>(null);
 
-  private readonly searchTermChanged$ = new Subject<string>();
+  // Reuse nguyên TextField/SelectField (đã dùng trong product-form) cho toàn bộ thanh bộ lọc —
+  // gộp cả tìm-theo-tên vào chung 1 FormGroup với category/status thay vì tách riêng 1 signal, để
+  // cả 3 tiêu chí cùng debounce theo 1 pipeline duy nhất và cùng hiển thị đồng nhất (label trên input).
+  readonly filterForm = this.fb.group({
+    name: this.fb.control(''),
+    category: this.fb.control(''),
+    status: this.fb.control(''),
+  });
+  readonly categoryFilterOptions: readonly SelectOption<string>[] = [
+    ALL_CATEGORIES_OPTION,
+    ...CATEGORY_OPTIONS,
+  ];
+  readonly statusFilterOptions: readonly SelectOption<string>[] = [
+    ALL_STATUSES_OPTION,
+    ...STATUS_OPTIONS,
+  ];
+
+  private readonly filterFormValue = toSignal(this.filterForm.valueChanges, {
+    initialValue: this.filterForm.getRawValue(),
+  });
+  readonly hasActiveFilters = computed(() => {
+    const { name, category, status } = this.filterFormValue();
+    return !!name?.trim() || !!category || !!status;
+  });
 
   constructor() {
-    this.searchTermChanged$
-      .pipe(debounceTime(SEARCH_DEBOUNCE_MS), distinctUntilChanged(), takeUntilDestroyed())
+    this.filterForm.valueChanges
+      .pipe(debounceTime(FILTER_DEBOUNCE_MS), takeUntilDestroyed())
       .subscribe(() => {
         this.pageIndex.set(1);
         this.refresh();
@@ -80,9 +119,8 @@ export class ProductsPage {
     this.refresh();
   }
 
-  onSearchTermChange(value: string): void {
-    this.searchTerm.set(value);
-    this.searchTermChanged$.next(value);
+  onClearFilters(): void {
+    this.filterForm.reset({ name: '', category: '', status: '' });
   }
 
   onPageIndexChange(pageIndex: number): void {
@@ -155,11 +193,13 @@ export class ProductsPage {
   }
 
   private currentQuery(): ProductQuery {
-    const name = this.searchTerm().trim();
+    const { name, category, status } = this.filterForm.getRawValue();
     return {
       page: this.pageIndex() - 1,
       size: this.pageSize(),
-      name: name || undefined,
+      name: name.trim() || undefined,
+      category: category || undefined,
+      status: (status || undefined) as ProductStatus | undefined,
     };
   }
 

@@ -36,6 +36,7 @@
       >
         <thead>
           <tr>
+            <th nzAlign="center" nzWidth="64px">{{ 'common.table.index' | transloco }}</th>
             <th>{{ 'permissions.table.code' | transloco }}</th>
             <th>{{ 'permissions.table.name' | transloco }}</th>
             <th nzAlign="center">{{ 'permissions.table.method' | transloco }}</th>
@@ -45,8 +46,11 @@
           </tr>
         </thead>
         <tbody>
-          @for (permission of permissionTable.data; track permission.id) {
+          @for (permission of permissionTable.data; track permission.id; let i = $index) {
             <tr>
+              <td nzAlign="center">
+                {{ (permissionTable.nzPageIndex - 1) * permissionTable.nzPageSize + i + 1 }}
+              </td>
               <td>
                 <code>{{ permission.code }}</code>
               </td>

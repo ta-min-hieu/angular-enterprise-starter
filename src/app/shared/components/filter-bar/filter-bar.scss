@@ -1,0 +1,37 @@
+@use '../../../../styles/mixins/breakpoints' as *;
+
+// Mặc định custom element là display:inline — PHẢI đổi thành block, nếu không margin/spacing của
+// nơi dùng (vd products-page.scss) đặt lên <app-filter-bar> sẽ không tạo khoảng cách dòng thật,
+// khiến thanh lọc trông "dính" ngay sau phần tử đứng trước nó.
+:host {
+  display: block;
+}
+
+.app-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+
+  &__fields {
+    // Cố định số cột theo breakpoint thay vì auto-fit/auto-fill dựa theo minmax — kết quả phụ
+    // thuộc bề rộng container thật (có thể ra 3 cột thay vì 4 tuỳ độ rộng màn hình), khó đoán
+    // trước. Cố định cột cho ra đúng "1 dòng 4 field" ở laptop trở lên; thiếu field thì cột cuối
+    // để trống (không giãn full), thừa field thì tự xuống dòng (grid-auto-flow mặc định).
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+
+    @include respond-to(tablet) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(laptop) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

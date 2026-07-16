@@ -4,18 +4,59 @@
     box-shadow: var(--shadow-sm);
   }
 
+  // nz-tree không tự giãn .ant-tree-node-content-wrapper theo chiều ngang (mặc định co khít nội
+  // dung) — phải ép rộng full hàng thì __node bên trong mới canh-phải được cụm nút hành động;
+  // nếu không, node có title dài/ngắn khác nhau sẽ có nút nằm ở vị trí ngang khác nhau, trông lệch.
+  ::ng-deep .ant-tree-node-content-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  // Khoảng cách + đường phân tách nhẹ giữa các node cho cây đỡ rối mắt, nhất là khi nhiều node cùng
+  // cấp xếp liền nhau.
+  ::ng-deep .ant-tree-treenode {
+    padding: var(--spacing-xs) 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+
   &__node {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-sm);
+  }
+
+  &__node-main {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xs);
+    min-width: 0;
   }
 
   &__node-title {
+    overflow: hidden;
     font-weight: var(--font-weight-medium);
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__node-actions {
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  // Chỉ hiện cụm nút hành động khi hover/focus vào node — đỡ rối mắt khi cây có nhiều node, vẫn
+  // truy cập được bằng bàn phím (focus-within, không chỉ :hover).
+  &__node:hover &__node-actions,
+  &__node:focus-within &__node-actions {
+    opacity: 1;
   }
 }

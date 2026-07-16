@@ -1,0 +1,19 @@
+<div class="app-filter-bar">
+  <div class="app-filter-bar__fields" nz-form nzLayout="vertical">
+    <ng-content />
+  </div>
+
+  <div class="app-filter-bar__actions">
+    <button
+      nz-button
+      nzType="text"
+      type="button"
+      class="app-filter-bar__clear"
+      [disabled]="!hasActiveFilters()"
+      (click)="onClear()"
+    >
+      <span nz-icon nzType="close-circle"></span>
+      <span>{{ 'common.actions.clear_filters' | transloco }}</span>
+    </button>
+  </div>
+</div>

@@ -36,6 +36,7 @@
       >
         <thead>
           <tr>
+            <th nzAlign="center" nzWidth="64px">{{ 'common.table.index' | transloco }}</th>
             <th>{{ 'roles.table.code' | transloco }}</th>
             <th>{{ 'roles.table.name' | transloco }}</th>
             <th>{{ 'roles.table.description' | transloco }}</th>
@@ -45,8 +46,11 @@
           </tr>
         </thead>
         <tbody>
-          @for (role of roleTable.data; track role.id) {
+          @for (role of roleTable.data; track role.id; let i = $index) {
             <tr>
+              <td nzAlign="center">
+                {{ (roleTable.nzPageIndex - 1) * roleTable.nzPageSize + i + 1 }}
+              </td>
               <td>
                 <code>{{ role.roleKey }}</code>
               </td>

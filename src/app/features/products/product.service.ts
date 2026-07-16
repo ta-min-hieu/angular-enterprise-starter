@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, filter, finalize, map } from 'rxjs';
 import { ApiService } from '../../core/http/api.service';
-import { Product, ProductInput } from './product.model';
+import { Product, ProductInput, ProductStatus } from './product.model';
 import { ProductDto } from './product-api.model';
 import { toProduct, toProductPayload } from './product.mapper';
 import { UploadDoneEvent } from '../../core/http/upload-event.model';
@@ -10,6 +10,8 @@ export interface ProductQuery {
   readonly page: number;
   readonly size: number;
   readonly name?: string;
+  readonly category?: string;
+  readonly status?: ProductStatus;
 }
 
 function isDoneEvent<T>(event: { type: string }): event is UploadDoneEvent<T> {
@@ -32,6 +34,12 @@ export class ProductService {
     const params: Record<string, string | number> = { page: query.page, size: query.size };
     if (query.name) {
       params['name'] = query.name;
+    }
+    if (query.category) {
+      params['category'] = query.category;
+    }
+    if (query.status) {
+      params['status'] = query.status;
     }
 
     this.loadingSignal.set(true);

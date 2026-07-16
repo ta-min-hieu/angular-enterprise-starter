@@ -3,10 +3,12 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideNzIcons } from 'ng-zorro-antd/icon';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ProductsPage } from './products-page';
 import { REGISTERED_ICONS } from '../../../core/icons/icon-registration';
 import { provideTranslocoTesting } from '../../../core/i18n/testing/provide-transloco-testing';
+
+const FILTER_DEBOUNCE_MS = 300;
 
 const PRODUCT_DTO = {
   id: 1,
@@ -27,6 +29,7 @@ describe('ProductsPage', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
+    vi.useFakeTimers();
     TestBed.configureTestingModule({
       imports: [ProductsPage],
       providers: [
@@ -38,6 +41,10 @@ describe('ProductsPage', () => {
       ],
     });
     httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   function flushList(data: readonly unknown[] = [PRODUCT_DTO]) {
@@ -61,14 +68,13 @@ describe('ProductsPage', () => {
     expect(fixture.componentInstance.productService.totalCount()).toBe(1);
   });
 
-  it('should debounce the search term and reload with the name filter', () => {
-    vi.useFakeTimers();
+  it('should debounce the name filter and reload once it settles', () => {
     const fixture = TestBed.createComponent(ProductsPage);
     fixture.detectChanges();
     flushList();
 
-    fixture.componentInstance.onSearchTermChange('ban');
-    vi.advanceTimersByTime(300);
+    fixture.componentInstance.filterForm.controls.name.setValue('ban');
+    vi.advanceTimersByTime(FILTER_DEBOUNCE_MS);
 
     const req = httpMock.expectOne(
       (r) => r.url === '/api/products' && r.params.get('name') === 'ban',
@@ -81,7 +87,6 @@ describe('ProductsPage', () => {
     });
 
     expect(fixture.componentInstance.pageIndex()).toBe(1);
-    vi.useRealTimers();
   });
 
   it('should reload immediately (no debounce) when the page index changes', () => {
@@ -99,6 +104,87 @@ describe('ProductsPage', () => {
       message: 'Success',
       data: [],
       metadata: { page: 1, size: 10, totalElements: 1, totalPages: 2 },
+    });
+  });
+
+  it('should debounce and reload with the category filter', () => {
+    const fixture = TestBed.createComponent(ProductsPage);
+    fixture.detectChanges();
+    flushList();
+
+    fixture.componentInstance.filterForm.controls.category.setValue('laptops');
+    vi.advanceTimersByTime(FILTER_DEBOUNCE_MS);
+
+    const req = httpMock.expectOne(
+      (r) => r.url === '/api/products' && r.params.get('category') === 'laptops',
+    );
+    req.flush({
+      code: '200',
+      message: 'Success',
+      data: [],
+      metadata: { page: 0, size: 10, totalElements: 0, totalPages: 0 },
+    });
+
+    expect(fixture.componentInstance.pageIndex()).toBe(1);
+  });
+
+  it('should debounce and reload with the status filter', () => {
+    const fixture = TestBed.createComponent(ProductsPage);
+    fixture.detectChanges();
+    flushList();
+
+    fixture.componentInstance.filterForm.controls.status.setValue('inactive');
+    vi.advanceTimersByTime(FILTER_DEBOUNCE_MS);
+
+    const req = httpMock.expectOne(
+      (r) => r.url === '/api/products' && r.params.get('status') === 'inactive',
+    );
+    req.flush({
+      code: '200',
+      message: 'Success',
+      data: [],
+      metadata: { page: 0, size: 10, totalElements: 0, totalPages: 0 },
+    });
+  });
+
+  it('should track active filters and clear name/category/status together via onClearFilters', () => {
+    const fixture = TestBed.createComponent(ProductsPage);
+    fixture.detectChanges();
+    flushList();
+
+    expect(fixture.componentInstance.hasActiveFilters()).toBe(false);
+
+    fixture.componentInstance.filterForm.controls.name.setValue('ban');
+    expect(fixture.componentInstance.hasActiveFilters()).toBe(true);
+
+    vi.advanceTimersByTime(FILTER_DEBOUNCE_MS);
+    httpMock
+      .expectOne((r) => r.url === '/api/products' && r.params.get('name') === 'ban')
+      .flush({
+        code: '200',
+        message: 'Success',
+        data: [],
+        metadata: { page: 0, size: 10, totalElements: 0, totalPages: 0 },
+      });
+
+    fixture.componentInstance.onClearFilters();
+    vi.advanceTimersByTime(FILTER_DEBOUNCE_MS);
+
+    expect(fixture.componentInstance.hasActiveFilters()).toBe(false);
+    expect(fixture.componentInstance.filterForm.controls.name.value).toBe('');
+
+    const clearReq = httpMock.expectOne(
+      (r) =>
+        r.url === '/api/products' &&
+        !r.params.has('name') &&
+        !r.params.has('category') &&
+        !r.params.has('status'),
+    );
+    clearReq.flush({
+      code: '200',
+      message: 'Success',
+      data: [PRODUCT_DTO],
+      metadata: { page: 0, size: 10, totalElements: 1, totalPages: 1 },
     });
   });
 

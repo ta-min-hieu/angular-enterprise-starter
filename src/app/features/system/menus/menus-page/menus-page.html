@@ -28,16 +28,18 @@
 
       <ng-template #treeTemplate let-node>
         <span class="app-menus-page__node">
-          <span nz-icon [nzType]="node.icon || 'file'"></span>
-          <span class="app-menus-page__node-title">{{ node.title }}</span>
-          <nz-tag [nzColor]="menuStatus(node.key) === 'ACTIVE' ? 'success' : 'default'">
-            {{
-              (menuStatus(node.key) === 'ACTIVE'
-                ? 'system.common_status.active'
-                : 'system.common_status.disabled'
-              ) | transloco
-            }}
-          </nz-tag>
+          <span class="app-menus-page__node-main">
+            <span nz-icon [nzType]="node.icon || 'file'"></span>
+            <span class="app-menus-page__node-title">{{ node.title }}</span>
+            <nz-tag [nzColor]="menuStatus(node.key) === 'ACTIVE' ? 'success' : 'default'">
+              {{
+                (menuStatus(node.key) === 'ACTIVE'
+                  ? 'system.common_status.active'
+                  : 'system.common_status.disabled'
+                ) | transloco
+              }}
+            </nz-tag>
+          </span>
           <span class="app-menus-page__node-actions">
             <a
               [routerLink]="'/system/menus/new'"
