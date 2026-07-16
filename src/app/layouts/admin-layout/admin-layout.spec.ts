@@ -133,4 +133,70 @@ describe('AdminLayout', () => {
 
     expect(fixture.componentInstance.isSubmenuOpen(SYSTEM_MENU)).toBe(true);
   });
+
+  it('defaults the sider to 200px when nothing is stored', () => {
+    const { fixture } = setup();
+
+    expect(fixture.componentInstance.siderWidth()).toBe(200);
+  });
+
+  it('resizes the sider while dragging, clamped to the min/max bounds, and persists on release', () => {
+    const { fixture } = setup();
+    const component = fixture.componentInstance;
+
+    component.onResizeHandleMouseDown({
+      clientX: 200,
+      preventDefault: () => undefined,
+    } as MouseEvent);
+    expect(component.resizing()).toBe(true);
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 260 }));
+    expect(component.siderWidth()).toBe(260);
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 1000 }));
+    expect(component.siderWidth()).toBe(360);
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: -1000 }));
+    expect(component.siderWidth()).toBe(180);
+
+    document.dispatchEvent(new MouseEvent('mouseup'));
+    expect(component.resizing()).toBe(false);
+    expect(localStorage.getItem('app.sider_width')).toBe('180');
+
+    localStorage.removeItem('app.sider_width');
+  });
+
+  it('stops reacting to mouse movement once the drag has ended', () => {
+    const { fixture } = setup();
+    const component = fixture.componentInstance;
+
+    component.onResizeHandleMouseDown({
+      clientX: 200,
+      preventDefault: () => undefined,
+    } as MouseEvent);
+    document.dispatchEvent(new MouseEvent('mouseup'));
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 260 }));
+    expect(component.siderWidth()).toBe(200);
+
+    localStorage.removeItem('app.sider_width');
+  });
+
+  it('restores the sider width saved from a previous session', () => {
+    localStorage.setItem('app.sider_width', '260');
+
+    const { fixture } = setup();
+    expect(fixture.componentInstance.siderWidth()).toBe(260);
+
+    localStorage.removeItem('app.sider_width');
+  });
+
+  it('falls back to the default width when the stored value is outside the allowed range', () => {
+    localStorage.setItem('app.sider_width', '9999');
+
+    const { fixture } = setup();
+    expect(fixture.componentInstance.siderWidth()).toBe(200);
+
+    localStorage.removeItem('app.sider_width');
+  });
 });

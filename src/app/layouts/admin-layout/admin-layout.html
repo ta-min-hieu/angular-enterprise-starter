@@ -3,9 +3,18 @@
     class="app-admin-layout__sider"
     nzCollapsible
     nzTheme="light"
+    [nzWidth]="siderWidth()"
     [nzCollapsed]="collapsed()"
     (nzCollapsedChange)="collapsed.set($event)"
   >
+    @if (!collapsed()) {
+      <div
+        class="app-admin-layout__resize-handle"
+        [class.app-admin-layout__resize-handle--active]="resizing()"
+        (mousedown)="onResizeHandleMouseDown($event)"
+      ></div>
+    }
+
     <div class="app-admin-layout__brand">
       <span nz-icon nzType="appstore" class="app-admin-layout__brand-icon"></span>
       @if (!collapsed()) {
