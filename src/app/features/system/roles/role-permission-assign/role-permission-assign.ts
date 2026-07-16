@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, linkedSignal, output } from '@angular/core';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -34,13 +34,9 @@ export class RolePermissionAssign {
   readonly saving = input(false);
   readonly save = output<RolePermissionAssignSaveEvent>();
 
-  readonly checkedIds = signal<ReadonlySet<string>>(new Set());
-
-  constructor() {
-    effect(() => {
-      this.checkedIds.set(new Set(this.assignedIds()));
-    });
-  }
+  // linkedSignal vì đây là state có thể sửa cục bộ (tick/untick checkbox) nhưng phải reset lại
+  // theo assignedIds() mỗi khi role đang xem đổi.
+  readonly checkedIds = linkedSignal<ReadonlySet<string>>(() => new Set(this.assignedIds()));
 
   isChecked(id: string): boolean {
     return this.checkedIds().has(id);

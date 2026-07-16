@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   input,
+  linkedSignal,
   output,
-  signal,
 } from '@angular/core';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeNodeKey } from 'ng-zorro-antd/core/tree';
@@ -33,16 +32,11 @@ export class RoleMenuAssign {
   readonly save = output<RoleMenuAssignSaveEvent>();
 
   // Kiểu mutable string[] (không phải readonly) để khớp NzTreeNodeKey[] mà nz-tree yêu cầu cho
-  // [nzCheckedKeys]/(nzCheckedKeysChange).
-  readonly checkedKeys = signal<string[]>([]);
+  // [nzCheckedKeys]/(nzCheckedKeysChange). linkedSignal vì đây là state có thể sửa cục bộ (tick/untick
+  // trên cây) nhưng phải reset lại theo assignedIds() mỗi khi role đang xem đổi.
+  readonly checkedKeys = linkedSignal(() => [...this.assignedIds()]);
 
   readonly treeNodes = computed(() => toTreeNodeOptions(buildMenuTree(this.menus())));
-
-  constructor() {
-    effect(() => {
-      this.checkedKeys.set([...this.assignedIds()]);
-    });
-  }
 
   // Menu id (key trong cây) luôn là string ở phía FE (xem Menu.id) — nz-tree khai báo kiểu key
   // rộng hơn (NzTreeNodeKey = string | number) nên convert tường minh ở biên component này.
