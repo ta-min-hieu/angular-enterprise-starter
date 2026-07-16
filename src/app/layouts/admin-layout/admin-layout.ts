@@ -56,6 +56,7 @@ export class AdminLayout {
   readonly menuSearchTerm = signal('');
   readonly siderWidth = signal(this.resolveInitialSiderWidth());
   readonly resizing = signal(false);
+  protected readonly currentYear = new Date().getFullYear();
 
   // Lọc theo label ĐÃ DỊCH (không phải i18n key) — người dùng gõ theo chữ họ nhìn thấy trên menu.
   // Item cha khớp trực tiếp -> giữ nguyên toàn bộ children; cha không khớp nhưng có children khớp

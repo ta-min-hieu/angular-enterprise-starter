@@ -51,6 +51,7 @@
   "layout.admin.menu_search_placeholder": "Tìm menu...",
   "layout.admin.menu_search_no_result": "Không tìm thấy menu phù hợp",
   "layout.admin.logout": "Đăng xuất",
+  "layout.admin.footer": "© {{year}} Angular Enterprise Starter",
 
   "pages.not_found.title": "Không tìm thấy trang",
   "pages.not_found.subtitle": "Không tìm thấy trang bạn yêu cầu.",

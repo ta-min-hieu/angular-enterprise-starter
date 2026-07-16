@@ -117,5 +117,9 @@
     <nz-content class="app-admin-layout__content">
       <router-outlet />
     </nz-content>
+
+    <nz-footer class="app-admin-layout__footer">
+      {{ 'layout.admin.footer' | transloco: { year: currentYear } }}
+    </nz-footer>
   </nz-layout>
 </nz-layout>

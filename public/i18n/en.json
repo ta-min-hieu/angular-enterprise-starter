@@ -51,6 +51,7 @@
   "layout.admin.menu_search_placeholder": "Search menu...",
   "layout.admin.menu_search_no_result": "No matching menu found",
   "layout.admin.logout": "Log out",
+  "layout.admin.footer": "© {{year}} Angular Enterprise Starter",
 
   "pages.not_found.title": "Page not found",
   "pages.not_found.subtitle": "The page you requested was not found.",
