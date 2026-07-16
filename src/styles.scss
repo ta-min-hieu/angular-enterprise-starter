@@ -28,3 +28,49 @@ h6 {
 .ant-table-tbody > tr.ant-table-row:nth-child(even):not(:hover) > td {
   background-color: var(--color-row-alt);
 }
+
+// Thanh đếm ngược cho nz-message (toast) — ng-zorro không có sẵn UI này, chỉ có cơ chế tạm dừng khi
+// hover ở tầng JS (nzPauseOnHover, mặc định true — pause/resume đúng phần thời gian còn lại của
+// setTimeout thật, xem NzMNComponent trong ng-zorro-antd/message). Vẽ thanh bằng CSS animation
+// thuần và tự pause qua :hover trên .ant-message-notice — ĐÚNG element mà NzMessageComponent gắn
+// (mouseenter)/(mouseleave) để điều khiển timer thật — nên luôn khớp pha với lúc toast biến mất.
+// Thời lượng PHẢI khớp nzDuration mặc định của ng-zorro (3000ms); nếu đổi nzDuration qua
+// provideNzConfig(nzConfig) thì phải sửa --app-message-duration theo cho khớp.
+.ant-message-notice-content {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: var(--color-info);
+    transform-origin: left;
+    animation: app-message-countdown var(--app-message-duration, 3000ms) linear forwards;
+  }
+}
+
+.ant-message-notice:has(.ant-message-success) .ant-message-notice-content::after {
+  background-color: var(--color-success);
+}
+
+.ant-message-notice:has(.ant-message-error) .ant-message-notice-content::after {
+  background-color: var(--color-danger);
+}
+
+.ant-message-notice:hover .ant-message-notice-content::after {
+  animation-play-state: paused;
+}
+
+@keyframes app-message-countdown {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
