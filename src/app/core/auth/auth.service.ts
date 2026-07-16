@@ -46,9 +46,21 @@ export class AuthService {
     // Khôi phục currentUser (role/permission) từ token đã lưu khi tải lại trang — nếu không, sau
     // reload accessToken vẫn còn (isAuthenticated() = true) nhưng currentUser() rỗng, khiến UI theo
     // role/permission "quên" người dùng cho tới lần đăng nhập kế tiếp.
+    //
+    // Token còn sót lại nhưng đã hết hạn/hỏng (phiên cũ, đổi backend...) phải bị dọn ngay ở đây —
+    // nếu không, authGuard vẫn thấy "có token" (isAuthenticated() = true) và cho qua, rồi roleGuard
+    // đọc currentUser().roles rỗng/không khớp và điều hướng sang /forbidden (403) thay vì /auth/login,
+    // gây cảm giác sai là "không có quyền" trong khi thực chất là "chưa đăng nhập".
     const storedToken = this.accessTokenSignal();
-    if (storedToken) {
+    if (!storedToken) {
+      return;
+    }
+
+    if (this.isTokenValid(storedToken)) {
       this.restoreSession(storedToken);
+    } else {
+      this.tokenStorage.clear();
+      this.accessTokenSignal.set(null);
     }
   }
 
@@ -121,6 +133,17 @@ export class AuthService {
 
   hasPermission(permission: string): boolean {
     return this.currentUserSignal()?.permissions.includes(permission) ?? false;
+  }
+
+  // exp thiếu -> coi như hợp lệ (một số token có thể không mang claim này); exp có nhưng đã qua,
+  // hoặc token không decode được (hỏng/không phải JWT) -> không hợp lệ.
+  private isTokenValid(token: string): boolean {
+    try {
+      const payload = decodeJwtPayload<KeycloakAccessTokenPayload>(token);
+      return !payload.exp || payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
   }
 
   private restoreSession(accessToken: string): void {

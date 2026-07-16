@@ -77,13 +77,13 @@ describe('LoginPage', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/products/new');
   });
 
-  it('should show the error message and stop loading when login fails', () => {
+  it('should show a friendly invalid-credentials message on 401 and stop loading', () => {
     const { fixture, authService, router } = setup();
     authService.login.mockReturnValue(
       throwError(() => ({
         category: ErrorCategory.Authentication,
         code: 'AUTHENTICATION_ERROR',
-        message: 'Invalid username or password',
+        message: 'Backend-specific technical detail, not for end users',
         retryable: false,
       })),
     );
@@ -92,8 +92,27 @@ describe('LoginPage', () => {
     fixture.componentInstance.form.setValue({ username: 'alice', password: 'wrong' });
     fixture.componentInstance.onSubmit();
 
-    expect(fixture.componentInstance.errorMessage()).toBe('Invalid username or password');
+    expect(fixture.componentInstance.errorMessage()).toBe(
+      'Tài khoản hoặc mật khẩu không chính xác',
+    );
     expect(fixture.componentInstance.loading()).toBe(false);
     expect(router.navigateByUrl).not.toHaveBeenCalled();
+  });
+
+  it('should show a generic message for non-authentication failures (eg. config/network errors)', () => {
+    const { fixture, authService } = setup();
+    authService.login.mockReturnValue(
+      throwError(
+        () => new Error('Unknown API name: "base". Kiểm tra apiBaseUrls trong config.json.'),
+      ),
+    );
+    fixture.detectChanges();
+
+    fixture.componentInstance.form.setValue({ username: 'alice', password: 'secret' });
+    fixture.componentInstance.onSubmit();
+
+    expect(fixture.componentInstance.errorMessage()).toBe(
+      'Đăng nhập thất bại, vui lòng thử lại sau',
+    );
   });
 });

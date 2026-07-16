@@ -130,6 +130,27 @@ describe('AuthService', () => {
     expect(apiService.get).toHaveBeenCalledWith('rbac/me/permissions');
   });
 
+  it('should clear an expired stored token on construction instead of restoring a session from it', () => {
+    const expiredToken = createFakeJwt({
+      sub: 'a1b2c3',
+      preferred_username: 'qa_admin',
+      realm_access: { roles: ['ADMIN'] },
+      exp: Math.floor(Date.now() / 1000) - 3600,
+    });
+    const { service, tokenStorage } = setup(createTokenStorage(expiredToken));
+
+    expect(service.isAuthenticated()).toBe(false);
+    expect(service.currentUser()).toBeNull();
+    expect(tokenStorage.getAccessToken()).toBeNull();
+  });
+
+  it('should clear a malformed stored token on construction instead of throwing', () => {
+    const { service, tokenStorage } = setup(createTokenStorage('not-a-jwt'));
+
+    expect(service.isAuthenticated()).toBe(false);
+    expect(tokenStorage.getAccessToken()).toBeNull();
+  });
+
   it('should call v2/auth/refresh-token with the stored refresh token and apply the new session', () => {
     const { service, tokenStorage } = setup();
     apiService.post.mockReturnValue(of(tokens));
