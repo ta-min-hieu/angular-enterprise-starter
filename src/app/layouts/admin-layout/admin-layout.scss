@@ -11,6 +11,21 @@
       color: var(--color-text-secondary);
       border-top: 1px solid var(--color-border);
     }
+
+    // ng-zorro mặc định vẽ menu item dạng dải phẳng full-width sát mép sider — bo góc + thu hẹp
+    // vào trong (pill) cho cảm giác "item nổi trong sider" thay vì dính liền viền, đúng pattern
+    // admin panel hiện đại (Notion/Linear/Vercel...) thay vì look mặc định của ant-design.
+    ::ng-deep .ant-menu-item,
+    ::ng-deep .ant-menu-submenu-title {
+      margin-inline: var(--spacing-sm);
+      width: calc(100% - var(--spacing-sm) * 2);
+      border-radius: var(--radius-md);
+      transition: background-color var(--duration-fast) var(--easing-standard);
+    }
+
+    ::ng-deep .ant-menu-item-selected {
+      font-weight: var(--font-weight-medium);
+    }
   }
 
   &__body {

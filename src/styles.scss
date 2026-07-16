@@ -29,6 +29,16 @@ h6 {
   background-color: var(--color-row-alt);
 }
 
+// nz-card KHÔNG tự đọc --color-surface/--color-border của app — CSS dark theme ng-zorro
+// (ng-zorro-antd.dark.min.css) là file biên dịch sẵn riêng với palette nội bộ của nó, không biết
+// tới custom property của mình. Set tường minh ở đây (áp dụng MỌI nz-card, không lặp lại ở từng
+// trang) để card luôn tách biệt rõ khỏi nền — nhất là ở dark mode, nơi shadow gần như vô hình trên
+// nền tối nên chỉ riêng box-shadow (đã set per-page) không đủ tạo ranh giới.
+.ant-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
 // Thanh đếm ngược cho nz-message (toast) — ng-zorro không có sẵn UI này, chỉ có cơ chế tạm dừng khi
 // hover ở tầng JS (nzPauseOnHover, mặc định true — pause/resume đúng phần thời gian còn lại của
 // setTimeout thật, xem NzMNComponent trong ng-zorro-antd/message). Vẽ thanh bằng CSS animation
