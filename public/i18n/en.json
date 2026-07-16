@@ -1,4 +1,6 @@
 {
+  "common.table.index": "No.",
+  "common.actions.clear_filters": "Clear filters",
   "common.actions.save": "Save",
   "common.actions.cancel": "Cancel",
   "common.actions.edit": "Edit",
@@ -25,6 +27,7 @@
   "theme.toggle_to_light": "Switch to light mode",
 
   "nav.products": "Products",
+  "nav.reports": "Reports",
   "nav.system": "System",
   "nav.system_users": "Users",
   "nav.system_roles": "Roles",
@@ -41,8 +44,12 @@
   "auth.login.password.label": "Password",
   "auth.login.password.placeholder": "Enter your password",
   "auth.login.submit": "Sign in",
+  "auth.login.errors.invalid_credentials": "Incorrect username or password",
+  "auth.login.errors.generic": "Sign in failed, please try again later",
 
   "layout.admin.collapse_toggle": "Collapse / expand menu",
+  "layout.admin.menu_search_placeholder": "Search menu...",
+  "layout.admin.menu_search_no_result": "No matching menu found",
   "layout.admin.logout": "Log out",
 
   "pages.not_found.subtitle": "The page you requested was not found.",
@@ -50,6 +57,20 @@
   "pages.server_error.subtitle": "A server error occurred. Please try again later.",
   "pages.server_error.reload": "Reload page",
   "pages.back_home": "Back to home",
+
+  "reports.title": "Reports",
+  "reports.subtitle": "Overview of revenue, stock and product mix.",
+  "reports.summary.total_products": "Total products",
+  "reports.summary.total_stock": "Total stock",
+  "reports.summary.total_revenue": "Revenue",
+  "reports.summary.low_stock_count": "Low-stock products",
+  "reports.charts.revenue_trend.title": "Monthly revenue",
+  "reports.charts.revenue_trend.series": "Revenue",
+  "reports.charts.category_breakdown.title": "Products by category",
+  "reports.charts.stock_status.title": "Stock status",
+  "reports.stock_status.in_stock": "In stock",
+  "reports.stock_status.low_stock": "Low stock",
+  "reports.stock_status.out_of_stock": "Out of stock",
 
   "products.title": "Products",
   "products.subtitle": "Manage catalog, pricing and stock for products.",
@@ -69,6 +90,8 @@
   "products.stock.in_stock": "In stock",
   "products.status.active": "Active",
   "products.status.inactive": "Inactive",
+  "products.filters.all_categories": "All categories",
+  "products.filters.all_statuses": "All statuses",
   "products.actions.view": "View details",
   "products.actions.edit": "Edit product",
   "products.actions.delete": "Delete product",

@@ -1,4 +1,6 @@
 {
+  "common.table.index": "STT",
+  "common.actions.clear_filters": "Xoá bộ lọc",
   "common.actions.save": "Lưu",
   "common.actions.cancel": "Huỷ",
   "common.actions.edit": "Sửa",
@@ -25,6 +27,7 @@
   "theme.toggle_to_light": "Chuyển sang giao diện sáng",
 
   "nav.products": "Sản phẩm",
+  "nav.reports": "Báo cáo",
   "nav.system": "Hệ thống",
   "nav.system_users": "Người dùng",
   "nav.system_roles": "Vai trò",
@@ -41,8 +44,12 @@
   "auth.login.password.label": "Mật khẩu",
   "auth.login.password.placeholder": "Nhập mật khẩu",
   "auth.login.submit": "Đăng nhập",
+  "auth.login.errors.invalid_credentials": "Tài khoản hoặc mật khẩu không chính xác",
+  "auth.login.errors.generic": "Đăng nhập thất bại, vui lòng thử lại sau",
 
   "layout.admin.collapse_toggle": "Thu gọn / mở rộng menu",
+  "layout.admin.menu_search_placeholder": "Tìm menu...",
+  "layout.admin.menu_search_no_result": "Không tìm thấy menu phù hợp",
   "layout.admin.logout": "Đăng xuất",
 
   "pages.not_found.subtitle": "Không tìm thấy trang bạn yêu cầu.",
@@ -50,6 +57,20 @@
   "pages.server_error.subtitle": "Đã có lỗi xảy ra ở máy chủ. Vui lòng thử lại sau.",
   "pages.server_error.reload": "Tải lại trang",
   "pages.back_home": "Về trang chủ",
+
+  "reports.title": "Báo cáo",
+  "reports.subtitle": "Tổng quan doanh thu, tồn kho và cơ cấu sản phẩm.",
+  "reports.summary.total_products": "Tổng số sản phẩm",
+  "reports.summary.total_stock": "Tổng tồn kho",
+  "reports.summary.total_revenue": "Doanh thu",
+  "reports.summary.low_stock_count": "Sản phẩm sắp hết hàng",
+  "reports.charts.revenue_trend.title": "Doanh thu theo tháng",
+  "reports.charts.revenue_trend.series": "Doanh thu",
+  "reports.charts.category_breakdown.title": "Sản phẩm theo danh mục",
+  "reports.charts.stock_status.title": "Tình trạng tồn kho",
+  "reports.stock_status.in_stock": "Còn hàng",
+  "reports.stock_status.low_stock": "Sắp hết hàng",
+  "reports.stock_status.out_of_stock": "Hết hàng",
 
   "products.title": "Sản phẩm",
   "products.subtitle": "Quản lý danh mục, giá bán và tồn kho sản phẩm.",
@@ -69,6 +90,8 @@
   "products.stock.in_stock": "Còn hàng",
   "products.status.active": "Đang bán",
   "products.status.inactive": "Ngừng bán",
+  "products.filters.all_categories": "Tất cả danh mục",
+  "products.filters.all_statuses": "Tất cả trạng thái",
   "products.actions.view": "Xem chi tiết",
   "products.actions.edit": "Sửa sản phẩm",
   "products.actions.delete": "Xoá sản phẩm",

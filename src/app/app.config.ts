@@ -67,6 +67,7 @@ export const appConfig: ApplicationConfig = {
       // menu hiện mà route chặn (hoặc ngược lại).
       useValue: [
         { label: 'nav.products', route: '/products', icon: 'shopping', roles: ['USER'] },
+        { label: 'nav.reports', route: '/reports', icon: 'bar-chart', roles: ['USER'] },
         {
           label: 'nav.system',
           route: '/system/users',
