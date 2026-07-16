@@ -1,5 +1,6 @@
 import {
   AppstoreOutline,
+  BarChartOutline,
   CalendarOutline,
   CheckCircleFill,
   CheckOutline,
@@ -56,6 +57,8 @@ export const REGISTERED_ICONS = [
   GlobalOutline,
   // Dùng bởi menu điều hướng của Feature Products.
   ShoppingOutline,
+  // Dùng bởi menu điều hướng của Feature Reports.
+  BarChartOutline,
   // Dùng bởi nz-select (multiple) và nz-date-picker trong Product Form.
   CloseOutline,
   CloseCircleOutline,

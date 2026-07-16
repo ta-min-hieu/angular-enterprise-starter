@@ -31,6 +31,21 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'reports',
+    canActivate: [authGuard, roleGuard],
+    // Cùng role với 'products' — Report hiện chỉ tổng hợp dữ liệu Product (mock, chưa có API thật),
+    // chưa có lý do nghiệp vụ để giới hạn riêng.
+    data: { roles: ['USER'] },
+    loadComponent: () => import('../layouts/admin-layout/admin-layout').then((m) => m.AdminLayout),
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('../features/reports/reports.routes').then((m) => m.reportsRoutes),
+      },
+    ],
+  },
+  {
     path: 'system',
     canActivate: [authGuard, roleGuard],
     // "ADMIN" chưa tồn tại trong JWT thật hiện nay (chỉ có "USER") — placeholder hướng tới tương

@@ -1,0 +1,18 @@
+.app-reports-page {
+  &__summary {
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__charts:not(:last-child) {
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__chart-container {
+    position: relative;
+    height: 320px;
+
+    &--short {
+      height: 260px;
+    }
+  }
+}

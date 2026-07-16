@@ -1,0 +1,92 @@
+<div class="app-reports-page">
+  <app-page-header
+    [breadcrumbItems]="breadcrumbItems"
+    title="reports.title"
+    subtitle="reports.subtitle"
+  />
+
+  <nz-spin [nzSpinning]="loading()">
+    <div nz-row [nzGutter]="[16, 16]" class="app-reports-page__summary">
+      <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="6">
+        <nz-card [nzBordered]="false">
+          <nz-statistic
+            [nzValue]="summary()?.totalProducts ?? 0"
+            [nzTitle]="'reports.summary.total_products' | transloco"
+          />
+        </nz-card>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="6">
+        <nz-card [nzBordered]="false">
+          <nz-statistic
+            [nzValue]="summary()?.totalStock ?? 0"
+            [nzTitle]="'reports.summary.total_stock' | transloco"
+          />
+        </nz-card>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="6">
+        <nz-card [nzBordered]="false">
+          <nz-statistic
+            [nzValue]="summary()?.totalRevenue ?? 0"
+            [nzValueTemplate]="revenueValueTemplate"
+            [nzTitle]="'reports.summary.total_revenue' | transloco"
+          />
+          <ng-template #revenueValueTemplate let-value>{{ value | number }}&nbsp;₫</ng-template>
+        </nz-card>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="6">
+        <nz-card [nzBordered]="false">
+          <nz-statistic
+            [nzValue]="summary()?.lowStockCount ?? 0"
+            [nzTitle]="'reports.summary.low_stock_count' | transloco"
+            [nzValueStyle]="{ color: 'var(--color-warning)' }"
+          />
+        </nz-card>
+      </div>
+    </div>
+
+    <div nz-row [nzGutter]="[16, 16]" class="app-reports-page__charts">
+      <div nz-col [nzXs]="24" [nzLg]="16">
+        <nz-card [nzBordered]="false" [nzTitle]="'reports.charts.revenue_trend.title' | transloco">
+          <div class="app-reports-page__chart-container">
+            <canvas
+              baseChart
+              type="line"
+              [data]="revenueChartData()"
+              [options]="revenueChartOptions()"
+            ></canvas>
+          </div>
+        </nz-card>
+      </div>
+      <div nz-col [nzXs]="24" [nzLg]="8">
+        <nz-card
+          [nzBordered]="false"
+          [nzTitle]="'reports.charts.category_breakdown.title' | transloco"
+        >
+          <div class="app-reports-page__chart-container">
+            <canvas
+              baseChart
+              type="doughnut"
+              [data]="categoryChartData()"
+              [options]="categoryChartOptions()"
+            ></canvas>
+          </div>
+        </nz-card>
+      </div>
+    </div>
+
+    <div nz-row [nzGutter]="[16, 16]" class="app-reports-page__charts">
+      <div nz-col [nzXs]="24">
+        <nz-card [nzBordered]="false" [nzTitle]="'reports.charts.stock_status.title' | transloco">
+          <div class="app-reports-page__chart-container app-reports-page__chart-container--short">
+            <canvas
+              baseChart
+              type="bar"
+              [data]="stockChartData()"
+              [options]="stockChartOptions()"
+            ></canvas>
+          </div>
+        </nz-card>
+      </div>
+    </div>
+  </nz-spin>
+</div>
