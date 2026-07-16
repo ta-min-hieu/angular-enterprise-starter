@@ -4,6 +4,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { ProductService } from '../product.service';
 import { ProductForm, ProductFormSaveEvent } from '../product-form/product-form';
 import { MediaAsset } from '../../../shared/models/media-asset.model';
+import { NotificationService } from '../../../core/notification/notification.service';
 import { PageBreadcrumbItem, PageHeader } from '../../../shared/components/page-header/page-header';
 import { createEntityByIdLoader } from '../../../shared/crud/entity-by-id-loader.util';
 
@@ -16,6 +17,7 @@ import { createEntityByIdLoader } from '../../../shared/crud/entity-by-id-loader
 })
 export class ProductFormPage {
   private readonly productService = inject(ProductService);
+  private readonly notificationService = inject(NotificationService);
   private readonly router = inject(Router);
 
   readonly id = input<string>();
@@ -54,9 +56,13 @@ export class ProductFormPage {
     request$.subscribe({
       next: () => {
         this.saving.set(false);
+        this.notificationService.success('common.notification.save_success');
         void this.router.navigate(['/products']);
       },
-      error: () => this.saving.set(false),
+      error: () => {
+        this.saving.set(false);
+        this.notificationService.error('common.notification.save_error');
+      },
     });
   }
 
