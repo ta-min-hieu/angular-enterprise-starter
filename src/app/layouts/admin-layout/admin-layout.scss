@@ -39,6 +39,18 @@
     color: var(--color-text);
   }
 
+  &__menu-search {
+    padding: 0 var(--spacing-md) var(--spacing-sm);
+  }
+
+  &__menu-search-empty {
+    margin: 0;
+    padding: 0 var(--spacing-md);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-label);
+    text-align: center;
+  }
+
   &__header {
     display: flex;
     align-items: center;

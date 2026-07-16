@@ -13,10 +13,33 @@
       }
     </div>
 
+    @if (!collapsed()) {
+      <div class="app-admin-layout__menu-search">
+        <nz-input-group [nzPrefix]="menuSearchPrefix">
+          <input
+            type="text"
+            nz-input
+            [placeholder]="'layout.admin.menu_search_placeholder' | transloco"
+            [ngModel]="menuSearchTerm()"
+            (ngModelChange)="onMenuSearchTermChange($event)"
+          />
+        </nz-input-group>
+        <ng-template #menuSearchPrefix>
+          <span nz-icon nzType="search"></span>
+        </ng-template>
+      </div>
+    }
+
     <ul nz-menu nzMode="inline" nzTheme="light" [nzInlineCollapsed]="collapsed()">
-      @for (item of navMenuService.visibleItems(); track item.route) {
+      @for (item of filteredMenuItems(); track item.route) {
         @if (item.children?.length) {
-          <li nz-submenu [nzTitle]="item.label | transloco" [nzIcon]="item.icon ?? null">
+          <li
+            nz-submenu
+            [nzTitle]="item.label | transloco"
+            [nzIcon]="item.icon ?? null"
+            [nzOpen]="isSubmenuOpen(item)"
+            (nzOpenChange)="onSubmenuOpenChange(item, $event)"
+          >
             <ul>
               @for (child of item.children; track child.route) {
                 <li nz-menu-item nzMatchRouter>
@@ -37,6 +60,12 @@
         }
       }
     </ul>
+
+    @if (menuSearchTerm().trim() && filteredMenuItems().length === 0) {
+      <p class="app-admin-layout__menu-search-empty">
+        {{ 'layout.admin.menu_search_no_result' | transloco }}
+      </p>
+    }
   </nz-sider>
 
   <nz-layout class="app-admin-layout__body">
