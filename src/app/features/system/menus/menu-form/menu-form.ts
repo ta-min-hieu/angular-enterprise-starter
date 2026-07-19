@@ -22,6 +22,7 @@ import { NumberField } from '../../../../shared/components/number-field/number-f
 import { RadioGroupField } from '../../../../shared/components/radio-group-field/radio-group-field';
 import { SelectField } from '../../../../shared/components/select-field/select-field';
 import { CheckboxField } from '../../../../shared/components/checkbox-field/checkbox-field';
+import { IconPickerField } from '../../../../shared/components/icon-picker-field/icon-picker-field';
 
 export interface MenuFormSaveEvent {
   readonly input: MenuInput;
@@ -41,6 +42,7 @@ export interface MenuFormSaveEvent {
     RadioGroupField,
     SelectField,
     CheckboxField,
+    IconPickerField,
   ],
   templateUrl: './menu-form.html',
   styleUrl: './menu-form.scss',

@@ -13,6 +13,7 @@
   "common.validation.required_selection": "Please select {{field}}",
   "common.placeholder.enter": "Enter {{field}}",
   "common.placeholder.select": "Select {{field}}",
+  "common.icon_picker.none": "No icon",
   "common.empty_state.no_data": "No data",
   "common.error_state.retry": "Retry",
   "common.actions.upload": "Upload",

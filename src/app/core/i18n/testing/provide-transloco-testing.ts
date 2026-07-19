@@ -5,6 +5,7 @@ const TEST_TRANSLATIONS = {
   vi: {
     'common.placeholder.enter': 'Nhập {{field}}',
     'common.placeholder.select': 'Chọn {{field}}',
+    'common.icon_picker.none': 'Không có icon',
     'common.validation.required_field': 'Vui lòng nhập {{field}}',
     'common.validation.required_selection': 'Vui lòng chọn {{field}}',
     'common.empty_state.no_data': 'Không có dữ liệu',
@@ -56,6 +57,7 @@ const TEST_TRANSLATIONS = {
   en: {
     'common.placeholder.enter': 'Enter {{field}}',
     'common.placeholder.select': 'Select {{field}}',
+    'common.icon_picker.none': 'No icon',
     'common.validation.required_field': 'Please enter {{field}}',
     'common.validation.required_selection': 'Please select {{field}}',
     'common.empty_state.no_data': 'No data',

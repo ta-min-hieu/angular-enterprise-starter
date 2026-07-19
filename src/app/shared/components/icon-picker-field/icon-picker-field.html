@@ -1,0 +1,38 @@
+<nz-form-item>
+  <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
+  <nz-form-control>
+    <div class="app-icon-picker-field__row">
+      <span class="app-icon-picker-field__preview">
+        @if (control().value) {
+          <span nz-icon [nzType]="control().value"></span>
+        } @else {
+          <span
+            nz-icon
+            nzType="appstore"
+            class="app-icon-picker-field__preview-icon--placeholder"
+          ></span>
+        }
+      </span>
+
+      <nz-select
+        class="app-icon-picker-field__select"
+        [nzId]="resolvedId()"
+        [formControl]="control()"
+        [nzPlaceHolder]="resolvedPlaceholder()"
+        nzShowSearch
+      >
+        <nz-option nzCustomContent nzValue="" [nzLabel]="'common.icon_picker.none' | transloco">
+          <span class="app-icon-picker-field__option-none">{{
+            'common.icon_picker.none' | transloco
+          }}</span>
+        </nz-option>
+        @for (icon of options; track icon) {
+          <nz-option nzCustomContent [nzValue]="icon" [nzLabel]="icon">
+            <span nz-icon [nzType]="icon"></span>
+            <span class="app-icon-picker-field__option-label">{{ icon }}</span>
+          </nz-option>
+        }
+      </nz-select>
+    </div>
+  </nz-form-control>
+</nz-form-item>

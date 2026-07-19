@@ -13,6 +13,7 @@
   "common.validation.required_selection": "Vui lòng chọn {{field}}",
   "common.placeholder.enter": "Nhập {{field}}",
   "common.placeholder.select": "Chọn {{field}}",
+  "common.icon_picker.none": "Không có icon",
   "common.empty_state.no_data": "Không có dữ liệu",
   "common.error_state.retry": "Thử lại",
   "common.actions.upload": "Tải lên",
