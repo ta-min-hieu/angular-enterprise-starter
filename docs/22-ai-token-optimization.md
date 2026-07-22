@@ -26,19 +26,22 @@ Không đọc toàn bộ `docs/` cho mỗi Task.
 
 Xác định loại thay đổi trước, chỉ đọc tài liệu tương ứng:
 
-| Loại thay đổi                | Tài liệu cần đọc       |
-| ---------------------------- | ---------------------- |
-| Feature mới / CRUD           | 01, 02, 03, 05, 07, 14 |
-| Component / UI               | 03, 04, 11, 15         |
-| State / Signal Store         | 07, 14                 |
-| API integration              | 05, 08, 16             |
-| Routing / Rendering Strategy | 06                     |
-| Performance                  | 09                     |
-| Testing                      | 10                     |
-| Docker / CI-CD               | 12, 13                 |
-| Logging / Observability      | 17                     |
-| i18n                         | 21                     |
-| Bất kỳ Task nào              | 19 (bắt buộc)          |
+| Loại thay đổi                | Tài liệu cần đọc           |
+| ---------------------------- | -------------------------- |
+| Feature mới / CRUD           | 01, 02, 03, 05, 07, 08, 14 |
+| Component / UI               | 03, 04, 11, 15             |
+| State / Signal Store         | 07, 14                     |
+| API integration              | 05, 08, 16                 |
+| Routing / Rendering Strategy | 06                         |
+| Performance                  | 09                         |
+| Testing                      | 10                         |
+| Docker / CI-CD               | 12, 13                     |
+| Logging / Observability      | 17                         |
+| i18n                         | 21                         |
+| Thêm/đổi Dependency          | 18                         |
+| Bất kỳ Task nào              | 19 (bắt buộc)              |
+
+Trước khi kết thúc Task (Self Review) → luôn đọc thêm `20-review-checklist.md`, bất kể loại thay đổi. Đây không phải bước "đọc trước khi code" nên không nằm trong bảng trên, nhưng vẫn bắt buộc — không được bỏ qua vì lý do tiết kiệm token.
 
 `19-ai-development-guidelines.md` luôn đọc full — đây là file điều phối hành vi AI, dung lượng nhỏ, chi phí thấp.
 
