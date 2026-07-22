@@ -18,8 +18,8 @@ Starter phải phù hợp để phát triển: CMS, Admin Portal / Dashboard, ER
 
 Trước khi bắt đầu bất kỳ công việc nào:
 
-1. Đọc toàn bộ tài liệu trong thư mục `docs/`.
-2. Hiểu mối liên hệ giữa các tài liệu.
+1. Xác định loại thay đổi, đọc tài liệu liên quan theo bảng mapping ở `docs/22-ai-token-optimization.md` (không đọc toàn bộ `docs/` mỗi lần). Luôn đọc `docs/19-ai-development-guidelines.md`.
+2. Hiểu mối liên hệ giữa các tài liệu đã đọc.
 3. Tuân thủ tất cả các quy định.
 4. Nếu có mâu thuẫn thì ưu tiên:
 

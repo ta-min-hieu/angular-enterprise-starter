@@ -22,7 +22,7 @@ Không được tối ưu code theo hướng khó đọc.
 
 Luôn:
 
-Đọc toàn bộ tài liệu trong thư mục docs/.
+Đọc tài liệu liên quan đến loại thay đổi theo bảng mapping ở `22-ai-token-optimization.md` (không đọc toàn bộ docs/ mỗi lần).
 
 Hiểu kiến trúc hiện tại.
 
