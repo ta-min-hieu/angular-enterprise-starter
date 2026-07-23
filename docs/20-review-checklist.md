@@ -70,6 +70,8 @@ Không được bỏ qua Checklist này.
 
 □ Design Token
 
+□ Tailwind utility trước — file SCSS mới chỉ khi thuộc whitelist ở `04-ui-standard.md` § Styling, không arbitrary value
+
 □ Loading State
 
 □ Error State

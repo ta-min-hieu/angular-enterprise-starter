@@ -18,7 +18,7 @@ Starter phải phù hợp để phát triển: CMS, Admin Portal / Dashboard, ER
 
 Trước khi bắt đầu bất kỳ công việc nào:
 
-1. Xác định loại thay đổi, đọc tài liệu liên quan theo bảng mapping ở `docs/22-ai-token-optimization.md` (không đọc toàn bộ `docs/` mỗi lần). Luôn đọc `docs/19-ai-development-guidelines.md`.
+1. Xác định loại thay đổi, đọc tài liệu liên quan theo bảng mapping ở `docs/22-ai-token-optimization.md` (không đọc toàn bộ `docs/` mỗi lần). Quy tắc hành vi AI đã được đồng bộ đầy đủ vào file này (§ Behavior Rules) — không cần đọc lại `docs/19-ai-development-guidelines.md` mỗi Task; file đó dành cho AI Assistant không tự nạp `CLAUDE.md`. Sửa một trong hai file thì phải đồng bộ file còn lại.
 2. Hiểu mối liên hệ giữa các tài liệu đã đọc.
 3. Tuân thủ tất cả các quy định.
 4. Nếu có mâu thuẫn thì ưu tiên:
@@ -63,6 +63,7 @@ Không được đánh đổi khả năng bảo trì chỉ để giảm vài dò
 - Signals là state mặc định; NgRx Signals (`@ngrx/signals`) cho Signal Store của Feature phức tạp
 - Reactive Forms
 - Ng-Zorro 21.x (Stable)
+- Tailwind CSS 4.x — công cụ styling mặc định: utility class trong template thay cho file SCSS riêng của Component; SCSS chỉ dùng khi Tailwind không đáp ứng được (whitelist ở `docs/04-ui-standard.md` § Styling). Trạng thái triển khai & lộ trình migrate: xem cùng mục đó.
 - Unit Test: Vitest (test runner mặc định chính thức của Angular CLI)
 - E2E Test: Playwright — thêm khi có Feature nghiệp vụ đầu tiên cần test, không scaffold rỗng chỉ để có
 
@@ -89,6 +90,19 @@ Code sinh ra phải:
 Ưu tiên: SOLID, DRY, KISS, Composition, Separation of Concerns, High Cohesion, Low Coupling.
 
 Chi tiết đầy đủ: `docs/14-architecture-principles.md`.
+
+---
+
+# Behavior Rules (đồng bộ 1-1 với docs/19-ai-development-guidelines.md)
+
+- Requirement chưa rõ → hỏi, không tự quyết định.
+- Component chỉ render UI + handle event; Business Logic / State / API / Transformation / Validation nằm ở Service.
+- State ưu tiên: Signals → Computed → Signal Store → RxJS. Không tạo Global State khi Feature chưa cần.
+- Không gọi HttpClient trực tiếp trong Component. Không hardcode URL / Header.
+- UI: ưu tiên Reusable Component; không hardcode style / màu / margin / padding — dùng Design Token qua Tailwind utility (`docs/04`, `docs/15`).
+- Không tự ý thêm Package — đánh giá theo `docs/18` trước.
+- Refactor nhỏ được phép nếu không đổi hành vi và làm code tốt hơn; Refactor lớn → thông báo trước.
+- Code mới phải dễ test: không static dependency, không tạo code khó mock.
 
 ---
 

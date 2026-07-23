@@ -64,7 +64,7 @@ Ví dụ:
 
 Moment
 
-+
+-
 
 DayJS
 
@@ -74,7 +74,7 @@ Không.
 
 Lodash
 
-+
+-
 
 Ramda
 
@@ -84,7 +84,7 @@ Không.
 
 Chart.js
 
-+
+-
 
 ECharts
 
@@ -101,6 +101,8 @@ Không nếu không có lý do.
 Angular Official
 
 Ng-Zorro
+
+Tailwind CSS 4.x — styling utility-first mặc định (xem `04-ui-standard.md` § Styling); không thêm thư viện CSS utility / CSS-in-JS nào khác song song.
 
 RxJS
 

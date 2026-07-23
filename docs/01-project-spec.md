@@ -39,7 +39,7 @@ Starter phải phù hợp để phát triển:
 - Reactive Forms
 - RxJS (cho luồng bất đồng bộ)
 - Ng-Zorro 21.x (Stable)
-- SCSS (build-time) + CSS Custom Properties (runtime theme)
+- Tailwind CSS 4.x (utility-first — styling mặc định) + CSS Custom Properties (runtime theme); SCSS chỉ giữ cho phần Tailwind không đáp ứng được (xem `04-ui-standard.md` § Styling, `15-design-system.md`)
 - Vitest (Unit Test), Playwright (E2E — thêm khi có Feature đầu tiên)
 - ESLint
 - Prettier

@@ -30,6 +30,7 @@ Xác định loại thay đổi trước, chỉ đọc tài liệu tương ứng
 | ---------------------------- | -------------------------- |
 | Feature mới / CRUD           | 01, 02, 03, 05, 07, 08, 14 |
 | Component / UI               | 03, 04, 11, 15             |
+| Style / Theme / Design Token | 04, 15                     |
 | State / Signal Store         | 07, 14                     |
 | API integration              | 05, 08, 16                 |
 | Routing / Rendering Strategy | 06                         |
@@ -39,11 +40,11 @@ Xác định loại thay đổi trước, chỉ đọc tài liệu tương ứng
 | Logging / Observability      | 17                         |
 | i18n                         | 21                         |
 | Thêm/đổi Dependency          | 18                         |
-| Bất kỳ Task nào              | 19 (bắt buộc)              |
+| Bất kỳ Task nào              | CLAUDE.md (tự nạp)         |
 
 Trước khi kết thúc Task (Self Review) → luôn đọc thêm `20-review-checklist.md`, bất kể loại thay đổi. Đây không phải bước "đọc trước khi code" nên không nằm trong bảng trên, nhưng vẫn bắt buộc — không được bỏ qua vì lý do tiết kiệm token.
 
-`19-ai-development-guidelines.md` luôn đọc full — đây là file điều phối hành vi AI, dung lượng nhỏ, chi phí thấp.
+`CLAUDE.md` (tự nạp mỗi phiên với Claude Code) đã chứa toàn bộ quy tắc hành vi AI — không đọc lại `19-ai-development-guidelines.md` mỗi Task. Chỉ AI Assistant không tự nạp `CLAUDE.md` mới phải đọc 19 (một lần mỗi phiên).
 
 Nếu không chắc Task thuộc loại nào:
 
@@ -86,6 +87,8 @@ Chỉ tuần tự khi bước sau phụ thuộc kết quả bước trước.
 Dùng Edit (diff theo đoạn) thay vì Write lại toàn bộ file khi chỉ đổi một phần.
 
 Chỉ dùng Write cho file mới hoàn toàn hoặc rewrite toàn bộ thật sự cần thiết.
+
+Style: ưu tiên Tailwind utility ngay trong template — không tạo/đọc file SCSS riêng nếu chưa thuộc whitelist ở `04-ui-standard.md` § Styling (ít file hơn = ít token hơn).
 
 Không in lại toàn bộ nội dung file trong câu trả lời nếu User không yêu cầu.
 

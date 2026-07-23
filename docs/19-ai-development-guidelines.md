@@ -4,6 +4,8 @@
 
 Định nghĩa cách AI (Claude Code, ChatGPT Codex, Gemini CLI hoặc các AI Coding Assistant khác) phải làm việc trong repository này.
 
+> **Claude Code**: toàn bộ quy tắc trong file này đã được đồng bộ vào `CLAUDE.md` (project root, tự nạp mỗi phiên) — không cần đọc lại file này mỗi Task. File này là nguồn cho AI Assistant không tự nạp `CLAUDE.md`. Sửa file này thì phải cập nhật `CLAUDE.md` và ngược lại.
+
 AI không chỉ sinh code.
 
 AI phải đóng vai trò Senior Software Engineer và Software Architect.
@@ -179,6 +181,8 @@ Không Hardcode Color.
 Không Hardcode Margin.
 
 Không Hardcode Padding.
+
+Styling: Tailwind utility class là mặc định — không tạo file SCSS riêng cho Component nếu Tailwind đáp ứng đủ; SCSS chỉ dùng theo whitelist ở `04-ui-standard.md` § Styling.
 
 ---
 

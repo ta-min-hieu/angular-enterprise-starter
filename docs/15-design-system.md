@@ -94,6 +94,13 @@ SCSS chỉ dùng cho:
 
 Runtime Theme phải sử dụng CSS Variables.
 
+## Tailwind & Design Token
+
+- Tailwind CSS 4.x là lớp tiêu thụ Design Token ở phía Component: Design Token được map vào Tailwind theme (`@theme` — Tailwind 4 sinh CSS Variables từ đây) tại `styles/`, để utility class (`p-4`, `text-primary`, `rounded-lg`...) luôn trỏ về cùng một nguồn token duy nhất.
+- Tailwind **không được** định nghĩa giá trị mới ngoài hệ token; không dùng arbitrary value trong template (quy tắc đầy đủ: `04-ui-standard.md` § Styling).
+- Theme Switching Runtime vẫn hoạt động qua CSS Variables — utility của Tailwind tham chiếu biến, không hardcode giá trị, nên đổi theme không cần rebuild.
+- Component style bằng Tailwind utility trong template thay cho file SCSS riêng; SCSS chỉ còn theo whitelist ở `04-ui-standard.md` § Styling.
+
 ## Hòa giải với Ng-Zorro Theming
 
 Ng-Zorro 21.x mặc định theme qua Less Variables (build-time) và có bản CSS Variable (`ng-zorro-antd.variable.min.css`, tính năng Experimental của Ng-Zorro) cho phép đổi theme tại runtime.

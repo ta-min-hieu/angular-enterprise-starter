@@ -76,7 +76,7 @@ Starter import trọn bộ `ng-zorro-antd.variable.min.css` (bắt buộc để 
 
 `provideNzIcons()` được đăng ký ở root (`app.config.ts`) để Layout (Public/Admin/Customer/Auth) và Shared Component hoạt động đúng ngay khi dùng, thay vì để icon lỗi hiển thị. `@ant-design/icons-angular/icons` không tree-shake tốt theo từng icon riêng lẻ (import 1 icon vẫn kéo theo phần lớn module), nên chi phí này gần như cố định bất kể đăng ký bao nhiêu icon. Đây là chi phí hạ tầng đã biết, không phải Regression.
 
-Initial Bundle Budget trong `angular.json` được đặt ở 1.1MB (warning) / 1.4MB (error) để phản ánh cả hai baseline trên (CSS + Icon + Design Token layer). Không tăng thêm budget khi thêm Feature — nếu Feature làm vượt ngưỡng, phải Code Splitting/Lazy Load trước khi tăng budget.
+Initial Bundle Budget trong `angular.json` được đặt ở 1.3MB (warning) / 1.6MB (error) để phản ánh cả hai baseline trên (CSS + Icon + Design Token layer). Không tăng thêm budget khi thêm Feature — nếu Feature làm vượt ngưỡng, phải Code Splitting/Lazy Load trước khi tăng budget.
 
 ---
 
