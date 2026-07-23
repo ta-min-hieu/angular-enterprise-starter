@@ -29,20 +29,29 @@ Quy tắc:
 - Không set cùng một thuộc tính CSS ở cả utility class lẫn SCSS cho cùng một element.
 - Một cụm utility lặp lại nguyên vẹn ở nhiều Component → tách Reusable Component, không copy cụm class. Không lạm dụng `@apply` để tái tạo hệ "class ngữ nghĩa" song song.
 
+**Cảnh báo `max-w-*`/`min-w-*`/`max-h-*`/`min-h-*`:** không dùng với hậu tố trùng tên Spacing Token (`xs`/`sm`/`md`/`lg`/`xl`) — các utility này thử resolve theo cả `--spacing-*` lẫn `--container-*`, và sẽ ưu tiên nhầm sang giá trị Spacing Token (16/24/32px) thay vì container scale (28/32/36rem) đúng nghĩa. Cần kích thước container không có token tương ứng → dùng scale số của Tailwind (vd `max-w-105` = 105×4px = 420px) hoặc key không trùng (`2xl`, `3xl`...). Chi tiết: xem comment trong `src/styles/tailwind.css`.
+
 SCSS chỉ còn hợp lệ khi (whitelist):
 
-- Override style nội bộ của Ng-Zorro component (selector sâu vào DOM do Ng-Zorro render).
-- Keyframes / Animation phức tạp.
-- Selector đặc thù Angular (`:host`, `:host-context`).
-- Style tính từ giá trị runtime phức tạp mà utility class không biểu diễn được.
+- Override style nội bộ của Ng-Zorro component (selector sâu vào DOM do Ng-Zorro render, dùng `::ng-deep`).
+- Keyframes / Animation phức tạp; hover/focus-within lộ phần tử con phức tạp hơn mức `group-hover:`/`group-focus-within:` xử lý được.
+- Selector đặc thù Angular thật sự cần CSS (`:host-context`, `:host` có pseudo-class/media query). **Không dùng SCSS cho `:host { display: block }` tĩnh** — dùng `host: { class: 'block' }` trong `@Component` decorator, tương đương utility Tailwind mà không cần file.
+- Giá trị không có utility tương đương và không phải Design Token tái sử dụng (`font: inherit`, `text-shadow`, màu hardcode ăn khớp một hằng số cụ thể ở component khác...).
 
 Khi buộc dùng SCSS: vẫn phải dùng Design Token (CSS Variables), file giữ tối thiểu, xoá file khi không còn nội dung.
 
 ## Trạng thái triển khai & Migration (cập nhật 2026-07-23)
 
-- Tailwind CSS 4.x **chưa được cài đặt** vào project. Cần một Task setup riêng (cài package, cấu hình PostCSS, map Design Token hiện có ở `src/styles/tokens/` vào Tailwind `@theme`) trước khi áp dụng quy tắc trên cho code mới. Trước khi setup xong, code mới vẫn theo chuẩn SCSS + Design Token hiện hành.
-- File SCSS hiện có: không migrate big-bang. Migrate dần sang Tailwind mỗi khi chỉnh sửa Component tương ứng; xoá file SCSS khi rỗng.
-- Rủi ro đã biết: Tailwind Preflight (CSS reset) có thể xung đột base style của Ng-Zorro — khi setup phải kiểm soát thứ tự layer hoặc tắt Preflight. Nếu xung đột không xử lý được sạch sẽ → dừng lại hỏi trước khi đổi hướng.
+Tailwind CSS 4.x đã cài đặt và migrate xong toàn bộ Starter: `.postcssrc.json` (PostCSS plugin `@tailwindcss/postcss`), `src/styles/tailwind.css` (theme mapping, xem `15-design-system.md` § Tailwind & Design Token), Preflight tắt (giữ base style Ng-Zorro) nhưng khôi phục riêng `border-style: solid` (xem comment trong file — utility `border-*` cần dòng này để hiển thị, Preflight vốn tự set).
+
+Từ 42 file SCSS Component chỉ còn 5, mỗi file đều rơi đúng whitelist trên:
+
+- `file-upload-field.scss`, `language-switcher.scss`, `admin-layout.scss` (một phần) — giá trị không có utility tương đương.
+- `admin-layout.scss` (một phần), `menus-page.scss` — override sâu Ng-Zorro (`::ng-deep`).
+- `admin-layout.scss` (một phần) — resize handle: pseudo-element `::after` + hover/active runtime phức tạp.
+- `auth-layout.scss` — màu nền hero khớp hằng số ở `network-background.config.ts`, không phải Design Token tái sử dụng.
+
+Component mới không còn lý do dùng SCSS ngoài whitelist — áp dụng nghiêm quy tắc Styling ở trên.
 
 ---
 

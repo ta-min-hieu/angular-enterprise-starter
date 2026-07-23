@@ -1,10 +1,4 @@
-<form
-  nz-form
-  nzLayout="vertical"
-  class="app-permission-form"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()"
->
+<form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="onSubmit()">
   <app-text-field
     name="code"
     [control]="form.controls.code"
@@ -18,9 +12,9 @@
     [label]="'permissions.form.name.label' | transloco"
   />
 
-  <div class="app-permission-form__row">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-select-field
-      class="app-permission-form__col"
+      class="tablet:flex-1"
       name="httpMethod"
       [control]="form.controls.httpMethod"
       [options]="httpMethodOptions"
@@ -28,7 +22,7 @@
     />
 
     <app-text-field
-      class="app-permission-form__col"
+      class="tablet:flex-1"
       name="urlPattern"
       [control]="form.controls.urlPattern"
       [label]="'permissions.form.url_pattern.label' | transloco"
@@ -51,7 +45,7 @@
     [required]="false"
   />
 
-  <div class="app-permission-form__actions">
+  <div class="flex justify-end gap-sm mt-md">
     <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
       {{ 'common.actions.cancel' | transloco }}
     </button>

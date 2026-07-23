@@ -2,6 +2,7 @@
   <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
   <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
     <nz-input-number
+      class="w-full"
       [nzId]="resolvedId()"
       [formControl]="control()"
       [nzMin]="min()"

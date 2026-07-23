@@ -7,7 +7,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
   selector: 'app-checkbox-field',
   imports: [ReactiveFormsModule, NzCheckboxModule, NzFormModule],
   templateUrl: './checkbox-field.html',
-  styleUrl: './checkbox-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxField {

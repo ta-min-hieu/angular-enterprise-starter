@@ -38,7 +38,6 @@ export interface RoleFormSaveEvent {
     RadioGroupField,
   ],
   templateUrl: './role-form.html',
-  styleUrl: './role-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoleForm {

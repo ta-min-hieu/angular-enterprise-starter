@@ -25,7 +25,6 @@ const METHOD_COLORS: Readonly<Record<HttpMethod, string>> = {
   selector: 'app-role-permission-assign',
   imports: [NzCheckboxModule, NzButtonModule, NzIconModule, NzTagModule, TranslocoPipe],
   templateUrl: './role-permission-assign.html',
-  styleUrl: './role-permission-assign.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RolePermissionAssign {

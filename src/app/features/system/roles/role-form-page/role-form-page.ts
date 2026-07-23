@@ -33,7 +33,6 @@ import { createEntityByIdLoader } from '../../../../shared/crud/entity-by-id-loa
     PageHeader,
   ],
   templateUrl: './role-form-page.html',
-  styleUrl: './role-form-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoleFormPage {

@@ -8,7 +8,7 @@ import { I18nService } from '../../../core/i18n/i18n.service';
   selector: 'app-text-field',
   imports: [ReactiveFormsModule, NzInputModule, NzFormModule],
   templateUrl: './text-field.html',
-  styleUrl: './text-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextField {

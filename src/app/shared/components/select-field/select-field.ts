@@ -10,7 +10,7 @@ import { I18nService } from '../../../core/i18n/i18n.service';
   selector: 'app-select-field',
   imports: [ReactiveFormsModule, NzSelectModule, NzFormModule, TranslocoPipe],
   templateUrl: './select-field.html',
-  styleUrl: './select-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectField<T = string> {

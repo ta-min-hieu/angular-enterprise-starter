@@ -5,7 +5,6 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   selector: 'app-pagination',
   imports: [NzPaginationModule],
   templateUrl: './pagination.html',
-  styleUrl: './pagination.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Pagination {

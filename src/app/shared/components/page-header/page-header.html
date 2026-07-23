@@ -1,5 +1,5 @@
-<div class="app-page-header">
-  <nz-breadcrumb class="app-page-header__breadcrumb">
+<div>
+  <nz-breadcrumb class="mb-sm">
     <nz-breadcrumb-item>
       <span nz-icon nzType="home"></span>
     </nz-breadcrumb-item>
@@ -14,11 +14,17 @@
     }
   </nz-breadcrumb>
 
-  <div class="app-page-header__header">
-    <div class="app-page-header__heading">
-      <h1>{{ title() | transloco }}</h1>
+  <div
+    class="flex flex-col gap-md mb-lg tablet:flex-row tablet:items-center tablet:justify-between"
+  >
+    <div>
+      <h1 class="m-0 text-title font-bold">{{ title() | transloco }}</h1>
       @if (subtitle()) {
-        <p class="app-page-header__subtitle">{{ subtitle() | transloco }}</p>
+        <!-- app-page-header__subtitle: class hook cho test (không mang style riêng), xem
+             page-header.spec.ts. -->
+        <p class="app-page-header__subtitle mt-xs mx-0 mb-0 text-text-secondary">
+          {{ subtitle() | transloco }}
+        </p>
       }
     </div>
 

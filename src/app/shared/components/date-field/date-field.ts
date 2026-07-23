@@ -11,7 +11,7 @@ export const DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss';
   selector: 'app-date-field',
   imports: [ReactiveFormsModule, NzDatePickerModule, NzFormModule],
   templateUrl: './date-field.html',
-  styleUrl: './date-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateField {

@@ -1,11 +1,11 @@
-<div class="app-login-page">
-  <span nz-icon nzType="appstore" class="app-login-page__logo"></span>
-  <h1 class="app-login-page__title">{{ 'auth.login.title' | transloco }}</h1>
-  <p class="app-login-page__subtitle">{{ 'auth.login.subtitle' | transloco }}</p>
+<div class="text-center">
+  <span nz-icon nzType="appstore" class="text-heading text-primary"></span>
+  <h1 class="mt-sm mx-0 mb-0 text-subtitle font-semibold">{{ 'auth.login.title' | transloco }}</h1>
+  <p class="mt-xs mx-0 mb-lg text-text-secondary">{{ 'auth.login.subtitle' | transloco }}</p>
 
-  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form nz-form nzLayout="vertical" class="text-left" [formGroup]="form" (ngSubmit)="onSubmit()">
     @if (errorMessage(); as message) {
-      <nz-alert nzType="error" [nzMessage]="message" nzShowIcon class="app-login-page__alert" />
+      <nz-alert nzType="error" [nzMessage]="message" nzShowIcon class="mb-md" />
     }
 
     <app-text-field
@@ -23,14 +23,7 @@
       [placeholder]="'auth.login.password.placeholder' | transloco"
     />
 
-    <button
-      nz-button
-      nzType="primary"
-      nzBlock
-      type="submit"
-      [nzLoading]="loading()"
-      class="app-login-page__submit"
-    >
+    <button nz-button nzType="primary" nzBlock type="submit" [nzLoading]="loading()" class="mt-sm">
       <span nz-icon nzType="login"></span>
       <span>{{ 'auth.login.submit' | transloco }}</span>
     </button>

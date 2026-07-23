@@ -16,7 +16,6 @@ import { createEntityByIdLoader } from '../../../../shared/crud/entity-by-id-loa
   selector: 'app-user-form-page',
   imports: [NzCardModule, UserForm, PageHeader],
   templateUrl: './user-form-page.html',
-  styleUrl: './user-form-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormPage {

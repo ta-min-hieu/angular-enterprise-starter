@@ -16,7 +16,6 @@ export interface PageBreadcrumbItem {
   selector: 'app-page-header',
   imports: [RouterLink, NzBreadCrumbModule, NzButtonModule, NzIconModule, TranslocoPipe],
   templateUrl: './page-header.html',
-  styleUrl: './page-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageHeader {

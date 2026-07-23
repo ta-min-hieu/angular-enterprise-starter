@@ -1,142 +1,16 @@
-:host {
-  display: block;
+// Tailwind không có utility cho text-shadow khớp giá trị này — giữ lại một rule duy nhất
+// theo whitelist "giá trị utility class không biểu diễn được" (docs/04-ui-standard.md § Styling).
+.app-file-upload-field__play {
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
 }
 
-.app-file-upload-field {
-  &__control {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  &__grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-  }
-
-  &__item,
-  &__trigger {
-    position: relative;
-    width: 96px;
-    height: 96px;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-  }
-
-  &__item {
-    border: 1px solid var(--color-border);
-    background: var(--color-background);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &--error {
-      border-color: var(--color-danger);
-    }
-  }
-
-  &__thumb {
+// nz-upload render nội bộ 1 div .ant-upload — không set width/height nên không tự lấp đầy khối
+// vuông 96x96 mà utility class trên tag <nz-upload> tạo ra. Override sâu vào DOM Ng-Zorro
+// (whitelist docs/04-ui-standard.md § Styling), theo đúng convention ::ng-deep đã dùng trong repo
+// (xem admin-layout.scss, menus-page.scss).
+.app-file-upload-field__trigger {
+  ::ng-deep .ant-upload {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-  }
-
-  &__play {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 24px;
-    text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
-    pointer-events: none;
-  }
-
-  &__progress {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__error-icon {
-    color: var(--color-danger);
-    font-size: 20px;
-  }
-
-  &__error-text {
-    position: absolute;
-    bottom: 2px;
-    left: 2px;
-    right: 2px;
-    font-size: 10px;
-    line-height: var(--line-height-tight);
-    color: var(--color-danger);
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  &__remove {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background: rgba(0, 0, 0, 0.45);
-    color: #fff;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.65);
-      color: #fff;
-    }
-  }
-
-  &__name {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2px 4px;
-    font-size: 10px;
-    line-height: var(--line-height-base);
-    color: #fff;
-    background: rgba(0, 0, 0, 0.45);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &__trigger {
-    border: 1px dashed var(--color-border);
-    cursor: pointer;
-  }
-
-  &__add {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-xs);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-label);
-  }
-
-  &__hint {
-    margin: var(--spacing-sm) 0 0;
-    font-size: var(--font-size-label);
-    color: var(--color-text-secondary);
   }
 }

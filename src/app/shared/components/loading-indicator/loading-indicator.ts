@@ -5,7 +5,6 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
   selector: 'app-loading-indicator',
   imports: [NzSpinModule],
   templateUrl: './loading-indicator.html',
-  styleUrl: './loading-indicator.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadingIndicator {

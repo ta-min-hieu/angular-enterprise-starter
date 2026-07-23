@@ -1,20 +1,26 @@
 @if (product(); as p) {
-  <h4 class="app-product-detail__media-title">{{ 'products.form.media.label' | transloco }}</h4>
-  <div class="app-product-detail__media">
+  <h4 class="mt-0 mx-0 mb-sm text-label font-medium">
+    {{ 'products.form.media.label' | transloco }}
+  </h4>
+  <div class="flex flex-wrap gap-sm mb-md">
     @if (p.files.length) {
       @for (asset of p.files; track asset.id) {
         @if (asset.type === 'image') {
           <img
-            class="app-product-detail__media-item"
+            class="w-30 h-30 rounded-md overflow-hidden block object-cover"
             [appMediaSrc]="asset.url"
             [alt]="asset.name"
           />
         } @else {
-          <video class="app-product-detail__media-item" [appMediaSrc]="asset.url" controls></video>
+          <video
+            class="w-30 h-30 rounded-md overflow-hidden block object-cover"
+            [appMediaSrc]="asset.url"
+            controls
+          ></video>
         }
       }
     } @else {
-      <span class="app-product-detail__empty">—</span>
+      <span class="text-text-secondary">—</span>
     }
   </div>
 
@@ -50,7 +56,7 @@
           <nz-tag>{{ tagLabel(tag) }}</nz-tag>
         }
       } @else {
-        <span class="app-product-detail__empty">—</span>
+        <span class="text-text-secondary">—</span>
       }
     </nz-descriptions-item>
     <nz-descriptions-item [nzTitle]="'products.form.release_date.label' | transloco">

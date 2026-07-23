@@ -86,6 +86,7 @@ function detectMediaType(mimeType: string): MediaType | null {
   ],
   templateUrl: './file-upload-field.html',
   styleUrl: './file-upload-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileUploadField {

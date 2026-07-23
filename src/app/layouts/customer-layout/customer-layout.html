@@ -1,8 +1,8 @@
-<nz-layout class="app-customer-layout">
-  <nz-header class="app-customer-layout__header">
-    <span class="app-customer-layout__brand">Customer Portal</span>
+<nz-layout class="min-h-screen">
+  <nz-header class="flex items-center justify-between bg-surface border-b border-border px-lg">
+    <span class="text-title font-bold text-text">Customer Portal</span>
 
-    <div class="app-customer-layout__header-actions">
+    <div class="flex items-center gap-sm">
       <app-theme-toggle />
       <nz-avatar nzIcon="user" />
       @if (authService.currentUser(); as user) {
@@ -12,7 +12,7 @@
   </nz-header>
 
   <nz-layout>
-    <nz-sider class="app-customer-layout__sider" [nzCollapsible]="false" nzWidth="220">
+    <nz-sider class="bg-surface border-r border-border" [nzCollapsible]="false" nzWidth="220">
       <ul nz-menu nzMode="inline">
         @for (item of navMenuService.visibleItems(); track item.route) {
           <li nz-menu-item nzMatchRouter>
@@ -27,7 +27,7 @@
       </ul>
     </nz-sider>
 
-    <nz-content class="app-customer-layout__content">
+    <nz-content class="m-md p-lg bg-surface rounded-md">
       <router-outlet />
     </nz-content>
   </nz-layout>

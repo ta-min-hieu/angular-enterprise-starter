@@ -1,9 +1,13 @@
 @if (fullscreen()) {
-  <div class="app-loading-indicator app-loading-indicator--fullscreen">
+  <!-- app-loading-indicator--fullscreen: class hook cho test (không mang style riêng), xem
+       loading-indicator.spec.ts. -->
+  <div
+    class="app-loading-indicator--fullscreen flex items-center justify-center p-lg fixed inset-0 z-modal bg-surface"
+  >
     <nz-spin [nzSize]="size()" [nzTip]="tip()" nzSimple />
   </div>
 } @else {
-  <div class="app-loading-indicator">
+  <div class="flex items-center justify-center p-lg">
     <nz-spin [nzSize]="size()" [nzTip]="tip()" nzSimple />
   </div>
 }

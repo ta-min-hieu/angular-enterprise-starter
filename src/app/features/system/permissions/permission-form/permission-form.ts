@@ -30,7 +30,6 @@ export interface PermissionFormSaveEvent {
     RadioGroupField,
   ],
   templateUrl: './permission-form.html',
-  styleUrl: './permission-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionForm {

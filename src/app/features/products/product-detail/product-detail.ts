@@ -19,7 +19,6 @@ import { MediaSrcDirective } from '../../../shared/directives/media-src.directiv
     MediaSrcDirective,
   ],
   templateUrl: './product-detail.html',
-  styleUrl: './product-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetail {

@@ -38,7 +38,6 @@ import { RoleService } from '../role.service';
     PageHeader,
   ],
   templateUrl: './roles-page.html',
-  styleUrl: './roles-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RolesPage {

@@ -48,7 +48,6 @@ const METHOD_COLORS: Readonly<Record<HttpMethod, string>> = {
     PageHeader,
   ],
   templateUrl: './permissions-page.html',
-  styleUrl: './permissions-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionsPage {

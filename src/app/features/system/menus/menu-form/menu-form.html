@@ -1,13 +1,13 @@
-<form nz-form nzLayout="vertical" class="app-menu-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="onSubmit()">
   <app-text-field
     name="name"
     [control]="form.controls.name"
     [label]="'menus.form.name.label' | transloco"
   />
 
-  <div class="app-menu-form__row">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-text-field
-      class="app-menu-form__col"
+      class="tablet:flex-1"
       name="path"
       [control]="form.controls.path"
       [label]="'menus.form.path.label' | transloco"
@@ -15,16 +15,16 @@
     />
 
     <app-icon-picker-field
-      class="app-menu-form__col"
+      class="tablet:flex-1"
       name="icon"
       [control]="form.controls.icon"
       [label]="'menus.form.icon.label' | transloco"
     />
   </div>
 
-  <div class="app-menu-form__row">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-select-field
-      class="app-menu-form__col"
+      class="tablet:flex-1"
       name="menuType"
       [control]="form.controls.menuType"
       [options]="menuTypeOptions"
@@ -32,7 +32,7 @@
     />
 
     <app-text-field
-      class="app-menu-form__col"
+      class="tablet:flex-1"
       name="component"
       [control]="form.controls.component"
       [label]="'menus.form.component.label' | transloco"
@@ -54,16 +54,16 @@
     </nz-form-control>
   </nz-form-item>
 
-  <div class="app-menu-form__row">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-number-field
-      class="app-menu-form__col"
+      class="tablet:flex-1"
       name="sortOrder"
       [control]="form.controls.sortOrder"
       [label]="'menus.form.sort_order.label' | transloco"
     />
 
     <app-radio-group-field
-      class="app-menu-form__col"
+      class="tablet:flex-1"
       name="status"
       [control]="form.controls.status"
       [options]="statusOptions"
@@ -78,7 +78,7 @@
     [label]="'menus.form.visible.label' | transloco"
   />
 
-  <div class="app-menu-form__actions">
+  <div class="flex justify-end gap-sm mt-md">
     <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
       {{ 'common.actions.cancel' | transloco }}
     </button>

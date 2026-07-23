@@ -10,7 +10,7 @@ import { I18nService } from '../../../core/i18n/i18n.service';
   selector: 'app-radio-group-field',
   imports: [ReactiveFormsModule, NzRadioModule, NzFormModule, TranslocoPipe],
   templateUrl: './radio-group-field.html',
-  styleUrl: './radio-group-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioGroupField<T = string> {

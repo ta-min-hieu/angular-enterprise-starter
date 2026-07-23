@@ -38,7 +38,6 @@ import { UserService } from '../user.service';
     PageHeader,
   ],
   templateUrl: './users-page.html',
-  styleUrl: './users-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersPage {

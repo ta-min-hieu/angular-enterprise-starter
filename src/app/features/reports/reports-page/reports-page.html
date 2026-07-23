@@ -1,4 +1,4 @@
-<div class="app-reports-page">
+<div>
   <app-page-header
     [breadcrumbItems]="breadcrumbItems"
     title="reports.title"
@@ -6,7 +6,7 @@
   />
 
   <nz-spin [nzSpinning]="loading()">
-    <div nz-row [nzGutter]="[16, 16]" class="app-reports-page__summary">
+    <div nz-row [nzGutter]="[16, 16]" class="mb-md">
       <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="6">
         <nz-card [nzBordered]="false">
           <nz-statistic
@@ -44,10 +44,10 @@
       </div>
     </div>
 
-    <div nz-row [nzGutter]="[16, 16]" class="app-reports-page__charts">
+    <div nz-row [nzGutter]="[16, 16]" class="mb-md">
       <div nz-col [nzXs]="24" [nzLg]="16">
         <nz-card [nzBordered]="false" [nzTitle]="'reports.charts.revenue_trend.title' | transloco">
-          <div class="app-reports-page__chart-container">
+          <div class="relative h-80">
             <canvas
               baseChart
               type="line"
@@ -62,7 +62,7 @@
           [nzBordered]="false"
           [nzTitle]="'reports.charts.category_breakdown.title' | transloco"
         >
-          <div class="app-reports-page__chart-container">
+          <div class="relative h-80">
             <canvas
               baseChart
               type="doughnut"
@@ -74,10 +74,10 @@
       </div>
     </div>
 
-    <div nz-row [nzGutter]="[16, 16]" class="app-reports-page__charts">
+    <div nz-row [nzGutter]="[16, 16]">
       <div nz-col [nzXs]="24">
         <nz-card [nzBordered]="false" [nzTitle]="'reports.charts.stock_status.title' | transloco">
-          <div class="app-reports-page__chart-container app-reports-page__chart-container--short">
+          <div class="relative h-65">
             <canvas
               baseChart
               type="bar"

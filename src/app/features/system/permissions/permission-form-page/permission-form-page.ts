@@ -14,7 +14,6 @@ import { createEntityByIdLoader } from '../../../../shared/crud/entity-by-id-loa
   selector: 'app-permission-form-page',
   imports: [NzCardModule, PermissionForm, PageHeader],
   templateUrl: './permission-form-page.html',
-  styleUrl: './permission-form-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionFormPage {

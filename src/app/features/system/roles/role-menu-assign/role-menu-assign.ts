@@ -22,7 +22,6 @@ export interface RoleMenuAssignSaveEvent {
   selector: 'app-role-menu-assign',
   imports: [NzTreeModule, NzButtonModule, NzIconModule, TranslocoPipe],
   templateUrl: './role-menu-assign.html',
-  styleUrl: './role-menu-assign.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoleMenuAssign {

@@ -2,7 +2,7 @@
   <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
   <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
     <nz-date-picker
-      class="app-date-field__picker"
+      class="w-full"
       [nzId]="resolvedId()"
       [formControl]="control()"
       [nzShowTime]="showTime()"

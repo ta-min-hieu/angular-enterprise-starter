@@ -45,7 +45,6 @@ export interface MenuFormSaveEvent {
     IconPickerField,
   ],
   templateUrl: './menu-form.html',
-  styleUrl: './menu-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuForm {

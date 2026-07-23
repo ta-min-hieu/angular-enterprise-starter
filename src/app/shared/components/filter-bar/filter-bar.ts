@@ -13,7 +13,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
   selector: 'app-filter-bar',
   imports: [NzButtonModule, NzIconModule, NzFormModule, TranslocoPipe],
   templateUrl: './filter-bar.html',
-  styleUrl: './filter-bar.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterBar {

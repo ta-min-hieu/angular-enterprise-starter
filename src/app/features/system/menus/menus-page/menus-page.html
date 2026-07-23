@@ -1,4 +1,4 @@
-<div class="app-menus-page">
+<div>
   <app-page-header
     [breadcrumbItems]="breadcrumbItems"
     title="menus.title"
@@ -7,7 +7,7 @@
     addLabel="menus.add_button"
   />
 
-  <nz-card [nzBordered]="false" class="app-menus-page__tree-card">
+  <nz-card [nzBordered]="false" class="app-menus-page__tree-card rounded-md shadow-sm">
     @if (error(); as currentError) {
       <app-error-state [error]="currentError" (retry)="onRetry()" />
     } @else if (treeNodes().length === 0) {
@@ -27,10 +27,12 @@
       />
 
       <ng-template #treeTemplate let-node>
-        <span class="app-menus-page__node">
-          <span class="app-menus-page__node-main">
+        <span class="group flex items-center justify-between w-full gap-sm">
+          <span class="inline-flex items-center gap-xs min-w-0">
             <span nz-icon [nzType]="node.icon || 'file'"></span>
-            <span class="app-menus-page__node-title">{{ node.title }}</span>
+            <span class="overflow-hidden font-medium text-ellipsis whitespace-nowrap">{{
+              node.title
+            }}</span>
             <nz-tag [nzColor]="menuStatus(node.key) === 'ACTIVE' ? 'success' : 'default'">
               {{
                 (menuStatus(node.key) === 'ACTIVE'
@@ -40,7 +42,9 @@
               }}
             </nz-tag>
           </span>
-          <span class="app-menus-page__node-actions">
+          <span
+            class="inline-flex flex-shrink-0 items-center opacity-0 transition-opacity duration-fast group-hover:opacity-100 group-focus-within:opacity-100"
+          >
             <a
               [routerLink]="'/system/menus/new'"
               [queryParams]="{ parentId: node.key }"

@@ -68,7 +68,6 @@ const STOCK_STATUS_ORDER: readonly StockStatus[] = ['in_stock', 'low_stock', 'ou
     PageHeader,
   ],
   templateUrl: './reports-page.html',
-  styleUrl: './reports-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportsPage {

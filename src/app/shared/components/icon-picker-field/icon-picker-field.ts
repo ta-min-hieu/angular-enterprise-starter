@@ -11,7 +11,7 @@ import { NAV_ICON_OPTIONS } from './nav-icon.constants';
   selector: 'app-icon-picker-field',
   imports: [ReactiveFormsModule, NzSelectModule, NzFormModule, NzIconModule, TranslocoPipe],
   templateUrl: './icon-picker-field.html',
-  styleUrl: './icon-picker-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconPickerField {

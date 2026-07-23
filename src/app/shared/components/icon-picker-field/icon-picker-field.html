@@ -1,35 +1,33 @@
 <nz-form-item>
   <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
   <nz-form-control>
-    <div class="app-icon-picker-field__row">
-      <span class="app-icon-picker-field__preview">
+    <div class="flex items-center gap-sm">
+      <!-- app-icon-picker-field__preview: giữ làm class hook cho test (không mang style riêng),
+           style thật nằm ở các utility class Tailwind bên cạnh — xem icon-picker-field.spec.ts. -->
+      <span
+        class="app-icon-picker-field__preview flex items-center justify-center w-xl h-xl border border-border rounded-md bg-background text-body text-text"
+      >
         @if (control().value) {
           <span nz-icon [nzType]="control().value"></span>
         } @else {
-          <span
-            nz-icon
-            nzType="appstore"
-            class="app-icon-picker-field__preview-icon--placeholder"
-          ></span>
+          <span nz-icon nzType="appstore" class="text-text-disabled"></span>
         }
       </span>
 
       <nz-select
-        class="app-icon-picker-field__select"
+        class="flex-1 min-w-0"
         [nzId]="resolvedId()"
         [formControl]="control()"
         [nzPlaceHolder]="resolvedPlaceholder()"
         nzShowSearch
       >
         <nz-option nzCustomContent nzValue="" [nzLabel]="'common.icon_picker.none' | transloco">
-          <span class="app-icon-picker-field__option-none">{{
-            'common.icon_picker.none' | transloco
-          }}</span>
+          <span class="text-text-secondary">{{ 'common.icon_picker.none' | transloco }}</span>
         </nz-option>
         @for (icon of options; track icon) {
           <nz-option nzCustomContent [nzValue]="icon" [nzLabel]="icon">
             <span nz-icon [nzType]="icon"></span>
-            <span class="app-icon-picker-field__option-label">{{ icon }}</span>
+            <span class="ms-sm">{{ icon }}</span>
           </nz-option>
         }
       </nz-select>

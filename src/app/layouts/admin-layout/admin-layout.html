@@ -1,6 +1,6 @@
-<nz-layout class="app-admin-layout">
+<nz-layout class="min-h-screen bg-background">
   <nz-sider
-    class="app-admin-layout__sider"
+    class="app-admin-layout__sider relative bg-surface border-r border-border"
     nzCollapsible
     nzTheme="light"
     [nzWidth]="siderWidth()"
@@ -15,15 +15,15 @@
       ></div>
     }
 
-    <div class="app-admin-layout__brand">
-      <span nz-icon nzType="appstore" class="app-admin-layout__brand-icon"></span>
+    <div class="h-14 flex items-center gap-sm px-md overflow-hidden whitespace-nowrap">
+      <span nz-icon nzType="appstore" class="text-title text-primary flex-none"></span>
       @if (!collapsed()) {
-        <span class="app-admin-layout__brand-text">Admin</span>
+        <span class="text-subtitle font-bold text-text">Admin</span>
       }
     </div>
 
     @if (!collapsed()) {
-      <div class="app-admin-layout__menu-search">
+      <div class="pt-0 px-md pb-sm">
         <nz-input-group [nzPrefix]="menuSearchPrefix">
           <input
             type="text"
@@ -71,14 +71,14 @@
     </ul>
 
     @if (menuSearchTerm().trim() && filteredMenuItems().length === 0) {
-      <p class="app-admin-layout__menu-search-empty">
+      <p class="m-0 px-md text-text-secondary text-label text-center">
         {{ 'layout.admin.menu_search_no_result' | transloco }}
       </p>
     }
   </nz-sider>
 
-  <nz-layout class="app-admin-layout__body">
-    <nz-header class="app-admin-layout__header">
+  <nz-layout class="bg-background">
+    <nz-header class="flex items-center justify-between bg-surface shadow-sm px-md z-header">
       <button
         nz-button
         nzType="text"
@@ -89,22 +89,31 @@
         <span nz-icon [nzType]="collapsed() ? 'menu-unfold' : 'menu-fold'"></span>
       </button>
 
-      <div class="app-admin-layout__header-actions">
+      <div class="flex items-center gap-sm">
         <app-language-switcher />
         <app-theme-toggle />
 
-        <span nz-dropdown [nzDropdownMenu]="userMenu" class="app-admin-layout__user" tabindex="0">
+        <span
+          nz-dropdown
+          [nzDropdownMenu]="userMenu"
+          class="inline-flex items-center gap-xs px-xs cursor-pointer"
+          tabindex="0"
+        >
           <nz-avatar nzIcon="user" nzSize="small" />
           @if (authService.currentUser(); as user) {
             <span>{{ user.username }}</span>
           }
-          <span nz-icon nzType="down" class="app-admin-layout__user-caret"></span>
+          <span nz-icon nzType="down" class="text-label text-text-secondary"></span>
         </span>
 
         <nz-dropdown-menu #userMenu="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item>
-              <button type="button" class="app-admin-layout__logout" (click)="logout()">
+              <button
+                type="button"
+                class="app-admin-layout__logout inline-flex items-center gap-xs w-full border-none bg-transparent text-inherit cursor-pointer"
+                (click)="logout()"
+              >
                 <span nz-icon nzType="logout"></span>
                 {{ 'layout.admin.logout' | transloco }}
               </button>
@@ -114,11 +123,11 @@
       </div>
     </nz-header>
 
-    <nz-content class="app-admin-layout__content">
+    <nz-content class="m-md bg-background">
       <router-outlet />
     </nz-content>
 
-    <nz-footer class="app-admin-layout__footer">
+    <nz-footer class="py-sm px-md text-center text-text-secondary text-caption bg-background">
       {{ 'layout.admin.footer' | transloco: { year: currentYear } }}
     </nz-footer>
   </nz-layout>

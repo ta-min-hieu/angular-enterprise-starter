@@ -1,0 +1,131 @@
+/*
+ * Tailwind CSS entry — file .css thuần (không phải .scss) vì Sass sẽ cố resolve
+ * "@import 'tailwindcss'" như một Sass module và báo lỗi. File này nằm ngoài
+ * pipeline Sass, được PostCSS (@tailwindcss/postcss, xem .postcssrc.json) xử lý riêng.
+ *
+ * Không import "tailwindcss/preflight.css": Preflight reset sẽ đụng độ với base
+ * style của Ng-Zorro. Chỉ lấy theme + utilities (xem docs/04-ui-standard.md § Styling).
+ */
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/*
+ * Preflight bị bỏ qua toàn bộ (lý do: đụng độ base style Ng-Zorro, xem comment phía trên).
+ * Nhưng utility "border" của Tailwind CHỈ set border-width — nó mặc định dựa vào việc Preflight
+ * đã set sẵn "border-style: solid; border-width: 0" trên mọi phần tử (xem tailwindcss/preflight.css).
+ * Thiếu dòng này, "border" một mình sẽ vô hình (border-style mặc định của trình duyệt là "none").
+ * Khôi phục lại ĐÚNG phần này (không kéo theo margin/padding/box-sizing reset của Preflight) —
+ * an toàn với Ng-Zorro vì selector "*" có specificity thấp nhất, mọi rule border tường minh của
+ * Ng-Zorro (class selector) vẫn thắng như bình thường.
+ */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border: 0 solid;
+  }
+}
+
+/*
+ * Map Design Token của Starter (định nghĩa tại src/styles/tokens/*.scss, biên dịch vào
+ * :root trong styles.scss) vào Tailwind theme. Dùng "@theme inline" (không phải "@theme"
+ * thường) vì giá trị là var() trỏ tới biến khác cùng tên: "@theme" thường sẽ tự phát ra
+ * khai báo ":root { --color-primary: var(--color-primary) }" và tự tham chiếu chính nó
+ * (cyclic reference, vô hiệu hoá biến). "@theme inline" không phát khai báo :root riêng —
+ * mỗi utility class nội suy thẳng var() tại điểm dùng, nên luôn trỏ đúng về token gốc và
+ * vẫn đổi được theo Theme Switching Runtime (light/dark qua [data-theme]).
+ * Xem docs/15-design-system.md § Tailwind & Design Token.
+ */
+@theme inline {
+  /* Semantic Color */
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --color-info: var(--color-info);
+  --color-surface: var(--color-surface);
+  --color-background: var(--color-background);
+  --color-border: var(--color-border);
+  --color-row-alt: var(--color-row-alt);
+  --color-text: var(--color-text);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-disabled: var(--color-text-disabled);
+
+  /* Spacing — namespace --spacing- sinh utility p, m, gap, w, h... theo tên token */
+  --spacing-xs: var(--spacing-xs);
+  --spacing-sm: var(--spacing-sm);
+  --spacing-md: var(--spacing-md);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xl: var(--spacing-xl);
+  --spacing-xxl: var(--spacing-xxl);
+
+  /* Radius — override default Tailwind sm/md/lg/full bằng token của Starter */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-full: var(--radius-full);
+
+  /* Shadow — override default Tailwind sm/md/lg */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  /* Typography */
+  --font-base: var(--font-family-base);
+  --font-code: var(--font-family-code);
+  --text-display: var(--font-size-display);
+  --text-heading: var(--font-size-heading);
+  --text-title: var(--font-size-title);
+  --text-subtitle: var(--font-size-subtitle);
+  --text-body: var(--font-size-body);
+  --text-caption: var(--font-size-caption);
+  --text-label: var(--font-size-label);
+  --text-code: var(--font-size-code);
+
+  /*
+   * Line-height / Font-weight: PHẢI override tường minh dù tên/giá trị mặc định của
+   * Tailwind trùng ngẫu nhiên với token (vd leading-tight, font-medium, font-bold) —
+   * nếu không override, utility sẽ dùng hằng số riêng của Tailwind thay vì đọc token,
+   * phá nguyên tắc "không hardcode trùng giá trị ở hai nơi" (docs/15) khi token đổi.
+   */
+  --leading-tight: var(--line-height-tight);
+  --leading-base: var(--line-height-base);
+  --leading-loose: var(--line-height-loose);
+  --font-weight-normal: var(--font-weight-regular);
+  --font-weight-medium: var(--font-weight-medium);
+  --font-weight-bold: var(--font-weight-bold);
+
+  /* Motion */
+  --ease-standard: var(--easing-standard);
+  --duration-fast: var(--duration-fast);
+  --duration-base: var(--duration-base);
+  --duration-slow: var(--duration-slow);
+
+  /* Opacity (bổ sung cạnh scale mặc định của Tailwind) */
+  --opacity-disabled: var(--opacity-disabled);
+  --opacity-hover: var(--opacity-hover);
+
+  /* Z-index — khớp tên với tokens/_z-index.scss */
+  --z-header: var(--z-header);
+  --z-sidebar: var(--z-sidebar);
+  --z-dropdown: var(--z-dropdown);
+  --z-modal: var(--z-modal);
+  --z-toast: var(--z-toast);
+
+  /*
+   * CẢNH BÁO: đặt tên trùng key (xs/sm/md/lg/xl) như Spacing Token khiến các utility "hai nguồn"
+   * (max-w-*, min-w-*, max-h-*, min-h-* — vốn thử resolve theo CẢ --spacing-* lẫn --container-*)
+   * ưu tiên nhầm sang --spacing-* (16/24/32px) thay vì --container-* (28/32/36rem) như dự định.
+   * KHÔNG dùng max-w-md/lg/xl/sm/xs, min-w-md/..., max-h-md/..., min-h-md/... cho mục đích
+   * container/kích thước lớn — dùng scale số của Tailwind thay thế (vd max-w-105 = 105*4px = 420px,
+   * hỗ trợ MỌI số nguyên không cần cấu hình thêm — tính năng "dynamic value" của Tailwind v4) hoặc
+   * key không trùng (2xl/3xl/...). Xem ví dụ thực tế: auth-layout.html (nz-card).
+   */
+
+  /* Breakpoint — khớp tên với mixins/_breakpoints.scss (respond-to) */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1440px;
+}

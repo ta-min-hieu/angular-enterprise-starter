@@ -1,18 +1,6 @@
-.app-language-switcher {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding-inline: var(--spacing-xs);
-  cursor: pointer;
-  color: var(--color-text);
-
-  &__option {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font: inherit;
-    color: inherit;
-    text-align: left;
-    cursor: pointer;
-  }
+// Tailwind không có utility cho "font: inherit" (shorthand reset toàn bộ family/size/weight/
+// line-height về giá trị kế thừa) — giữ lại rule duy nhất theo whitelist (docs/04-ui-standard.md
+// § Styling). Cần thiết vì <button> có font UI mặc định của trình duyệt, không tự kế thừa từ cha.
+.app-language-switcher__option {
+  font: inherit;
 }

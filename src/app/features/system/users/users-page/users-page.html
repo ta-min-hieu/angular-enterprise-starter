@@ -1,4 +1,4 @@
-<div class="app-users-page">
+<div>
   <app-page-header
     [breadcrumbItems]="breadcrumbItems"
     title="users.title"
@@ -7,8 +7,8 @@
     addLabel="users.add_button"
   />
 
-  <nz-card [nzBordered]="false" class="app-users-page__filter-card">
-    <nz-input-group class="app-users-page__search" [nzPrefix]="searchPrefix">
+  <nz-card [nzBordered]="false" class="mb-md rounded-md shadow-sm">
+    <nz-input-group class="max-w-80" [nzPrefix]="searchPrefix">
       <input
         type="text"
         nz-input
@@ -22,14 +22,13 @@
     </ng-template>
   </nz-card>
 
-  <nz-card [nzBordered]="false" class="app-users-page__table-card">
+  <nz-card [nzBordered]="false" class="mb-md rounded-md shadow-sm">
     @if (list.error(); as currentError) {
       <app-error-state [error]="currentError" (retry)="list.refresh()" />
     } @else {
       <nz-table
         ngSkipHydration
         #userTable
-        class="app-users-page__table"
         [nzData]="list.filteredItems()"
         [nzLoading]="userService.loading()"
         [nzNoResult]="emptyTemplate"

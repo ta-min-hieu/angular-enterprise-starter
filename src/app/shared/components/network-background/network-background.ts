@@ -28,7 +28,7 @@ import { NetworkBackgroundEngine } from './network-background-engine';
 @Component({
   selector: 'app-network-background',
   templateUrl: './network-background.html',
-  styleUrl: './network-background.scss',
+  host: { class: 'absolute inset-0 block overflow-hidden pointer-events-none' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NetworkBackground implements OnDestroy {

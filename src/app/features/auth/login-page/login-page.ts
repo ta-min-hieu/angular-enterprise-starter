@@ -23,7 +23,6 @@ import { TextField } from '../../../shared/components/text-field/text-field';
     TextField,
   ],
   templateUrl: './login-page.html',
-  styleUrl: './login-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage {

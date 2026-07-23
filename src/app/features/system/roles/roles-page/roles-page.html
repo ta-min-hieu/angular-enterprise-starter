@@ -1,4 +1,4 @@
-<div class="app-roles-page">
+<div>
   <app-page-header
     [breadcrumbItems]="breadcrumbItems"
     title="roles.title"
@@ -7,8 +7,8 @@
     addLabel="roles.add_button"
   />
 
-  <nz-card [nzBordered]="false" class="app-roles-page__filter-card">
-    <nz-input-group class="app-roles-page__search" [nzPrefix]="searchPrefix">
+  <nz-card [nzBordered]="false" class="mb-md rounded-md shadow-sm">
+    <nz-input-group class="max-w-80" [nzPrefix]="searchPrefix">
       <input
         type="text"
         nz-input
@@ -22,14 +22,13 @@
     </ng-template>
   </nz-card>
 
-  <nz-card [nzBordered]="false" class="app-roles-page__table-card">
+  <nz-card [nzBordered]="false" class="mb-md rounded-md shadow-sm">
     @if (list.error(); as currentError) {
       <app-error-state [error]="currentError" (retry)="list.refresh()" />
     } @else {
       <nz-table
         ngSkipHydration
         #roleTable
-        class="app-roles-page__table"
         [nzData]="list.filteredItems()"
         [nzLoading]="roleService.loading()"
         [nzNoResult]="emptyTemplate"

@@ -47,7 +47,6 @@ export interface ProductFormSaveEvent {
     FileUploadField,
   ],
   templateUrl: './product-form.html',
-  styleUrl: './product-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductForm {

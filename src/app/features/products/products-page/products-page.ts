@@ -68,7 +68,6 @@ const ALL_STATUSES_OPTION: SelectOption<string> = {
     PageHeader,
   ],
   templateUrl: './products-page.html',
-  styleUrl: './products-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsPage {

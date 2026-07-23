@@ -1,4 +1,4 @@
-<div class="app-products-page">
+<div>
   <app-page-header
     [breadcrumbItems]="breadcrumbItems"
     title="products.title"
@@ -7,7 +7,7 @@
     addLabel="products.add_button"
   />
 
-  <nz-card [nzBordered]="false" class="app-products-page__filter-card">
+  <nz-card [nzBordered]="false" class="mb-md rounded-md shadow-sm">
     <app-filter-bar [hasActiveFilters]="hasActiveFilters()" (clear)="onClearFilters()">
       <app-text-field
         name="name"
@@ -37,10 +37,10 @@
     [nzBordered]="false"
     [nzTitle]="'products.list_title' | transloco"
     [nzExtra]="countTemplate"
-    class="app-products-page__table-card"
+    class="mb-md rounded-md shadow-sm"
   >
     <ng-template #countTemplate>
-      <span class="app-products-page__count">
+      <span class="text-text-secondary text-caption whitespace-nowrap">
         {{ 'products.count' | transloco: { count: productService.totalCount() } }}
       </span>
     </ng-template>
@@ -48,7 +48,6 @@
     <nz-table
       ngSkipHydration
       #productTable
-      class="app-products-page__table"
       [nzData]="productService.products()"
       [nzFrontPagination]="false"
       [nzLoading]="productService.loading()"
@@ -76,18 +75,18 @@
             <td>
               @if (thumbnailUrl(product); as src) {
                 <img
-                  class="app-products-page__thumbnail"
+                  class="w-10 h-10 rounded-sm object-cover block"
                   [appMediaSrc]="src"
                   [alt]="product.name"
                 />
               } @else {
                 <span
-                  class="app-products-page__thumbnail app-products-page__thumbnail--empty"
+                  class="w-10 h-10 rounded-sm object-cover block bg-background border border-dashed border-border"
                 ></span>
               }
             </td>
             <td>
-              <span class="app-products-page__name">{{ product.name }}</span>
+              <span class="font-medium">{{ product.name }}</span>
             </td>
             <td>{{ categoryLabel(product.category) }}</td>
             <td nzAlign="right">{{ product.price | currency: 'VND' }}</td>

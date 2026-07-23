@@ -1,10 +1,4 @@
-<form
-  nz-form
-  nzLayout="vertical"
-  class="app-product-form"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()"
->
+<form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="onSubmit()">
   <app-text-field
     name="name"
     [control]="form.controls.name"
@@ -12,9 +6,9 @@
     [placeholder]="'products.form.name.placeholder' | transloco"
   />
 
-  <div class="app-product-form__row">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-number-field
-      class="app-product-form__col"
+      class="tablet:flex-1"
       name="price"
       [control]="form.controls.price"
       [label]="'products.form.price.label' | transloco"
@@ -25,7 +19,7 @@
     />
 
     <app-number-field
-      class="app-product-form__col"
+      class="tablet:flex-1"
       name="stock"
       [control]="form.controls.stock"
       [label]="'products.form.stock.label' | transloco"
@@ -33,9 +27,9 @@
     />
   </div>
 
-  <div class="app-product-form__row">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-select-field
-      class="app-product-form__col"
+      class="tablet:flex-1"
       name="category"
       [control]="form.controls.category"
       [options]="categoryOptions"
@@ -43,7 +37,7 @@
     />
 
     <app-multi-select-field
-      class="app-product-form__col"
+      class="tablet:flex-1"
       name="tags"
       [control]="form.controls.tags"
       [options]="tagOptions"
@@ -81,9 +75,9 @@
     (existingRemoved)="onExistingFileRemoved($event)"
   />
 
-  <div class="app-product-form__row">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-date-field
-      class="app-product-form__col"
+      class="tablet:flex-1"
       name="releaseDate"
       [control]="form.controls.releaseDate"
       [label]="'products.form.release_date.label' | transloco"
@@ -91,7 +85,7 @@
     />
 
     <app-date-field
-      class="app-product-form__col"
+      class="tablet:flex-1"
       name="publishedAt"
       [control]="form.controls.publishedAt"
       [label]="'products.form.published_at.label' | transloco"
@@ -100,7 +94,7 @@
     />
   </div>
 
-  <div class="app-product-form__actions">
+  <div class="flex justify-end gap-sm mt-md">
     <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
       {{ 'common.actions.cancel' | transloco }}
     </button>

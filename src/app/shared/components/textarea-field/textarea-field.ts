@@ -8,7 +8,7 @@ import { I18nService } from '../../../core/i18n/i18n.service';
   selector: 'app-textarea-field',
   imports: [ReactiveFormsModule, NzInputModule, NzFormModule],
   templateUrl: './textarea-field.html',
-  styleUrl: './textarea-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextareaField {

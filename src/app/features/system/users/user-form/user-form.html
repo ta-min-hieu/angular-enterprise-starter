@@ -1,14 +1,14 @@
-<form nz-form nzLayout="vertical" class="app-user-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="app-user-form__row">
+<form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="flex flex-col gap-x-md tablet:flex-row">
     <app-text-field
-      class="app-user-form__col"
+      class="tablet:flex-1"
       name="username"
       [control]="form.controls.username"
       [label]="'users.form.username.label' | transloco"
     />
 
     <app-text-field
-      class="app-user-form__col"
+      class="tablet:flex-1"
       name="password"
       type="password"
       [control]="form.controls.password"
@@ -38,7 +38,7 @@
     [required]="false"
   />
 
-  <div class="app-user-form__actions">
+  <div class="flex justify-end gap-sm mt-md">
     <button nz-button type="button" [disabled]="saving()" (click)="onCancel()">
       {{ 'common.actions.cancel' | transloco }}
     </button>

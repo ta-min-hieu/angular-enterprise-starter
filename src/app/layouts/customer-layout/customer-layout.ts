@@ -20,7 +20,6 @@ import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
     ThemeToggle,
   ],
   templateUrl: './customer-layout.html',
-  styleUrl: './customer-layout.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerLayout {

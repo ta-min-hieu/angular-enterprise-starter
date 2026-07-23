@@ -12,7 +12,6 @@ import { createEntityByIdLoader } from '../../../shared/crud/entity-by-id-loader
   selector: 'app-product-form-page',
   imports: [NzCardModule, ProductForm, PageHeader],
   templateUrl: './product-form-page.html',
-  styleUrl: './product-form-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFormPage {

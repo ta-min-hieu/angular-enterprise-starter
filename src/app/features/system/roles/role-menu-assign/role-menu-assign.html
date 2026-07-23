@@ -1,4 +1,4 @@
-<div class="app-role-menu-assign">
+<div>
   <nz-tree
     ngSkipHydration
     [nzData]="treeNodes()"
@@ -8,7 +8,7 @@
     (nzCheckedKeysChange)="onCheckedKeysChange($event)"
   />
 
-  <div class="app-role-menu-assign__actions">
+  <div class="flex justify-end mt-md">
     <button nz-button nzType="primary" type="button" [nzLoading]="saving()" (click)="onSubmit()">
       <span nz-icon nzType="check"></span>
       <span>{{ 'common.actions.save' | transloco }}</span>

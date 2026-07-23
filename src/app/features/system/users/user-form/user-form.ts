@@ -41,7 +41,6 @@ const MIN_PASSWORD_LENGTH = 6;
     MultiSelectField,
   ],
   templateUrl: './user-form.html',
-  styleUrl: './user-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserForm {

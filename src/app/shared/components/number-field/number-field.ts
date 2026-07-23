@@ -8,7 +8,7 @@ import { I18nService } from '../../../core/i18n/i18n.service';
   selector: 'app-number-field',
   imports: [ReactiveFormsModule, NzInputNumberModule, NzFormModule],
   templateUrl: './number-field.html',
-  styleUrl: './number-field.scss',
+  host: { class: 'block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NumberField {

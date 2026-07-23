@@ -7,7 +7,6 @@ import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
   selector: 'app-public-layout',
   imports: [RouterOutlet, NzLayoutModule, ThemeToggle],
   templateUrl: './public-layout.html',
-  styleUrl: './public-layout.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PublicLayout {

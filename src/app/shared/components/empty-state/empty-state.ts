@@ -6,7 +6,6 @@ import { I18nService } from '../../../core/i18n/i18n.service';
   selector: 'app-empty-state',
   imports: [NzEmptyModule],
   templateUrl: './empty-state.html',
-  styleUrl: './empty-state.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmptyState {

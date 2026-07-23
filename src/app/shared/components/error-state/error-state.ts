@@ -11,7 +11,7 @@ type ResultStatus = '404' | '500' | '403' | 'error' | 'warning';
   selector: 'app-error-state',
   imports: [NzResultModule, NzButtonModule, TranslocoPipe],
   templateUrl: './error-state.html',
-  styleUrl: './error-state.scss',
+  host: { class: 'block p-lg' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorState {

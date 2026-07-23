@@ -14,7 +14,6 @@ import { createEntityByIdLoader } from '../../../../shared/crud/entity-by-id-loa
   selector: 'app-menu-form-page',
   imports: [NzCardModule, MenuForm, PageHeader],
   templateUrl: './menu-form-page.html',
-  styleUrl: './menu-form-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuFormPage {

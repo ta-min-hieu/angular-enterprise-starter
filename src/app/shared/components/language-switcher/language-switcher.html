@@ -1,7 +1,7 @@
 <span
   nz-dropdown
   [nzDropdownMenu]="langMenu"
-  class="app-language-switcher"
+  class="inline-flex items-center gap-xs px-xs cursor-pointer text-text"
   tabindex="0"
   [attr.aria-label]="i18nService.locale().toUpperCase()"
 >
@@ -15,7 +15,7 @@
       <li nz-menu-item [nzSelected]="locale.code === i18nService.locale()">
         <button
           type="button"
-          class="app-language-switcher__option"
+          class="app-language-switcher__option w-full border-none bg-transparent text-inherit text-left cursor-pointer"
           (click)="selectLocale(locale.code)"
         >
           {{ locale.label }}

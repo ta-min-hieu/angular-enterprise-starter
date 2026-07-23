@@ -1,15 +1,21 @@
-<div class="app-auth-layout">
+<div
+  class="app-auth-layout relative min-h-screen overflow-hidden flex items-center justify-center p-lg"
+>
   @defer (on immediate) {
-    <app-network-background class="app-auth-layout__background" />
+    <app-network-background class="absolute inset-0 z-0" />
   } @placeholder {
-    <div class="app-auth-layout__background app-auth-layout__background--placeholder"></div>
+    <div class="app-auth-layout__background--placeholder absolute inset-0 z-0"></div>
   }
 
-  <div class="app-auth-layout__toolbar">
+  <div class="absolute z-10 top-lg right-lg text-white/85">
     <app-language-switcher />
   </div>
 
-  <nz-card class="app-auth-layout__card">
+  <!-- max-w-105 = 105 * 4px (--spacing multiplier mặc định của Tailwind) = 420px, khớp
+       max-width gốc. KHÔNG dùng max-w-md/lg/xl/sm/xs: các key đặt tên trùng với Spacing Token
+       (docs/04-ui-standard.md § Styling) khiến Tailwind resolve nhầm sang --spacing-* (16/24/32px)
+       thay vì --container-* (28/32/36rem) đúng nghĩa — xem ghi chú trong tailwind.css. -->
+  <nz-card class="relative z-10 w-full max-w-105">
     <router-outlet />
   </nz-card>
 </div>
