@@ -1,7 +1,7 @@
 <nz-form-item>
   <nz-form-label [nzFor]="resolvedId()" [nzRequired]="required()">{{ label() }}</nz-form-label>
   <nz-form-control [nzErrorTip]="resolvedErrorMessage()">
-    <div class="app-file-upload-field">
+    <div>
       <!-- Input ẩn, không tương tác được (tabindex=-1, aria-hidden) — chỉ để nz-form-control
            dò ra NgControl và theo dõi validity/dirty/touched, vì bản thân widget không có
            input HTML thật nào để gắn formControl như các field khác (text-field, number-field...). -->
