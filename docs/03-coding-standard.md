@@ -2,148 +2,37 @@
 
 ## General
 
-Áp dụng Angular Style Guide mới nhất.
+Áp dụng Angular Style Guide mới nhất. Sử dụng: Strict Mode, Standalone Component, `inject()`, Signals, Zoneless Change Detection, OnPush.
 
-Sử dụng:
+## Forms
 
-Strict Mode
+Mọi Form dùng Reactive Forms — mọi Form Component của Ng-Zorro hỗ trợ đầy đủ qua ControlValueAccessor; đây là lựa chọn ổn định lâu dài cho Starter. Không dùng Template-driven Forms.
 
-Standalone Component
+## Naming
 
-inject()
+kebab-case cho file · PascalCase cho Class · camelCase cho biến · UPPER_SNAKE_CASE cho Constant.
 
-Signals
+## TypeScript
 
-Zoneless Change Detection
+Không dùng: `any`, `var`, `Function`, `Object`. Ưu tiên: `interface`, `readonly`, `const`, `enum` khi cần, Literal Type.
 
-OnPush
+## Component / Service
 
----
+- Component chỉ: render UI, handle event, gọi Service — không xử lý Business Logic.
+- Service: Business Logic, API, State — không xử lý UI.
 
-# Forms
+## Template
 
-Sử dụng Reactive Forms cho mọi Form.
+Không gọi function nặng, không tính toán, không tạo object mới trong Template.
 
-Lý do: mọi Form Component của Ng-Zorro đều hỗ trợ đầy đủ Reactive Forms qua ControlValueAccessor; đây là lựa chọn ổn định lâu dài cho Starter.
+## Styling
 
-Không dùng Template-driven Forms.
+Tailwind utility là mặc định; SCSS chỉ theo whitelist — xem `04-ui-standard.md` § Styling.
 
----
+## Clean Code
 
-# Naming
+Tên biến rõ nghĩa; method ngắn; Component/Service nhỏ; ưu tiên readability hơn clever code.
 
-Sử dụng:
+## Forbidden
 
-kebab-case
-
-cho file.
-
-PascalCase
-
-cho Class.
-
-camelCase
-
-cho biến.
-
-UPPER_SNAKE_CASE
-
-cho Constant.
-
----
-
-# TypeScript
-
-Không sử dụng:
-
-any
-
-var
-
-Function
-
-Object
-
-Ưu tiên:
-
-interface
-
-readonly
-
-const
-
-enum khi cần
-
-Literal Type
-
----
-
-# Component
-
-Component chỉ:
-
-Render UI
-
-Handle Event
-
-Gọi Service
-
-Không xử lý Business Logic.
-
----
-
-# Service
-
-Service:
-
-Business Logic
-
-API
-
-State
-
-Không xử lý UI.
-
----
-
-# Template
-
-Không gọi Function nặng trong HTML.
-
-Không tính toán trong Template.
-
-Không tạo Object mới trong Template.
-
----
-
-# Clean Code
-
-Tên biến rõ nghĩa.
-
-Method ngắn.
-
-Component nhỏ.
-
-Service nhỏ.
-
-Ưu tiên readability hơn clever code.
-
----
-
-# Forbidden
-
-Không:
-
-Duplicate Code
-
-Magic Number
-
-Magic String
-
-Nested Subscribe
-
-Hardcode
-
-Console.log Production
-
-Comment dư thừa
+Duplicate Code · Magic Number · Magic String · Nested Subscribe · Hardcode · console.log production · Comment dư thừa.

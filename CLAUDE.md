@@ -119,14 +119,18 @@ Chỉ kết thúc khi project hoạt động ổn định (build thành công, k
 
 ---
 
-# Self Review
+# Self Review (đồng bộ 1-1 với docs/20-review-checklist.md — không đọc lại docs/20 mỗi Task)
 
-Sau mỗi Feature:
+Sau mỗi Task, kiểm tra phần code vừa thay đổi:
 
-- Review kiến trúc
-- Review naming
-- Review performance
-- Review security
-- Review khả năng mở rộng
+- Architecture: đúng Layer, không Dependency ngược, không Duplicate Logic, Feature độc lập.
+- Code: naming rõ; không any / hardcode / dead code / magic number / TODO / FIXME / console.log production.
+- Angular: Standalone, Signals, OnPush, Lazy Loading, không Nested Subscribe, không Memory Leak.
+- UI: Responsive, Theme, Accessibility, Design Token; Tailwind utility trước (SCSS chỉ theo whitelist `docs/04` § Styling); đủ Loading/Error/Empty State.
+- Performance: Bundle hợp lý, không render thừa, không function nặng trong template, @defer/Lazy khi phù hợp.
+- Security: không hardcode secret, token an toàn, permission đúng, validation đủ, không XSS.
+- API: không HttpClient trong Component; có Error Handling, Loading, Retry/Cancel hợp lý.
+- Testing/Build: Unit Test, Build + Lint pass, không Warning; Docker build/run OK khi thay đổi liên quan.
+- Docs: cập nhật README/docs nếu hành vi hoặc quy ước thay đổi (kể cả `docs/23-shared-components.md` khi thêm/sửa Shared Component).
 
-Nếu phát hiện điểm chưa tốt hãy refactor trước khi chuyển sang Feature tiếp theo. Checklist đầy đủ: `docs/20-review-checklist.md`.
+Câu hỏi cuối: có cách đơn giản hơn? có duplicate? sẵn sàng merge production? — "Không chắc" → refactor tiếp trước khi kết thúc.

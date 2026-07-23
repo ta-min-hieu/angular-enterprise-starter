@@ -2,228 +2,55 @@
 
 ## Purpose
 
-Quản lý thư viện bên thứ ba một cách có kiểm soát.
+Quản lý thư viện bên thứ ba có kiểm soát. Không thêm Package chỉ vì tiện — mọi Dependency đều làm tăng Bundle Size, Security Risk, Maintenance Cost.
 
-Không thêm Package chỉ vì tiện.
+## Principles
 
-Mọi Dependency đều làm tăng:
+Ưu tiên theo thứ tự: Angular Official → Browser API → TypeScript → Third-party Library. Chỉ thêm thư viện khi thực sự cần.
 
-- Bundle Size
-- Security Risk
-- Maintenance Cost
+## Evaluation Checklist
 
----
+Trước khi thêm Package: ✓ Angular khuyến nghị? ✓ Đang được bảo trì? ✓ License phù hợp? ✓ Nhiều người dùng? ✓ Bundle Size bao nhiêu? ✓ Thay được bằng Angular không? ✓ Có Security Issue không?
 
-# Principles
+## Duplicate Library
 
-Ưu tiên:
+Không dùng nhiều thư viện cùng chức năng: Moment + DayJS → không; Lodash + Ramda → không; Chart.js + ECharts → không nếu không có lý do.
 
-Angular Official
+## Preferred Libraries
 
-↓
+- Angular Official, Angular CDK, RxJS
+- Ng-Zorro
+- Tailwind CSS 4.x — styling utility-first mặc định (xem `04-ui-standard.md` § Styling); không thêm thư viện CSS utility / CSS-in-JS khác song song
+- Day.js
+- @ngrx/signals — Signal Store cho Feature phức tạp (xem `07-state-management.md`); không dùng NgRx Store/Effects truyền thống (RxJS-based) nếu Signal Store đã đáp ứng đủ
+- Vitest — Unit Test runner chính thức của Angular CLI
+- Playwright — E2E Test (thêm khi có Feature đầu tiên cần)
+- Thư viện có cộng đồng lớn và được bảo trì tích cực
 
-Browser API
+## Upgrade Strategy
 
-↓
+Định kỳ nâng cấp: Angular, TypeScript, ESLint, Ng-Zorro, Docker Base Image. Không nâng cấp ngẫu nhiên — thử nghiệm trên nhánh riêng trước khi merge.
 
-TypeScript
+## Remove Dependency
 
-↓
+Định kỳ kiểm tra và loại bỏ: Unused Package, Deprecated Package, High Vulnerability.
 
-Third-party Library
+## Security
 
-Chỉ thêm thư viện khi thực sự cần.
+Định kỳ: npm audit, License Review, Dependency Scan. Không bỏ qua cảnh báo bảo mật nghiêm trọng.
 
----
+## Bundle Size
 
-# Evaluation Checklist
+Không thêm Package lớn chỉ để dùng một chức năng nhỏ. Ưu tiên: Tree Shaking, Dynamic Import, Lazy Load.
 
-Trước khi thêm Package:
+## Version Policy
 
-✓ Có được Angular khuyến nghị?
+Chỉ Stable Release. Không Alpha/Beta/RC trong Production (trừ khi có quyết định kiến trúc rõ ràng).
 
-✓ Có đang được bảo trì?
+## Future Compatibility
 
-✓ License phù hợp?
+Không khóa Starter vào một thư viện. Third-party có khả năng phải thay thế trong tương lai → bọc qua Adapter hoặc Service.
 
-✓ Có nhiều người sử dụng?
+## Checklist
 
-✓ Bundle Size bao nhiêu?
-
-✓ Có thay thế được bằng Angular không?
-
-✓ Có Security Issue không?
-
----
-
-# Duplicate Library
-
-Không sử dụng nhiều thư viện cùng chức năng.
-
-Ví dụ:
-
-Moment
-
--
-
-DayJS
-
-↓
-
-Không.
-
-Lodash
-
--
-
-Ramda
-
-↓
-
-Không.
-
-Chart.js
-
--
-
-ECharts
-
-↓
-
-Không nếu không có lý do.
-
----
-
-# Preferred Libraries
-
-Ưu tiên:
-
-Angular Official
-
-Ng-Zorro
-
-Tailwind CSS 4.x — styling utility-first mặc định (xem `04-ui-standard.md` § Styling); không thêm thư viện CSS utility / CSS-in-JS nào khác song song.
-
-RxJS
-
-Day.js
-
-Angular CDK
-
-@ngrx/signals — cho Signal Store của Feature phức tạp (xem `07-state-management.md`); không dùng NgRx Store/Effects truyền thống (RxJS-based) nếu Signal Store đã đáp ứng đủ.
-
-Vitest — Unit Test runner chính thức của Angular CLI.
-
-Playwright — E2E Test (thêm khi có Feature đầu tiên cần).
-
-Các thư viện có cộng đồng lớn và được bảo trì tích cực.
-
----
-
-# Upgrade Strategy
-
-Định kỳ:
-
-Angular
-
-TypeScript
-
-ESLint
-
-Ng-Zorro
-
-Docker Base Image
-
-Không nâng cấp ngẫu nhiên.
-
-Thử nghiệm trên nhánh riêng trước khi merge.
-
----
-
-# Remove Dependency
-
-Định kỳ kiểm tra:
-
-Unused Package
-
-Deprecated Package
-
-High Vulnerability
-
-Package không còn sử dụng
-
-↓
-
-Loại bỏ.
-
----
-
-# Security
-
-Định kỳ:
-
-npm audit
-
-License Review
-
-Dependency Scan
-
-Không bỏ qua cảnh báo bảo mật nghiêm trọng.
-
----
-
-# Bundle Size
-
-Không thêm Package lớn chỉ để dùng một chức năng nhỏ.
-
-Ưu tiên:
-
-Tree Shaking
-
-Dynamic Import
-
-Lazy Load
-
----
-
-# Version Policy
-
-Ưu tiên:
-
-Stable Release
-
-Không sử dụng:
-
-Alpha
-
-Beta
-
-RC
-
-trong Production (trừ khi có quyết định kiến trúc rõ ràng).
-
----
-
-# Future Compatibility
-
-Không khóa Starter vào một thư viện.
-
-Mọi Third-party Library nên được bọc qua Adapter hoặc Service nếu có khả năng phải thay thế trong tương lai.
-
----
-
-# Checklist
-
-✓ Active Maintenance
-
-✓ Stable
-
-✓ Secure
-
-✓ Small Bundle
-
-✓ No Duplicate
-
-✓ Easy Upgrade
-
-✓ Easy Replacement
+✓ Active Maintenance ✓ Stable ✓ Secure ✓ Small Bundle ✓ No Duplicate ✓ Easy Upgrade ✓ Easy Replacement

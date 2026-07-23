@@ -130,6 +130,8 @@ Button, Table, Search Form (Reactive Forms), Dialog, Notification, Toast, Pagina
 
 Loading, Empty State, Error State: Starter có wrapper riêng tại `shared/components/` (`loading-indicator`, `empty-state`, `error-state`) vì cần thống nhất hành vi với `16-error-handling.md` (phân loại lỗi, Retry) mà Ng-Zorro không có sẵn.
 
+Danh sách selector/API của toàn bộ Shared Component: `23-shared-components.md` — tra cứu ở đó thay vì mở source từng Component.
+
 ---
 
 # UX
