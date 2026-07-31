@@ -230,6 +230,7 @@
   "permissions.table.method": "Method",
   "permissions.table.url_pattern": "URL pattern",
   "permissions.table.module": "Module",
+  "permissions.table.status": "Status",
   "permissions.table.actions": "Actions",
   "permissions.actions.delete_confirm": "Delete this permission?",
   "permissions.empty.no_match": "No matching permissions found",

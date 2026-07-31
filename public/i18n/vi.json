@@ -230,6 +230,7 @@
   "permissions.table.method": "Phương thức",
   "permissions.table.url_pattern": "URL Pattern",
   "permissions.table.module": "Nhóm",
+  "permissions.table.status": "Trạng thái",
   "permissions.table.actions": "Hành động",
   "permissions.actions.delete_confirm": "Xoá quyền này?",
   "permissions.empty.no_match": "Không tìm thấy quyền phù hợp",
