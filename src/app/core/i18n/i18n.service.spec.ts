@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { I18nService } from './i18n.service';
 import { provideTranslocoTesting } from './testing/provide-transloco-testing';
 
@@ -7,10 +7,18 @@ describe('I18nService', () => {
   let service: I18nService;
 
   beforeEach(() => {
+    localStorage.removeItem('app.locale');
     TestBed.configureTestingModule({
       providers: [...provideTranslocoTesting()],
     });
     service = TestBed.inject(I18nService);
+  });
+
+  // setLocale()/resolveInitialLocale() ghi thẳng vào localStorage thật (jsdom, không mock) —
+  // dọn sau mỗi test để state không rò sang test/file khác chạy sau (đã từng khiến "should default
+  // to vi" fail ngẫu nhiên khi "should update the active locale" chạy trước nó).
+  afterEach(() => {
+    localStorage.removeItem('app.locale');
   });
 
   it('should default to vi when nothing is stored', () => {
@@ -31,7 +39,5 @@ describe('I18nService', () => {
     localStorage.setItem('app.locale', 'fr');
 
     expect(service.resolveInitialLocale('vi')).toBe('vi');
-
-    localStorage.removeItem('app.locale');
   });
 });
