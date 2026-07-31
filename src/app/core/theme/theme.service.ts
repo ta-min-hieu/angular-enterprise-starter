@@ -82,6 +82,11 @@ export class ThemeService {
     this.nzConfigService.set('theme', nzTheme);
   }
 
+  // Dùng <style>@import ... layer(ngzorro)</style> thay vì <link rel="stylesheet"> thẳng — <link>
+  // luôn nạp CSS unlayered (không có cú pháp gán layer cho <link>), mà CSS unlayered LUÔN thắng
+  // CSS có layer bất kể specificity (xem tailwind.css). Gán vào layer "ngzorro" (đã khai báo là
+  // layer thấp nhất trong tailwind.css) để Tailwind utility vẫn thắng đúng màu Dark Theme của
+  // Ng-Zorro trên cùng element, thay vì bị ghi đè ngược.
   private toggleDarkStylesheet(document: Document, theme: ThemeMode): void {
     const existing = document.getElementById(DARK_STYLESHEET_ID);
 
@@ -90,11 +95,10 @@ export class ThemeService {
         return;
       }
 
-      const link = document.createElement('link');
-      link.id = DARK_STYLESHEET_ID;
-      link.rel = 'stylesheet';
-      link.href = DARK_STYLESHEET_HREF;
-      document.head.appendChild(link);
+      const style = document.createElement('style');
+      style.id = DARK_STYLESHEET_ID;
+      style.textContent = `@import url("${DARK_STYLESHEET_HREF}") layer(ngzorro);`;
+      document.head.appendChild(style);
       return;
     }
 

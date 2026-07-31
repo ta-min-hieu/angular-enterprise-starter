@@ -34,11 +34,7 @@
                 "input": "node_modules/ng-zorro-antd"
               }
             ],
-            "styles": [
-              "./node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css",
-              "src/styles.scss",
-              "src/styles/tailwind.css"
-            ],
+            "styles": ["src/styles.scss", "src/styles/tailwind.css"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {

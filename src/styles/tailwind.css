@@ -6,8 +6,37 @@
  * Không import "tailwindcss/preflight.css": Preflight reset sẽ đụng độ với base
  * style của Ng-Zorro. Chỉ lấy theme + utilities (xem docs/04-ui-standard.md § Styling).
  */
+
+/*
+ * QUAN TRỌNG: khai báo thứ tự layer TRƯỚC mọi import — CSS Cascade Layers cho layer khai báo
+ * SAU luôn thắng layer khai báo TRƯỚC, bất kể specificity. Thứ tự ưu tiên tăng dần:
+ *
+ *   theme (biến CSS, không có rule hiển thị) <
+ *   base (reset tối thiểu của Starter, selector "*" — xem @layer base bên dưới) <
+ *   ngzorro (CSS mặc định của Ng-Zorro — phải thắng "base" để border/màu mặc định của input,
+ *            card... không bị rule reset tổng quát "* { border: 0 solid }" đè mất) <
+ *   utilities (Tailwind — phải thắng "ngzorro" để w-full trên <nz-select>/<nz-input-number>
+ *              thắng được ".ant-input-number{width:90px}" và các rule mặc định tương tự)
+ *
+ * CSS của Ng-Zorro (ng-zorro-antd.variable.min.css) vốn KHÔNG nằm trong layer nào (unlayered) khi
+ * nạp trực tiếp qua "styles" trong angular.json — mà CSS unlayered LUÔN thắng CSS có layer bất kể
+ * thứ tự/specificity. Vì vậy phải import nó qua đây (gán vào layer "ngzorro") thay vì để trong
+ * "styles" của angular.json — đã gỡ khỏi angular.json, chỉ còn 1 nguồn duy nhất ở đây.
+ */
+@layer theme, base, ngzorro, utilities;
+@import '../../node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css' layer(ngzorro);
+
 @import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+
+/*
+ * "source(none)" ở trên tắt hẳn auto-detect mặc định của Tailwind (vốn quét toàn repo theo
+ * .gitignore) — chỉ khai báo "@source" KHÔNG đủ, nó CỘNG THÊM vào auto-detect chứ không thay thế,
+ * nên trước đây "docs/*.md" và cả chính file này (ví dụ code trong comment) vẫn bị quét chung,
+ * sinh utility ma không dùng tới thật (vd "w-[347px]" — chỉ là ví dụ trong text cảnh báo arbitrary
+ * value, không phải class thật). Giới hạn quét về đúng "src/app".
+ */
+@source '../app';
 
 /*
  * Preflight bị bỏ qua toàn bộ (lý do: đụng độ base style Ng-Zorro, xem comment phía trên).
