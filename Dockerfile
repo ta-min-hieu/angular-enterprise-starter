@@ -2,18 +2,21 @@
 
 FROM node:24-alpine AS deps
 WORKDIR /workspace
-COPY package.json package-lock.json ./
-RUN npm ci --ignore-scripts
+RUN corepack enable
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
 
 FROM node:24-alpine AS build
 WORKDIR /workspace
+RUN corepack enable
 COPY --from=deps /workspace/node_modules ./node_modules
-COPY package.json package-lock.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 FROM node:24-alpine AS runtime
 ENV NODE_ENV=production
+RUN corepack enable
 RUN apk add --no-cache gettext \
   && addgroup -S appgroup && adduser -S appuser -G appgroup
 
@@ -21,8 +24,8 @@ WORKDIR /app
 RUN chown appuser:appgroup /app
 USER appuser
 
-COPY --chown=appuser:appgroup package.json package-lock.json ./
-RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+COPY --chown=appuser:appgroup package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts && pnpm store prune
 
 COPY --chown=appuser:appgroup --from=build /workspace/dist ./dist
 COPY --chown=appuser:appgroup docker/config.template.json ./config.template.json

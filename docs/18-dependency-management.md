@@ -37,7 +37,7 @@ Không dùng nhiều thư viện cùng chức năng: Moment + DayJS → không; 
 
 ## Security
 
-Định kỳ: npm audit, License Review, Dependency Scan. Không bỏ qua cảnh báo bảo mật nghiêm trọng.
+Định kỳ: pnpm audit, License Review, Dependency Scan. Không bỏ qua cảnh báo bảo mật nghiêm trọng.
 
 ## Bundle Size
 

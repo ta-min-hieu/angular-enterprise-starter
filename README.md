@@ -16,18 +16,18 @@ Angular Enterprise Starter — nền tảng Frontend tái sử dụng cho nhiề
 ## Yêu cầu môi trường
 
 - Node.js ≥ 22.22.0 hoặc ≥ 24.13.1
-- npm
+- pnpm (kích hoạt qua Corepack: `corepack enable`) — phiên bản pin trong `package.json` → `packageManager`
 
 ## Cài đặt
 
 ```bash
-npm ci
+pnpm install --frozen-lockfile
 ```
 
 ## Development server
 
 ```bash
-npm start
+pnpm start
 ```
 
 Mở `http://localhost:4200/`.
@@ -35,7 +35,7 @@ Mở `http://localhost:4200/`.
 ## Build
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Kết quả build nằm trong `dist/angular-enterprise-starter/` (gồm `browser/` và `server/`).
@@ -43,14 +43,14 @@ Kết quả build nằm trong `dist/angular-enterprise-starter/` (gồm `browser
 ## Test
 
 ```bash
-npm test              # chạy một lần
-npm run test:coverage # chạy kèm coverage report, áp ngưỡng doc10 (Line/Function ≥80%, Branch ≥70%)
+pnpm test              # chạy một lần
+pnpm run test:coverage # chạy kèm coverage report, áp ngưỡng doc10 (Line/Function ≥80%, Branch ≥70%)
 ```
 
 ## Lint
 
 ```bash
-npm run lint
+pnpm run lint
 ```
 
 ## Docker

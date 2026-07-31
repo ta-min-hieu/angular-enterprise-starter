@@ -44,9 +44,9 @@ Artifact
 
 Sử dụng:
 
-npm ci
+pnpm install --frozen-lockfile
 
-Không sử dụng npm install trong CI.
+Không sử dụng pnpm install (không kèm `--frozen-lockfile`) trong CI.
 
 ---
 

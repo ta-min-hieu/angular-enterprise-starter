@@ -21,8 +21,9 @@
       "prettier --write"
     ]
   },
-  "packageManager": "npm@11.16.0",
+  "packageManager": "pnpm@11.18.0",
   "dependencies": {
+    "@ant-design/icons-angular": "^21.0.0",
     "@angular/cdk": "^21.2.14",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
