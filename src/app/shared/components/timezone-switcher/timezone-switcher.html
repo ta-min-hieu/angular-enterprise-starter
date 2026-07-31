@@ -1,0 +1,26 @@
+<span
+  nz-dropdown
+  [nzDropdownMenu]="timezoneMenu"
+  class="inline-flex items-center gap-xs px-xs cursor-pointer text-text"
+  tabindex="0"
+  [attr.aria-label]="timezoneService.timezone()"
+>
+  <span nz-icon nzType="clock-circle"></span>
+  <span>{{ timezoneService.formatOffset(timezoneService.timezone()) }}</span>
+</span>
+
+<nz-dropdown-menu #timezoneMenu="nzDropdownMenu">
+  <ul nz-menu>
+    @for (timezone of timezoneService.availableTimezones; track timezone.id) {
+      <li nz-menu-item [nzSelected]="timezone.id === timezoneService.timezone()">
+        <button
+          type="button"
+          class="app-timezone-switcher__option w-full border-none bg-transparent text-inherit text-left cursor-pointer"
+          (click)="selectTimezone(timezone.id)"
+        >
+          {{ timezone.label }} ({{ timezoneService.formatOffset(timezone.id) }})
+        </button>
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>

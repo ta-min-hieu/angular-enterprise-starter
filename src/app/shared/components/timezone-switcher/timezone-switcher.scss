@@ -1,0 +1,6 @@
+// Tailwind không có utility cho "font: inherit" (shorthand reset toàn bộ family/size/weight/
+// line-height về giá trị kế thừa) — giữ lại rule duy nhất theo whitelist (docs/04-ui-standard.md
+// § Styling). Cần thiết vì <button> có font UI mặc định của trình duyệt, không tự kế thừa từ cha.
+.app-timezone-switcher__option {
+  font: inherit;
+}

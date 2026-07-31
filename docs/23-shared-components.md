@@ -46,4 +46,5 @@ Pattern chung: bọc Ng-Zorro + Reactive Forms. Input chung cho mọi field: `na
 | ErrorState        | `app-error-state`        | `error: AppError` (req); output `retry`                                      |
 | ThemeToggle       | `app-theme-toggle`       | không input                                                                  |
 | LanguageSwitcher  | `app-language-switcher`  | không input                                                                  |
+| TimezoneSwitcher  | `app-timezone-switcher`  | không input                                                                  |
 | NetworkBackground | `app-network-background` | hiệu ứng nền canvas (dùng ở Auth Layout)                                     |

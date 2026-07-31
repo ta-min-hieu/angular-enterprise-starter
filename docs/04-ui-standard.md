@@ -44,9 +44,9 @@ Khi buộc dùng SCSS: vẫn phải dùng Design Token (CSS Variables), file gi�
 
 Tailwind CSS 4.x đã cài đặt và migrate xong toàn bộ Starter: `.postcssrc.json` (PostCSS plugin `@tailwindcss/postcss`), `src/styles/tailwind.css` (theme mapping, xem `15-design-system.md` § Tailwind & Design Token), Preflight tắt (giữ base style Ng-Zorro) nhưng khôi phục riêng `border-style: solid` (xem comment trong file — utility `border-*` cần dòng này để hiển thị, Preflight vốn tự set).
 
-Từ 42 file SCSS Component chỉ còn 5, mỗi file đều rơi đúng whitelist trên:
+Từ 42 file SCSS Component chỉ còn 6, mỗi file đều rơi đúng whitelist trên:
 
-- `file-upload-field.scss`, `language-switcher.scss`, `admin-layout.scss` (một phần) — giá trị không có utility tương đương.
+- `file-upload-field.scss`, `language-switcher.scss`, `timezone-switcher.scss`, `admin-layout.scss` (một phần) — giá trị không có utility tương đương.
 - `admin-layout.scss` (một phần), `menus-page.scss` — override sâu Ng-Zorro (`::ng-deep`).
 - `admin-layout.scss` (một phần) — resize handle: pseudo-element `::after` + hover/active runtime phức tạp.
 - `auth-layout.scss` — màu nền hero khớp hằng số ở `network-background.config.ts`, không phải Design Token tái sử dụng.
