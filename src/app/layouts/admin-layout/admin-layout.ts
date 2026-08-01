@@ -19,6 +19,8 @@ import { NavMenuService } from '../../core/navigation/nav-menu.service';
 import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
 import { LanguageSwitcher } from '../../shared/components/language-switcher/language-switcher';
 import { TimezoneSwitcher } from '../../shared/components/timezone-switcher/timezone-switcher';
+import { TabBar } from '../../shared/components/tab-bar/tab-bar';
+import { NotificationBell } from '../../shared/components/notification-bell/notification-bell';
 
 const SIDER_WIDTH_STORAGE_KEY = 'app.sider_width';
 const SIDER_MIN_WIDTH = 180;
@@ -42,6 +44,8 @@ const SIDER_DEFAULT_WIDTH = 200;
     ThemeToggle,
     LanguageSwitcher,
     TimezoneSwitcher,
+    TabBar,
+    NotificationBell,
   ],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.scss',

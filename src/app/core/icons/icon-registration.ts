@@ -60,6 +60,7 @@ import {
   MenuFoldOutline,
   MenuUnfoldOutline,
   MessageOutline,
+  MinusCircleOutline,
   MobileOutline,
   MoonOutline,
   PhoneOutline,
@@ -203,4 +204,6 @@ export const REGISTERED_ICONS = [
   SyncOutline,
   ImportOutline,
   ExportOutline,
+  // Dùng bởi menu ngữ cảnh của Tab Bar (Admin Layout) — refresh/đóng tab khác.
+  MinusCircleOutline,
 ];

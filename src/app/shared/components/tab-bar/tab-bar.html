@@ -1,0 +1,95 @@
+@if (tabsService.tabs().length) {
+  <div class="flex items-center gap-xs px-sm bg-surface border-b border-border overflow-x-auto">
+    @for (tab of tabsService.tabs(); track tab.path) {
+      <div
+        class="app-tab-bar__tab relative inline-flex items-center gap-xs pl-sm pr-xs py-xs cursor-pointer whitespace-nowrap text-label select-none"
+        [class.text-primary]="tab.path === tabsService.activePath()"
+        [class.text-text-secondary]="tab.path !== tabsService.activePath()"
+        role="button"
+        tabindex="0"
+        (click)="activate(tab)"
+        (keydown.enter)="activate(tab)"
+      >
+        <span nz-icon [nzType]="tabsService.iconFor(tab.path)"></span>
+        <span>{{ tab.titleKey | transloco }}</span>
+
+        <!-- Gạch chân "chạy từ giữa ra 2 bên": scale-x mặc định co về tâm (transform-origin center
+             mặc định của trình duyệt), transition trên transform (không phải width) để mượt/không
+             giật layout. -->
+        <span
+          class="absolute inset-x-0 bottom-0 h-0.5 bg-primary origin-center transition-transform duration-300 ease-out"
+          [class.scale-x-100]="tab.path === tabsService.activePath()"
+          [class.scale-x-0]="tab.path !== tabsService.activePath()"
+        ></span>
+
+        <button
+          type="button"
+          nz-dropdown
+          [nzDropdownMenu]="tabMenu"
+          nzTrigger="click"
+          class="app-tab-bar__caret inline-flex items-center border-none bg-transparent p-0 text-caption text-inherit cursor-pointer"
+          (click)="$event.stopPropagation()"
+        >
+          <span nz-icon nzType="down"></span>
+        </button>
+
+        @if (tabsService.tabs().length > 1) {
+          <button
+            type="button"
+            class="app-tab-bar__close inline-flex items-center border-none bg-transparent p-0 text-caption text-inherit cursor-pointer"
+            (click)="close($event, tab.path)"
+          >
+            <span nz-icon nzType="close"></span>
+          </button>
+        }
+      </div>
+
+      <nz-dropdown-menu #tabMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>
+            <button
+              type="button"
+              class="inline-flex items-center gap-xs w-full border-none bg-transparent text-inherit cursor-pointer"
+              (click)="tabsService.refresh(tab.path)"
+            >
+              <span nz-icon nzType="sync"></span>
+              {{ 'layout.admin.tab_bar.refresh' | transloco }}
+            </button>
+          </li>
+          <li nz-menu-item [nzDisabled]="tabsService.tabs().length <= 1">
+            <button
+              type="button"
+              class="inline-flex items-center gap-xs w-full border-none bg-transparent text-inherit cursor-pointer"
+              [disabled]="tabsService.tabs().length <= 1"
+              (click)="tabsService.close(tab.path)"
+            >
+              <span nz-icon nzType="close"></span>
+              {{ 'layout.admin.tab_bar.close' | transloco }}
+            </button>
+          </li>
+          <li nz-menu-item [nzDisabled]="tabsService.tabs().length <= 1">
+            <button
+              type="button"
+              class="inline-flex items-center gap-xs w-full border-none bg-transparent text-inherit cursor-pointer"
+              [disabled]="tabsService.tabs().length <= 1"
+              (click)="tabsService.closeOthers(tab.path)"
+            >
+              <span nz-icon nzType="minus-circle"></span>
+              {{ 'layout.admin.tab_bar.close_others' | transloco }}
+            </button>
+          </li>
+          <li nz-menu-item>
+            <button
+              type="button"
+              class="inline-flex items-center gap-xs w-full border-none bg-transparent text-inherit cursor-pointer"
+              (click)="tabsService.closeAll()"
+            >
+              <span nz-icon nzType="close-circle"></span>
+              {{ 'layout.admin.tab_bar.close_all' | transloco }}
+            </button>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    }
+  </div>
+}

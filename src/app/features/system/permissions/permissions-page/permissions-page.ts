@@ -66,6 +66,7 @@ export class PermissionsPage {
       permission.code.toLowerCase().includes(keyword) ||
       permission.name.toLowerCase().includes(keyword) ||
       permission.urlPattern.toLowerCase().includes(keyword),
+    entityLabel: 'permissions.title',
   });
 
   methodColor(method: HttpMethod): string {

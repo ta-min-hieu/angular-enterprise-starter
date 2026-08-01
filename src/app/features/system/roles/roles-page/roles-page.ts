@@ -54,5 +54,6 @@ export class RolesPage {
     remove: (id) => this.roleService.remove(id),
     matches: (role, keyword) =>
       role.roleKey.toLowerCase().includes(keyword) || role.roleName.toLowerCase().includes(keyword),
+    entityLabel: 'roles.title',
   });
 }

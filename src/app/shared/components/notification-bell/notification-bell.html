@@ -1,0 +1,69 @@
+<button
+  type="button"
+  nz-dropdown
+  [nzDropdownMenu]="notificationMenu"
+  nzTrigger="click"
+  nzPlacement="bottomRight"
+  class="inline-flex items-center justify-center w-8 h-8 rounded-full border-none cursor-pointer bg-primary/10 hover:bg-primary/20 transition-colors"
+  [attr.aria-label]="'layout.admin.notification_bell.title' | transloco"
+  (nzVisibleChange)="onVisibleChange($event)"
+>
+  <nz-badge [nzCount]="notificationService.unreadCount()" [nzOverflowCount]="9" nzSize="small">
+    <span nz-icon nzType="bell" class="text-body text-primary"></span>
+  </nz-badge>
+</button>
+
+<nz-dropdown-menu #notificationMenu="nzDropdownMenu">
+  <div class="w-80 bg-surface rounded-md overflow-hidden">
+    <div class="flex items-center justify-between px-md py-sm border-b border-border">
+      <span class="text-label font-bold text-text">
+        {{ 'layout.admin.notification_bell.title' | transloco }}
+      </span>
+      @if (notificationService.history().length) {
+        <button
+          type="button"
+          class="app-notification-bell__clear border-none bg-transparent p-0 text-caption text-primary cursor-pointer hover:underline"
+          (click)="notificationService.clearHistory()"
+        >
+          {{ 'layout.admin.notification_bell.clear' | transloco }}
+        </button>
+      }
+    </div>
+
+    <div class="max-h-96 overflow-y-auto">
+      @if (notificationService.history().length === 0) {
+        <p
+          class="app-notification-bell__empty m-0 px-md py-lg text-text-secondary text-label text-center"
+        >
+          {{ 'layout.admin.notification_bell.empty' | transloco }}
+        </p>
+      } @else {
+        <ul class="m-0 p-0 list-none">
+          @for (item of notificationService.history(); track item.id) {
+            <li
+              class="app-notification-bell__item flex items-start gap-sm px-md py-sm border-b border-border last:border-b-0"
+            >
+              <span
+                class="inline-flex items-center justify-center w-8 h-8 rounded-full flex-none"
+                [class.bg-success]="item.type === 'success'"
+                [class.bg-danger]="item.type === 'error'"
+              >
+                <span
+                  nz-icon
+                  [nzType]="item.type === 'success' ? 'check' : 'close'"
+                  class="text-label text-white"
+                ></span>
+              </span>
+              <div class="min-w-0 flex-1 pt-0.5">
+                <p class="m-0 text-label text-text">{{ resolveMessage(item) }}</p>
+                <span class="text-caption text-text-secondary">{{
+                  formatTime(item.createdAt)
+                }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+</nz-dropdown-menu>

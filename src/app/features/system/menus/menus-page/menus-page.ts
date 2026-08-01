@@ -62,10 +62,11 @@ export class MenusPage {
   onDelete(id: string): void {
     this.menuService.remove(id).subscribe({
       next: () => {
-        this.notificationService.success('common.notification.delete_success');
+        this.notificationService.successEntity('common.notification.delete_success', 'menus.title');
         this.refresh();
       },
-      error: () => this.notificationService.error('common.notification.delete_error'),
+      error: () =>
+        this.notificationService.errorEntity('common.notification.delete_error', 'menus.title'),
     });
   }
 

@@ -62,12 +62,12 @@ export class MenuFormPage {
     request$.subscribe({
       next: () => {
         this.saving.set(false);
-        this.notificationService.success('common.notification.save_success');
+        this.notificationService.successEntity('common.notification.save_success', 'menus.title');
         void this.router.navigate(['/system/menus']);
       },
       error: () => {
         this.saving.set(false);
-        this.notificationService.error('common.notification.save_error');
+        this.notificationService.errorEntity('common.notification.save_error', 'menus.title');
       },
     });
   }

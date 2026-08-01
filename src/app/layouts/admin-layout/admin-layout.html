@@ -90,6 +90,7 @@
       </button>
 
       <div class="flex items-center gap-sm">
+        <app-notification-bell />
         <app-language-switcher />
         <app-timezone-switcher />
         <app-theme-toggle />
@@ -123,6 +124,8 @@
         </nz-dropdown-menu>
       </div>
     </nz-header>
+
+    <app-tab-bar />
 
     <nz-content class="m-md bg-background">
       <router-outlet />

@@ -53,5 +53,6 @@ export class UsersPage {
     load: () => this.userService.load(),
     remove: (id) => this.userService.remove(id),
     matches: (user, keyword) => user.username.toLowerCase().includes(keyword),
+    entityLabel: 'users.title',
   });
 }

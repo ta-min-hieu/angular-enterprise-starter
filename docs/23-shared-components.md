@@ -29,11 +29,13 @@ Pattern chung: bọc Ng-Zorro + Reactive Forms. Input chung cho mọi field: `na
 
 ## Layout / Page
 
-| Component  | Selector          | API chính                                                                                                                                           |
-| ---------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PageHeader | `app-page-header` | `breadcrumbItems: readonly PageBreadcrumbItem[]` (req), `title` (req), `subtitle`, `addLink`, `addLabel`                                            |
-| FilterBar  | `app-filter-bar`  | `hasActiveFilters` (false); output `clear`; nội dung filter truyền qua ng-content                                                                   |
-| Pagination | `app-pagination`  | `pageIndex` (req), `total` (req), `pageSize` (10), `showSizeChanger` (false), `showQuickJumper` (false); output `pageIndexChange`, `pageSizeChange` |
+| Component        | Selector                | API chính                                                                                                                                                                                                                    |
+| ---------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PageHeader       | `app-page-header`       | `breadcrumbItems: readonly PageBreadcrumbItem[]` (req), `title` (req), `subtitle`, `addLink`, `addLabel`                                                                                                                     |
+| FilterBar        | `app-filter-bar`        | `hasActiveFilters` (false); output `clear`; nội dung filter truyền qua ng-content                                                                                                                                            |
+| Pagination       | `app-pagination`        | `pageIndex` (req), `total` (req), `pageSize` (10), `showSizeChanger` (false), `showQuickJumper` (false); output `pageIndexChange`, `pageSizeChange`                                                                          |
+| TabBar           | `app-tab-bar`           | không input — tự đọc `TabsService` (`core/navigation/tabs.service.ts`); tab bar kiểu trình duyệt ở Admin Layout, chỉ hiện cho route có `data.tabsEnabled: true` (xem `routes/app.routes.ts`)                                 |
+| NotificationBell | `app-notification-bell` | không input — tự đọc `NotificationService.history`/`unreadCount` (`core/notification/notification.service.ts`); mọi lần gọi `success()`/`error()` tự ghi thêm 1 mục vào chuông, chỉ lưu trong phiên hiện tại (không persist) |
 
 ---
 

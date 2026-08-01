@@ -105,12 +105,12 @@ export class RoleFormPage {
     request$.subscribe({
       next: () => {
         this.saving.set(false);
-        this.notificationService.success('common.notification.save_success');
+        this.notificationService.successEntity('common.notification.save_success', 'roles.title');
         void this.router.navigate(['/system/roles']);
       },
       error: () => {
         this.saving.set(false);
-        this.notificationService.error('common.notification.save_error');
+        this.notificationService.errorEntity('common.notification.save_error', 'roles.title');
       },
     });
   }
@@ -125,11 +125,17 @@ export class RoleFormPage {
     this.roleService.updatePermissions(editing.id, event.permissionIds).subscribe({
       next: () => {
         this.savingPermissions.set(false);
-        this.notificationService.success('common.notification.save_success');
+        this.notificationService.successEntity(
+          'common.notification.save_success',
+          'roles.tabs.permissions',
+        );
       },
       error: () => {
         this.savingPermissions.set(false);
-        this.notificationService.error('common.notification.save_error');
+        this.notificationService.errorEntity(
+          'common.notification.save_error',
+          'roles.tabs.permissions',
+        );
       },
     });
   }
@@ -144,11 +150,14 @@ export class RoleFormPage {
     this.roleService.updateMenus(editing.id, event.menuIds).subscribe({
       next: () => {
         this.savingMenus.set(false);
-        this.notificationService.success('common.notification.save_success');
+        this.notificationService.successEntity(
+          'common.notification.save_success',
+          'roles.tabs.menus',
+        );
       },
       error: () => {
         this.savingMenus.set(false);
-        this.notificationService.error('common.notification.save_error');
+        this.notificationService.errorEntity('common.notification.save_error', 'roles.tabs.menus');
       },
     });
   }

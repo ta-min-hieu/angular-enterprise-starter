@@ -49,6 +49,7 @@ describe('createEntityListState', () => {
         load,
         remove,
         matches: (item, keyword) => item.name.toLowerCase().includes(keyword),
+        entityLabel: 'products.title',
       }),
     );
 
@@ -116,6 +117,7 @@ describe('createEntityListState', () => {
         load,
         remove,
         matches: (item, keyword) => item.name.toLowerCase().includes(keyword),
+        entityLabel: 'products.title',
       }),
     );
 

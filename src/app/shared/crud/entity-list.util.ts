@@ -17,6 +17,9 @@ export interface EntityListConfig<T> {
   readonly load: () => Observable<unknown>;
   readonly remove: (id: string) => Observable<unknown>;
   readonly matches: (item: T, keyword: string) => boolean;
+  // Key i18n tên đối tượng (vd 'users.title') — nội suy vào thông báo xoá để nói rõ đã xoá cái gì
+  // (xem NotificationService.successEntity).
+  readonly entityLabel: string;
 }
 
 // State dùng chung cho các màn list CRUD lọc phía client (roles/permissions/users — backend không
@@ -49,10 +52,11 @@ export function createEntityListState<T>(config: EntityListConfig<T>): EntityLis
   function onDelete(id: string): void {
     config.remove(id).subscribe({
       next: () => {
-        notificationService.success('common.notification.delete_success');
+        notificationService.successEntity('common.notification.delete_success', config.entityLabel);
         refresh();
       },
-      error: () => notificationService.error('common.notification.delete_error'),
+      error: () =>
+        notificationService.errorEntity('common.notification.delete_error', config.entityLabel),
     });
   }
 

@@ -54,12 +54,15 @@ export class PermissionFormPage {
     request$.subscribe({
       next: () => {
         this.saving.set(false);
-        this.notificationService.success('common.notification.save_success');
+        this.notificationService.successEntity(
+          'common.notification.save_success',
+          'permissions.title',
+        );
         void this.router.navigate(['/system/permissions']);
       },
       error: () => {
         this.saving.set(false);
-        this.notificationService.error('common.notification.save_error');
+        this.notificationService.errorEntity('common.notification.save_error', 'permissions.title');
       },
     });
   }

@@ -5,7 +5,12 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { TitleStrategy, provideRouter, withComponentInputBinding } from '@angular/router';
+import {
+  RouteReuseStrategy,
+  TitleStrategy,
+  provideRouter,
+  withComponentInputBinding,
+} from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideTransloco } from '@jsverse/transloco';
 
@@ -31,6 +36,7 @@ import { TOKEN_STORAGE } from './core/storage/token-storage';
 import { LocalTokenStorage } from './core/storage/local-token-storage';
 import { NAV_MENU_ITEMS } from './core/navigation/nav-menu-items.token';
 import { AppTitleStrategy } from './core/seo/app-title-strategy';
+import { TabRouteReuseStrategy } from './core/navigation/tab-route-reuse.strategy';
 
 registerLocaleData(en);
 
@@ -60,6 +66,9 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(initializeLocale),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: TitleStrategy, useClass: AppTitleStrategy },
+    // useExisting (không phải useClass) — TabsService cũng inject thẳng TabRouteReuseStrategy để
+    // gọi evict()/bypassCacheFor(), bắt buộc trỏ về ĐÚNG 1 instance với Router.
+    { provide: RouteReuseStrategy, useExisting: TabRouteReuseStrategy },
     { provide: LOG_SINKS, useClass: ConsoleLogSink, multi: true },
     { provide: TOKEN_STORAGE, useClass: LocalTokenStorage },
     {

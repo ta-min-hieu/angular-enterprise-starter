@@ -55,12 +55,15 @@ export class ProductFormPage {
     request$.subscribe({
       next: () => {
         this.saving.set(false);
-        this.notificationService.success('common.notification.save_success');
+        this.notificationService.successEntity(
+          'common.notification.save_success',
+          'products.title',
+        );
         void this.router.navigate(['/products']);
       },
       error: () => {
         this.saving.set(false);
-        this.notificationService.error('common.notification.save_error');
+        this.notificationService.errorEntity('common.notification.save_error', 'products.title');
       },
     });
   }
