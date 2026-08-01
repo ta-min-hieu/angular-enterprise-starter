@@ -37,4 +37,18 @@ describe('TimezoneService', () => {
   it('should format the UTC offset for a given timezone id', () => {
     expect(service.formatOffset('UTC')).toMatch(/^GMT/);
   });
+
+  // KHÔNG so sánh offset "hiện tại" (formatOffset) giữa các mục — múi giờ có DST ở 1 trong 2 bán
+  // cầu luôn trùng offset với 1 múi giờ cố định khác vào 1 thời điểm nào đó trong năm (vd Sydney
+  // DST +11 mùa hè trùng Nouméa +11 quanh năm) — đó là vật lý DST thật, không phải lỗi dữ liệu, nên
+  // assert "không bao giờ trùng" sẽ luôn flaky theo ngày chạy test. Chỉ đảm bảo không có 2 dòng
+  // TRÙNG HẲN (copy-paste nhầm) — đúng loại lỗi ban đầu bị phát hiện (Bangkok/Hồ Chí Minh, Thượng
+  // Hải/Singapore từng là 2 dòng khác id nhưng luôn cùng offset cố định quanh năm).
+  it('should not list two entries with the same id or the same label', () => {
+    const ids = service.availableTimezones.map((timezone) => timezone.id);
+    const labels = service.availableTimezones.map((timezone) => timezone.label);
+
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(labels).size).toBe(labels.length);
+  });
 });
