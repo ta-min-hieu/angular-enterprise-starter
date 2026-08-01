@@ -1,11 +1,14 @@
 <button
-  nz-button
-  nzType="text"
   type="button"
+  class="inline-flex items-center justify-center w-8 h-8 rounded-full border-none cursor-pointer bg-secondary/10 hover:bg-secondary/20 transition-colors"
   [attr.aria-label]="
     (themeService.theme() === 'dark' ? 'theme.toggle_to_light' : 'theme.toggle_to_dark') | transloco
   "
   (click)="toggle()"
 >
-  <span nz-icon [nzType]="themeService.theme() === 'dark' ? 'sun' : 'moon'"></span>
+  <span
+    nz-icon
+    [nzType]="themeService.theme() === 'dark' ? 'sun' : 'moon'"
+    class="text-body text-secondary"
+  ></span>
 </button>

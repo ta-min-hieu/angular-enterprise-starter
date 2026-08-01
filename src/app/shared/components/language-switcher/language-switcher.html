@@ -1,12 +1,12 @@
 <span
   nz-dropdown
   [nzDropdownMenu]="langMenu"
-  class="inline-flex items-center gap-xs px-xs cursor-pointer text-text"
+  class="inline-flex items-center gap-xs px-sm h-8 rounded-full cursor-pointer text-text bg-info/10 hover:bg-info/20 transition-colors"
   tabindex="0"
   [attr.aria-label]="i18nService.locale().toUpperCase()"
 >
-  <span nz-icon nzType="global"></span>
-  <span>{{ i18nService.locale().toUpperCase() }}</span>
+  <span nz-icon nzType="global" class="text-body text-info"></span>
+  <span class="text-label">{{ i18nService.locale().toUpperCase() }}</span>
 </span>
 
 <nz-dropdown-menu #langMenu="nzDropdownMenu">
